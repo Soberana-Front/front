@@ -1,200 +1,86 @@
-import { useState } from "react";
-// IMPORTANTE:
-// ajuste este import para o local onde o AuthContext realmente está no seu projeto.
-// Exemplo:
-// import { useAuth } from "../../contexts/AuthContext";
+import { useState } from 'react';
+import { Bell } from 'lucide-react';
 
-export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+interface HeaderProps {
+  userName?: string;
+  userInitials?: string;
+}
 
-  // Temporariamente deixe assim enquanto localizamos o AuthContext:
-  // const { user } = useAuth();
-  // const userName = user?.name ?? "Usuário";
+export default function Header({ 
+  userName = "Doutor(a)", 
+  userInitials = "DR" 
+}: HeaderProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const userName = "Usuário";
-
-  const initials = userName
-    .split(" ")
-    .map((name) => name[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
 
   return (
-    <header
-      style={{
-        height: "64px",
-        backgroundColor: "#ffffff",
-        borderBottom: "1px solid #e5e7eb",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 24px",
-      }}
-    >
-      {/* Saudação */}
+    <header className="w-full bg-white border-b border-gray-100 px-8 py-4 flex items-center justify-between">
+      {/* Título e Subtítulo */}
       <div>
-        <h1
-          style={{
-            margin: 0,
-            fontSize: "16px",
-            fontWeight: 600,
-            color: "#111827",
-          }}
-        >
-          Olá, {userName}
-        </h1>
+        <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
+        <p className="text-xs text-gray-500 mt-0.5">
+          Precifique seus procedimentos com precisão
+        </p>
       </div>
 
-      {/* Ações do usuário */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "16px",
-          position: "relative",
-        }}
-      >
-        {/* Notificações */}
+      {/* Ações da direita */}
+      <div className="flex items-center gap-4">
+        {/* Data/Badge atual */}
+        <div className="flex items-center gap-2 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg">
+          <Bell className="w-3.5 h-3.5 text-gray-400" />
+          <span>16 Jul 2026</span>
+        </div>
+
+        {/* Botão de Notificação estático */}
         <button
           type="button"
           aria-label="Notificações"
-          style={{
-            width: "36px",
-            height: "36px",
-            border: "none",
-            background: "transparent",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#6b7280",
-          }}
+          className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors relative"
         >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
-            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-          </svg>
+          <Bell className="w-5 h-5" />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-600 rounded-full" />
         </button>
 
-        {/* Avatar + Dropdown */}
-        <div style={{ position: "relative" }}>
+        {/* Dropdown / Avatar do Usuário */}
+        <div className="relative">
           <button
             type="button"
-            onClick={() => setIsMenuOpen((prev) => !prev)}
-            aria-label="Menu do usuário"
-            style={{
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: 0,
-            }}
+            onClick={toggleDropdown}
+            className="w-9 h-9 rounded-lg bg-indigo-600 text-white font-semibold text-xs flex items-center justify-center hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            <div
-              style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                backgroundColor: "#5b21b6",
-                color: "#ffffff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "12px",
-                fontWeight: 600,
-              }}
-            >
-              {initials}
-            </div>
-
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m6 9 6 6 6-6" />
-            </svg>
+            {userInitials}
           </button>
 
-          {isMenuOpen && (
-            <div
-              style={{
-                position: "absolute",
-                top: "46px",
-                right: 0,
-                width: "180px",
-                backgroundColor: "#ffffff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "8px",
-                boxShadow: "0 8px 24px rgba(0, 0, 0, 0.12)",
-                padding: "6px",
-                zIndex: 1000,
-              }}
-            >
+          {/* Menu Dropdown */}
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50 animate-in fade-in zoom-in-95 duration-100">
+              <div className="px-4 py-2 border-b border-gray-100">
+                <p className="text-xs font-semibold text-gray-900">Olá, {userName}</p>
+              </div>
+
               <button
                 type="button"
-                style={{
-                  width: "100%",
-                  border: "none",
-                  background: "transparent",
-                  padding: "10px 12px",
-                  textAlign: "left",
-                  cursor: "pointer",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  color: "#374151",
-                }}
+                onClick={() => setIsDropdownOpen(false)}
+                className="w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Perfil
               </button>
 
               <button
                 type="button"
-                style={{
-                  width: "100%",
-                  border: "none",
-                  background: "transparent",
-                  padding: "10px 12px",
-                  textAlign: "left",
-                  cursor: "pointer",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  color: "#374151",
-                }}
+                onClick={() => setIsDropdownOpen(false)}
+                className="w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Configurações
               </button>
 
               <button
                 type="button"
-                style={{
-                  width: "100%",
-                  border: "none",
-                  background: "transparent",
-                  padding: "10px 12px",
-                  textAlign: "left",
-                  cursor: "pointer",
-                  borderRadius: "6px",
-                  fontSize: "14px",
-                  color: "#dc2626",
-                }}
+                onClick={() => setIsDropdownOpen(false)}
+                className="w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 transition-colors font-medium border-t border-gray-100"
               >
                 Sair
               </button>
