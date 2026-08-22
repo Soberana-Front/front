@@ -1,0 +1,50 @@
+Branch:              enzzo
+Origin/enzzo:        sincronizada
+Working tree:        limpa
+Dependências:        instaladas
+Vite:                funcionando
+Tailwind:            funcionando
+TypeScript:          configurado
+
+
+
+FERRAMENTAS:
+
+React 19
+TypeScript
+Vite
+React Router
+React Query
+Axios
+React Hook Form
+Zod
+Tailwind CSS
+Lucide React
+Recharts
+
+-------------------------
+ussues enzzo : 
+
+#28
+DashboardLayout
+       │
+       ├── espaço para Sidebar
+       ├── espaço para Header
+       └── children
+
+
+#29
+Sidebar
+       │
+       ├── Logo
+       ├── Dashboard
+       ├── Clínicas
+       ├── Procedimentos
+       ├── Comparações
+       ├── Histórico
+       ├── Perfil
+       ├── Configurações
+       └── Sair
+
+
+       
