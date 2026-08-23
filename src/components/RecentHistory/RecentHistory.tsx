@@ -98,9 +98,9 @@ export const RecentHistory: React.FC<RecentHistoryProps> = ({
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="font-bold text-slate-900 text-sm">
-                {formatCurrency(item.finalPrice)}
-              </span>
+              <span className="font-bold text-indigo-700 text-sm whitespace-nowrap bg-indigo-50 px-2.5 py-1 rounded-lg shadow-sm border border-indigo-100">
+               {formatCurrency(item.finalPrice)}
+              </span>  
               <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-0.5 transition-all" />
             </div>
           </div>
