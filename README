@@ -1,50 +1,71 @@
-Branch:              enzzo
-Origin/enzzo:        sincronizada
-Working tree:        limpa
-Dependências:        instaladas
-Vite:                funcionando
-Tailwind:            funcionando
-TypeScript:          configurado
+### 📌 Status do Ambiente & Desenvolvimento
 
+* **Branch Activa:** `enzzo`
+* **Origin/enzzo:** Sincronizada
+* **Working Tree:** Limpa (sem alterações pendentes)
+* **Dependências:** Instaladas
+* **Vite Dev Server:** Funcionando (`http://localhost:5173/`)
+* **Tailwind CSS:** Configurado & Ativo
+* **TypeScript:** Configurado sem erros
 
+---
 
-FERRAMENTAS:
+### 🛠️ Tech Stack & Ferramentas
 
-React 19
-TypeScript
-Vite
-React Router
-React Query
-Axios
-React Hook Form
-Zod
-Tailwind CSS
-Lucide React
-Recharts
+* **Framework Base:** React 19 + Vite
+* **Linguagem:** TypeScript
+* **Roteamento:** React Router DOM
+* **Estilização:** Tailwind CSS
+* **Ícones:** Lucide React
+* **Requisições HTTP:** Axios
+* **Gerenciamento de Estado & Data Fetching:** React Query (TanStack Query)
+* **Formulários & Validação:** React Hook Form + Zod
+* **Visualização de Dados & Gráficos:** Recharts
 
 -------------------------
-ussues enzzo : 
+Módulo de Tarefas Desenvolvidas (Issues Implementadas)
+issues enzzo : 
 
-#28
-DashboardLayout
-       │
-       ├── espaço para Sidebar
-       ├── espaço para Header
-       └── children
+## 🛠️ Tasks Implementadas — Front-end (enzzo)
 
+### 📐 Layout Base & Estrutura
+* **Issue #28 — Criar DashboardLayout**
+  * Implementação da estrutura principal da aplicação (`DashboardLayout`), delimitando as áreas fixas para `Sidebar`, `Header` e renderização dinâmica via `children`.
+* **Issue #29 — Criar Sidebar**
+  * Criação do menu de navegação lateral responsivo com links principais e estilização padronizada.
+* **Issue #30 — Criar Header**
+  * Desenvolvimento do cabeçalho superior com informações do usuário, status do sistema e atalhos de perfil.
 
-#29
-Sidebar
-       │
-       ├── Logo
-       ├── Dashboard
-       ├── Clínicas
-       ├── Procedimentos
-       ├── Comparações
-       ├── Histórico
-       ├── Perfil
-       ├── Configurações
-       └── Sair
+### 📊 Indicadores & Seletores
+* **Issue #31 — Criar IndicatorCard**
+  * Componente atômico para exibição de métricas individuais (Preço Calculado, Lucro, Hora Clínica, Média de Mercado) com suporte a variações visuais.
+* **Issue #32 — Criar IndicatorsGrid**
+  * Grid responsiva responsável por agrupar e organizar os 4 cards de indicadores no topo do dashboard.
+* **Issue #33 — Criar ClinicSelector**
+  * Componente de seleção dropdown para alternar dinamicamente entre as clínicas cadastradas.
+* **Issue #34 — Criar ProcedureSelector**
+  * Seletor interativo para navegação e escolha dos procedimentos odontológicos/médicos.
+* **Issue #35 — Criar PricingSummary**
+  * Painel de resumo detalhado com o detalhamento de custos, margem e valor final da precificação.
+* **Issue #36 — Criar QuickActions**
+  * Bloco de botões para ações rápidas dentro do painel do usuário.
 
+### 💬 Chat & Inteligência Artificial
+* **Issue #37 — Criar ChatMessage**
+  * Componente de renderização individual de mensagens da conversa (diferenciando usuário e IA/Soberana AI com avatares e timestamps).
+* **Issue #38 — Criar ChatInput**
+  * Campo de entrada de texto com suporte a atalho da tecla `Enter`, estado de desabilitado e gatilhos de envio.
+* **Issue #39 — Criar ChatWindow**
+  * Container principal do chat com cabeçalho de status online, rolagem automática (`useRef` + `useEffect`) e simulação de resposta assíncrona.
 
-       
+### 📜 Telas, Histórico e Serviços
+* **Issue #40 — Criar RecentHistory**
+  * Lista com o histórico das últimas 5 precificações contendo data, clínica, procedimento e valor formatado em BRL.
+* **Issue #41 — Criar página DashboardPage**
+  * Integração de todos os 8 componentes em uma página completa (`DashboardPage.tsx`) com grid responsiva em 12 colunas.
+* **Issue #42 — Criar hook useDashboardData**
+  * Custom Hook para centralização e gerenciamento de estado global do dashboard (`data`, `loading`, `error` e `refetch`).
+* **Issue #43 — Criar dashboardService**
+  * Camada de serviço de integração HTTP com Axios configurado (`baseURL`), fornecendo métodos tipados (`getIndicators`, `getClinics`, `getProcedures`, `getRecentHistory`).
+* **Issue #44 — Criar componentes compartilhados (PriceDisplay & ProfitIndicator)**
+  * Componentes utilitários reutilizáveis para formatação automática de moeda em R$ (`PriceDisplay`) e badges dinâmicas de porcentagem de lucro (`ProfitIndicator`).
