@@ -148,3 +148,1403 @@ fim EP:2 DASHBOARD
 *
 
 ---------------------
+
+
+------------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+                              EXPLICAÇÃO COMPLETA DASHBOARD INICIO
+
+
+                      MARKDOWN - EP2 - DASHBOARD - ENZZO 
+                              ---------------------
+
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+
+# DOCUMENTAÇÃO TÉCNICA — DASHBOARD DE PRECIFICAÇÃO
+
+## 1. VISÃO GERAL
+
+O Dashboard foi estruturado utilizando React + TypeScript e foi dividido em componentes independentes. Cada componente possui uma responsabilidade específica dentro da interface.
+
+A ideia principal é evitar que toda a tela fique concentrada em um único arquivo. O DashboardPage funciona como o ponto de montagem da página, enquanto componentes menores cuidam de partes específicas da interface.
+
+A estrutura atual segue aproximadamente este fluxo:
+
+DashboardPage
+│
+└── DashboardLayout
+    │
+    ├── Header
+    ├── Sidebar
+    │
+    └── children
+        │
+        ├── IndicatorsGrid
+        │   └── IndicatorCard
+        │
+        ├── ClinicSelector
+        │
+        ├── ProcedureSelector
+        │
+        ├── QuickActions
+        │
+        ├── ChatWindow
+        │   ├── ChatMessage
+        │   └── ChatInput
+        │
+        ├── PricingSummary
+        │
+        └── RecentHistory
+
+Essa estrutura permite separar responsabilidades e facilita a manutenção, evolução e futura integração com o backend.
+
+---
+
+# 2. ESTRUTURA GERAL DOS COMPONENTES
+
+A estrutura atual da pasta de componentes é aproximadamente:
+
+src/
+│
+├── components/
+│   │
+│   ├── ChatInput/
+│   ├── ChatMessage/
+│   ├── ChatWindow/
+│   ├── ClinicSelector/
+│   ├── DashboardLayout/
+│   ├── Header/
+│   ├── IndicatorCard/
+│   ├── IndicatorsGrid/
+│   ├── PriceDisplay/
+│   ├── PricingSumary/
+│   ├── ProcedureSelector/
+│   ├── ProfitIndicator/
+│   ├── QuickActions/
+│   ├── RecentHistory/
+│   └── Sidebar/
+│
+└── pages/
+    └── Dashboard/
+
+Observação importante:
+
+A pasta e o arquivo de PricingSummary atualmente possuem o nome "PricingSumary", com apenas um "m":
+
+components/PricingSumary/PricingSumary.tsx
+
+Porém, o componente exportado se chama "PricingSummary", com dois "m":
+
+export const PricingSummary = ...
+
+Isso é permitido. O caminho do arquivo e o nome exportado são coisas diferentes.
+
+---
+
+# 3. DASHBOARDPAGE
+
+Arquivo:
+
+pages/Dashboard/Dashboard.tsx
+
+Responsabilidade:
+
+Montar a página principal do Dashboard e organizar os componentes visuais.
+
+O DashboardPage atualmente importa:
+
+- DashboardLayout
+- IndicatorsGrid
+- ClinicSelector
+- ProcedureSelector
+- PricingSummary
+- QuickActions
+- ChatWindow
+- RecentHistory
+
+Estrutura:
+
+<DashboardLayout>
+    <div>
+        <IndicatorsGrid />
+
+        <div>
+            <div>
+                <ClinicSelector />
+                <ProcedureSelector />
+                <QuickActions />
+            </div>
+
+            <div>
+                <ChatWindow />
+            </div>
+
+            <div>
+                <PricingSummary />
+                <RecentHistory />
+            </div>
+        </div>
+    </div>
+</DashboardLayout>
+
+O DashboardPage tem como principal responsabilidade organizar a estrutura da tela.
+
+Ele não deve concentrar regras complexas de negócio.
+
+Exemplos de responsabilidades que não deveriam ficar diretamente no DashboardPage:
+
+- cálculo de preço;
+- cálculo de margem;
+- comunicação direta com banco de dados;
+- regras de negócio;
+- autenticação;
+- persistência;
+- chamadas de API espalhadas pelo JSX.
+
+Essas responsabilidades devem ficar em camadas apropriadas.
+
+---
+
+# 4. DASHBOARDLAYOUT
+
+Arquivo:
+
+components/DashboardLayout/DashboardLayout.tsx
+
+Responsabilidade:
+
+Criar a estrutura global da tela do Dashboard.
+
+O DashboardLayout é responsável por organizar:
+
+- Header;
+- Sidebar;
+- conteúdo da página.
+
+Visualmente:
+
+┌──────────────────────────────────────────────┐
+│                    Header                    │
+├──────────────┬───────────────────────────────┤
+│              │                               │
+│   Sidebar    │          children             │
+│              │                               │
+│              │       DashboardPage           │
+│              │                               │
+└──────────────┴───────────────────────────────┘
+
+O DashboardPage passa seu conteúdo para o DashboardLayout através de:
+
+{children}
+
+Exemplo:
+
+<DashboardLayout>
+    <ConteudoDaPagina />
+</DashboardLayout>
+
+O DashboardLayout recebe esse conteúdo e o posiciona dentro da estrutura principal.
+
+---
+
+# 5. HEADER
+
+Arquivo:
+
+components/Header/Header.tsx
+
+Responsabilidade:
+
+Controlar o cabeçalho superior da aplicação.
+
+O Header atualmente possui:
+
+- título "Dashboard";
+- subtítulo;
+- indicador de data;
+- botão de notificações;
+- avatar do usuário;
+- dropdown do usuário;
+- Perfil;
+- Configurações;
+- Sair.
+
+O componente utiliza useState para controlar a abertura do menu:
+
+isDropdownOpen
+
+Fluxo:
+
+Usuário clica no avatar
+        ↓
+toggleDropdown()
+        ↓
+isDropdownOpen muda
+        ↓
+Menu dropdown aparece ou desaparece
+
+O Header recebe as seguintes props:
+
+interface HeaderProps {
+    userName?: string;
+    userInitials?: string;
+}
+
+Valores padrão:
+
+userName = "Doutor(a)"
+userInitials = "DR"
+
+Futuramente esses dados poderão vir do sistema de autenticação ou de informações retornadas pelo backend.
+
+---
+
+# 6. SIDEBAR
+
+Arquivo:
+
+components/Sidebar/Sidebar.tsx
+
+Responsabilidade:
+
+Controlar a navegação lateral da aplicação.
+
+O Sidebar é utilizado pelo DashboardLayout.
+
+A função do Sidebar é apresentar os caminhos de navegação da aplicação, mantendo a lógica de navegação separada do restante do Dashboard.
+
+Exemplos possíveis:
+
+- Dashboard;
+- Procedimentos;
+- Clínicas;
+- Histórico;
+- Configurações.
+
+O Sidebar não deve precisar conhecer os detalhes internos dos componentes de precificação.
+
+---
+
+# 7. INDICATORSGRID
+
+Arquivo:
+
+components/IndicatorsGrid/IndicatorsGrid.tsx
+
+Responsabilidade:
+
+Exibir os quatro principais indicadores no topo do Dashboard.
+
+O componente recebe:
+
+interface IndicatorsGridProps {
+    precoCalculado?: string;
+    lucro?: string;
+    horaClinica?: string;
+    mediaMercado?: string;
+}
+
+Valores padrão:
+
+precoCalculado = "R$ 0,00"
+lucro = "R$ 0,00"
+horaClinica = "R$ 0,00"
+mediaMercado = "R$ 0,00"
+
+Os quatro indicadores atuais são:
+
+1. PREÇO CALCULADO
+   Valor: precoCalculado
+   Subtítulo: Baseado nos parâmetros atuais
+
+2. LUCRO
+   Valor: lucro
+   Subtítulo: 0,0% de margem
+
+3. HORA CLÍNICA
+   Valor: horaClinica
+   Subtítulo: Custo por hora efetiva
+
+4. MÉDIA DE MERCADO
+   Valor: mediaMercado
+   Subtítulo: Referência regional
+
+---
+
+# 8. INDICATORCARD
+
+Arquivo:
+
+components/IndicatorCard/IndicatorCard.tsx
+
+O IndicatorsGrid importa o IndicatorCard:
+
+import IndicatorCard from '../IndicatorCard/IndicatorCard';
+
+E utiliza esse componente quatro vezes.
+
+A estrutura é:
+
+IndicatorsGrid
+│
+├── IndicatorCard
+├── IndicatorCard
+├── IndicatorCard
+└── IndicatorCard
+
+O objetivo é reutilizar o mesmo componente visual para diferentes indicadores.
+
+Em vez de criar quatro componentes separados, existe um único IndicatorCard que recebe diferentes informações através de props.
+
+Exemplo:
+
+<IndicatorCard
+    title="PREÇO CALCULADO"
+    value={precoCalculado}
+    subtitle="Baseado nos parâmetros atuais"
+    variant="primary"
+    icon={<DollarSign />}
+/>
+
+Outro exemplo:
+
+<IndicatorCard
+    title="LUCRO"
+    value={lucro}
+    subtitle="0,0% de margem"
+    variant="success"
+    icon={<TrendingUp />}
+/>
+
+Isso torna o componente reutilizável.
+
+---
+
+# 9. CLINICSELECTOR
+
+Arquivo:
+
+components/ClinicSelector/ClinicSelector.tsx
+
+Responsabilidade:
+
+Permitir que o usuário selecione uma clínica.
+
+Fluxo esperado:
+
+Usuário seleciona uma clínica
+        ↓
+ClinicSelector
+        ↓
+clinicId
+        ↓
+estado da aplicação
+        ↓
+cálculo de precificação
+
+Para integração com backend, é recomendado trabalhar com um identificador da clínica, por exemplo:
+
+clinicId
+
+e não apenas com o nome da clínica.
+
+O backend deverá fornecer os dados das clínicas disponíveis.
+
+Exemplo conceitual:
+
+{
+    "id": "123",
+    "name": "Clínica Exemplo"
+}
+
+---
+
+# 10. PROCEDURESELECTOR
+
+Arquivo:
+
+components/ProcedureSelector/ProcedureSelector.tsx
+
+Responsabilidade:
+
+Permitir que o usuário selecione o procedimento que será utilizado na precificação.
+
+Fluxo esperado:
+
+Usuário seleciona procedimento
+        ↓
+ProcedureSelector
+        ↓
+procedureId
+        ↓
+estado da aplicação
+        ↓
+cálculo da precificação
+
+Assim como no ClinicSelector, é recomendado que o frontend trabalhe com um identificador único:
+
+procedureId
+
+O backend deverá fornecer os procedimentos disponíveis.
+
+Exemplo conceitual:
+
+{
+    "id": "456",
+    "name": "Procedimento Exemplo"
+}
+
+---
+
+# 11. QUICKACTIONS
+
+Arquivo:
+
+components/QuickActions/QuickActions.tsx
+
+Responsabilidade:
+
+Disponibilizar ações rápidas relacionadas ao Dashboard e à precificação.
+
+O componente está localizado na coluna esquerda da tela, abaixo dos seletores.
+
+Exemplos de ações que podem existir futuramente:
+
+- Novo cálculo;
+- Salvar cálculo;
+- Simular cenário;
+- Consultar histórico;
+- Recalcular;
+- Limpar dados.
+
+As ações devem chamar funções ou serviços responsáveis pelas operações, evitando colocar regras complexas diretamente dentro do componente visual.
+
+---
+
+# 12. CHATWINDOW
+
+Arquivo:
+
+components/ChatWindow/ChatWindow.tsx
+
+Responsabilidade:
+
+Controlar a interface e o estado da conversa com a Soberana AI.
+
+O ChatWindow utiliza dois componentes filhos:
+
+ChatWindow
+│
+├── ChatMessage
+└── ChatInput
+
+O estado atual das mensagens é mantido no próprio componente:
+
+const [messages, setMessages] =
+    useState<ChatMessageProps[]>(INITIAL_MESSAGES);
+
+Existe uma lista inicial de mensagens:
+
+INITIAL_MESSAGES
+
+Essa lista contém mensagens mockadas utilizadas para iniciar a conversa.
+
+---
+
+# 13. CHATMESSAGE
+
+Arquivo:
+
+components/ChatMessage/ChatMessage.tsx
+
+Responsabilidade:
+
+Renderizar uma mensagem individual do chat.
+
+O ChatWindow possui uma lista:
+
+messages
+
+Essa lista é percorrida através de:
+
+messages.map(...)
+
+Para cada mensagem é criado um componente:
+
+<ChatMessage />
+
+Fluxo:
+
+messages
+│
+├── mensagem 1
+├── mensagem 2
+├── mensagem 3
+└── mensagem 4
+
+        ↓ map()
+
+ChatMessage
+ChatMessage
+ChatMessage
+ChatMessage
+
+Isso permite que o número de mensagens seja dinâmico.
+
+---
+
+# 14. CHATINPUT
+
+Arquivo:
+
+components/ChatInput/ChatInput.tsx
+
+Responsabilidade:
+
+Capturar a mensagem digitada pelo usuário e solicitar o envio.
+
+O componente possui as props:
+
+interface ChatInputProps {
+    onSendMessage?: (message: string) => void;
+    placeholder?: string;
+    disabled?: boolean;
+}
+
+O componente utiliza useState para controlar o texto digitado.
+
+Fluxo:
+
+Usuário digita
+      ↓
+ChatInput
+      ↓
+handleSend()
+      ↓
+onSendMessage(message)
+      ↓
+ChatWindow.handleSendMessage()
+      ↓
+setMessages()
+
+O ChatInput também permite:
+
+- enviar pelo botão;
+- enviar pressionando Enter;
+- impedir mensagens vazias;
+- limpar o campo após o envio;
+- desabilitar o campo quando necessário.
+
+---
+
+# 15. COMUNICAÇÃO ENTRE CHATINPUT E CHATWINDOW
+
+O ChatWindow passa sua função para o ChatInput:
+
+<ChatInput onSendMessage={handleSendMessage} />
+
+Isso significa que o ChatInput não precisa conhecer a lógica do ChatWindow.
+
+Ele apenas informa:
+
+"o usuário enviou esta mensagem".
+
+O ChatWindow decide o que fazer com ela.
+
+Fluxo:
+
+                    ChatWindow
+                        │
+             handleSendMessage()
+                        │
+                        ↓
+                    ChatInput
+                        │
+                 usuário digita
+                        │
+                    [Enviar]
+                        │
+                        ↓
+              onSendMessage(text)
+                        │
+                        ↓
+             handleSendMessage(text)
+                        │
+                        ↓
+                  setMessages()
+
+Esse padrão é comunicação entre componentes através de props.
+
+---
+
+# 16. RESPOSTA MOCKADA DO CHAT
+
+Atualmente o ChatWindow ainda não utiliza uma API real para responder.
+
+Depois que o usuário envia uma mensagem, o código utiliza setTimeout para simular uma resposta da IA.
+
+Atualmente o fluxo é:
+
+ChatInput
+    ↓
+ChatWindow
+    ↓
+setMessages()
+    ↓
+setTimeout()
+    ↓
+resposta mockada
+
+A resposta atual é algo semelhante a:
+
+"Entendido! Estou processando as informações para a sua precificação."
+
+Isso é apenas uma simulação.
+
+No futuro deverá ser substituído por uma chamada real à API.
+
+---
+
+# 17. FUTURO FLUXO DO CHAT COM BACKEND
+
+A arquitetura futura poderá ser:
+
+Usuário
+   ↓
+ChatInput
+   ↓
+ChatWindow
+   ↓
+API
+   ↓
+Backend
+   ↓
+Motor de IA
+   ↓
+Backend
+   ↓
+Frontend
+   ↓
+ChatMessage
+
+Exemplo de requisição conceitual:
+
+{
+    "message": "Quero calcular o preço de um procedimento",
+    "clinicId": "123",
+    "procedureId": "456"
+}
+
+Resposta conceitual:
+
+{
+    "message": "Entendido! Vou calcular a precificação.",
+    "timestamp": "2026-08-24T22:00:00Z"
+}
+
+Os formatos acima são exemplos de contrato e ainda precisam ser definidos em conjunto entre frontend e backend.
+
+---
+
+# 18. PRICINGSUMMARY
+
+Arquivo atual:
+
+components/PricingSumary/PricingSumary.tsx
+
+Nome exportado:
+
+PricingSummary
+
+Import atual:
+
+import { PricingSummary } from '../components/PricingSumary/PricingSumary';
+
+O caminho possui "PricingSumary" com um "m", enquanto o componente se chama "PricingSummary" com dois "m".
+
+Isso é permitido porque o caminho do arquivo e o nome exportado são coisas diferentes.
+
+Responsabilidade:
+
+Exibir o resumo financeiro da precificação.
+
+---
+
+# 19. DADOS DO PRICINGSUMMARY
+
+O componente possui a interface:
+
+interface PricingSummaryData {
+    clinicCosts: number;
+    procedureCost: number;
+    taxIncidences: number;
+    profit: number;
+    result: number;
+    directCost: number;
+    correctedCost: number;
+    finalPrice: number;
+}
+
+Esses campos representam atualmente o modelo de dados que o frontend espera para exibir o resumo da precificação.
+
+Campos:
+
+clinicCosts
+    Custos da clínica.
+
+procedureCost
+    Custo relacionado ao procedimento.
+
+taxIncidences
+    Incidências/taxas.
+
+profit
+    Lucro.
+
+result
+    Resultado.
+
+directCost
+    Custo direto.
+
+correctedCost
+    Custo corrigido.
+
+finalPrice
+    Preço final.
+
+Esse modelo ainda é um modelo do frontend e deve ser alinhado com o backend antes da definição definitiva da API.
+
+---
+
+# 20. MOCK_PRICING_DATA
+
+O PricingSummary atualmente possui dados mockados:
+
+MOCK_PRICING_DATA
+
+Todos os valores começam em:
+
+0
+
+Isso permite que a interface seja desenvolvida antes da integração com o backend.
+
+Fluxo atual:
+
+Mock
+ ↓
+PricingSummary
+ ↓
+Interface
+ ↓
+R$ 0,00
+
+Fluxo futuro:
+
+Backend
+ ↓
+API
+ ↓
+Frontend
+ ↓
+PricingSummary
+
+---
+
+# 21. FORMATAÇÃO MONETÁRIA
+
+O PricingSummary possui uma função:
+
+formatCurrency()
+
+Ela utiliza:
+
+Intl.NumberFormat
+
+com:
+
+locale = pt-BR
+currency = BRL
+
+Isso permite converter números como:
+
+1000
+
+para:
+
+R$ 1.000,00
+
+É importante que o backend, preferencialmente, retorne valores numéricos:
+
+1000
+
+em vez de valores já formatados:
+
+"R$ 1.000,00"
+
+A responsabilidade pela apresentação monetária fica no frontend.
+
+---
+
+# 22. USO DO MAP NO PRICINGSUMMARY
+
+O PricingSummary cria uma lista:
+
+const items = [
+    { label: 'Custos da Clínica', value: data.clinicCosts },
+    { label: 'Procedimento', value: data.procedureCost },
+    { label: 'Incidências', value: data.taxIncidences },
+    { label: 'Lucro', value: data.profit },
+    { label: 'Resultado', value: data.result },
+    { label: 'Custo Direto', value: data.directCost },
+    { label: 'Custo Corrigido', value: data.correctedCost },
+];
+
+Depois utiliza:
+
+items.map(...)
+
+Isso significa:
+
+"Para cada objeto existente na lista items, renderize um bloco de interface."
+
+Assim não é necessário escrever o mesmo HTML várias vezes.
+
+---
+
+# 23. PREÇO FINAL
+
+O PricingSummary possui uma área especial para:
+
+Preço Final
+
+Esse valor vem de:
+
+data.finalPrice
+
+e é formatado através de:
+
+formatCurrency(data.finalPrice)
+
+---
+
+# 24. RECENTHISTORY
+
+Arquivo:
+
+components/RecentHistory/RecentHistory.tsx
+
+Responsabilidade:
+
+Exibir o histórico de cálculos/procedimentos recentes.
+
+Ele aparece na coluna direita, abaixo do PricingSummary.
+
+Futuro fluxo esperado:
+
+Backend
+   ↓
+GET /pricing/history
+   ↓
+RecentHistory
+   ↓
+Lista de cálculos anteriores
+
+O formato definitivo dos dados ainda deve ser definido com o backend.
+
+---
+
+# 25. COMPONENTES QUE AINDA PRECISAM SER INVESTIGADOS
+
+Existem também componentes como:
+
+PriceDisplay
+ProfitIndicator
+
+Esses componentes precisam ser verificados para confirmar se estão sendo utilizados internamente por algum outro componente ou se foram criados para uma etapa futura.
+
+Um componente não deve ser considerado "não utilizado" apenas porque não aparece diretamente no DashboardPage.
+
+Por exemplo:
+
+DashboardPage
+    ↓
+PricingSummary
+    ↓
+PriceDisplay
+
+Nesse caso, o DashboardPage não importa PriceDisplay diretamente, mas o componente está sendo utilizado.
+
+Por isso a análise deve considerar toda a árvore de componentes.
+
+---
+
+# 26. ÁRVORE ATUAL CONFIRMADA
+
+Com os arquivos analisados até o momento:
+
+DashboardPage
+│
+└── DashboardLayout
+    │
+    ├── Header
+    ├── Sidebar
+    │
+    └── children
+        │
+        ├── IndicatorsGrid
+        │   │
+        │   └── IndicatorCard
+        │
+        ├── ClinicSelector
+        │
+        ├── ProcedureSelector
+        │
+        ├── QuickActions
+        │
+        ├── ChatWindow
+        │   │
+        │   ├── ChatMessage
+        │   └── ChatInput
+        │
+        ├── PricingSummary
+        │
+        └── RecentHistory
+
+Componentes já confirmados como utilizados:
+
+- DashboardLayout
+- Header
+- Sidebar
+- IndicatorsGrid
+- IndicatorCard
+- ClinicSelector
+- ProcedureSelector
+- QuickActions
+- ChatWindow
+- ChatMessage
+- ChatInput
+- PricingSummary
+- RecentHistory
+
+Componentes que ainda precisam ser investigados:
+
+- PriceDisplay
+- ProfitIndicator
+
+---
+
+# 27. RESPONSABILIDADE DO FRONTEND
+
+A responsabilidade atual do frontend é principalmente:
+
+- apresentação;
+- interação com o usuário;
+- controle de estados locais;
+- seleção de clínica;
+- seleção de procedimento;
+- exibição dos valores;
+- interface do chat;
+- organização do Dashboard;
+- formatação dos dados para apresentação.
+
+O frontend não deve ser responsável pela persistência direta no banco.
+
+---
+
+# 28. RESPONSABILIDADE ESPERADA DO BACKEND
+
+O backend deverá futuramente cuidar de:
+
+- autenticação;
+- usuários;
+- clínicas;
+- procedimentos;
+- regras de precificação;
+- custos;
+- impostos/taxas;
+- margens;
+- cálculos;
+- histórico;
+- persistência;
+- integração com IA;
+- validações;
+- regras de negócio;
+- segurança.
+
+---
+
+# 29. POSSÍVEL ESTRUTURA DE SERVIÇOS NO FRONTEND
+
+Para evitar colocar chamadas de API diretamente nos componentes visuais, uma futura estrutura recomendada é:
+
+src/
+│
+├── components/
+│
+├── pages/
+│
+├── services/
+│   ├── clinicService.ts
+│   ├── procedureService.ts
+│   ├── pricingService.ts
+│   ├── chatService.ts
+│   └── historyService.ts
+│
+└── ...
+
+Assim:
+
+Componentes
+    ↓
+Services
+    ↓
+API
+    ↓
+Backend
+
+O componente visual fica responsável pela interface, enquanto o service fica responsável pela comunicação com a API.
+
+---
+
+# 30. FLUXO FUTURO DA PRECIFICAÇÃO
+
+Um fluxo esperado será:
+
+Usuário
+   ↓
+ClinicSelector
+   ↓
+clinicId
+
+Usuário
+   ↓
+ProcedureSelector
+   ↓
+procedureId
+
+clinicId + procedureId + parâmetros
+   ↓
+Frontend
+   ↓
+pricingService
+   ↓
+API
+   ↓
+Backend
+   ↓
+Motor de precificação
+   ↓
+Resultado
+   ↓
+Frontend
+   ↓
+PricingSummary
+   ↓
+IndicatorsGrid
+
+---
+
+# 31. POSSÍVEL CONTRATO DE PRECIFICAÇÃO
+
+Exemplo conceitual de resposta da API:
+
+{
+    "clinicCosts": 500,
+    "procedureCost": 300,
+    "taxIncidences": 100,
+    "profit": 400,
+    "result": 1300,
+    "directCost": 800,
+    "correctedCost": 850,
+    "finalPrice": 1500
+}
+
+Esses valores são apenas exemplos.
+
+O contrato definitivo deve ser definido pelo backend em conjunto com o frontend.
+
+Também devem ser definidos:
+
+- moeda;
+- casas decimais;
+- arredondamento;
+- campos obrigatórios;
+- campos opcionais;
+- valores mínimos;
+- valores máximos;
+- regras de cálculo.
+
+---
+
+# 32. INTEGRAÇÃO COM HISTÓRICO
+
+O fluxo futuro pode ser:
+
+Frontend
+   ↓
+pricingService
+   ↓
+POST /pricing
+   ↓
+Backend
+   ↓
+Calcula
+   ↓
+Salva resultado
+   ↓
+Retorna resultado
+
+Depois:
+
+Frontend
+   ↓
+historyService
+   ↓
+GET /pricing/history
+   ↓
+Backend
+   ↓
+RecentHistory
+
+---
+
+# 33. INTEGRAÇÃO COM IA
+
+Atualmente o chat utiliza uma resposta simulada.
+
+Futuramente:
+
+ChatInput
+   ↓
+ChatWindow
+   ↓
+chatService
+   ↓
+POST /chat
+   ↓
+Backend
+   ↓
+IA
+   ↓
+Backend
+   ↓
+Resposta
+   ↓
+ChatWindow
+   ↓
+ChatMessage
+
+Isso permitirá que a IA tenha acesso ao contexto necessário para ajudar na precificação.
+
+---
+
+# 34. PRINCÍPIO DE SEPARAÇÃO DE RESPONSABILIDADES
+
+A arquitetura deve seguir o princípio:
+
+UI não deve concentrar regra de negócio.
+
+Exemplo ruim:
+
+ChatWindow
+    ↓
+faz cálculo financeiro
+    ↓
+acessa banco
+    ↓
+faz autenticação
+    ↓
+chama IA
+    ↓
+renderiza tela
+
+Exemplo mais organizado:
+
+ChatWindow
+    ↓
+chatService
+    ↓
+API
+    ↓
+Backend
+    ↓
+Regras de negócio
+
+E:
+
+PricingSummary
+    ↓
+recebe dados
+    ↓
+renderiza dados
+
+---
+
+# 35. ESTADO ATUAL DO PROJETO
+
+O frontend já possui uma base visual/componentizada para:
+
+- Dashboard;
+- navegação;
+- indicadores;
+- seleção de clínica;
+- seleção de procedimento;
+- ações rápidas;
+- chat;
+- mensagens;
+- input do chat;
+- resumo financeiro;
+- histórico.
+
+Entretanto, grande parte dos dados ainda está em estado mockado ou local.
+
+A próxima etapa é substituir os mocks por dados reais provenientes da API.
+
+---
+
+# 36. RESUMO PARA A EQUIPE DE BACKEND
+
+O frontend do Dashboard já está estruturado em componentes React independentes e atualmente trabalha principalmente com dados mockados.
+
+Os principais pontos de integração identificados são:
+
+1. Clínicas
+2. Procedimentos
+3. Precificação
+4. Histórico
+5. Chat/IA
+6. Usuário/autenticação
+
+O modelo atual de precificação utilizado pelo frontend possui:
+
+clinicCosts
+procedureCost
+taxIncidences
+profit
+result
+directCost
+correctedCost
+finalPrice
+
+A seleção de clínica deverá fornecer um clinicId.
+
+A seleção de procedimento deverá fornecer um procedureId.
+
+O backend deverá receber essas informações juntamente com os parâmetros necessários para realizar o cálculo.
+
+O resultado deverá retornar dados numéricos, preferencialmente sem formatação de moeda.
+
+Exemplo:
+
+{
+    "finalPrice": 1500
+}
+
+e não:
+
+{
+    "finalPrice": "R$ 1.500,00"
+}
+
+O frontend será responsável pela apresentação:
+
+1500
+↓
+R$ 1.500,00
+
+O ChatWindow atualmente utiliza uma resposta mockada com setTimeout e deverá futuramente ser conectado a uma API real.
+
+O histórico deverá futuramente consumir uma API própria.
+
+---
+
+# 37. CONCLUSÃO
+
+A arquitetura atual foi construída com o objetivo de manter o Dashboard modular.
+
+O DashboardPage organiza a página.
+
+O DashboardLayout organiza a estrutura global.
+
+O Header e Sidebar cuidam da navegação e estrutura.
+
+O IndicatorsGrid organiza os indicadores.
+
+O IndicatorCard representa cada indicador individual.
+
+O ClinicSelector seleciona a clínica.
+
+O ProcedureSelector seleciona o procedimento.
+
+O QuickActions concentra ações rápidas.
+
+O ChatWindow controla a conversa.
+
+O ChatMessage renderiza mensagens individuais.
+
+O ChatInput recebe mensagens do usuário.
+
+O PricingSummary apresenta o resultado financeiro.
+
+O RecentHistory apresenta o histórico.
+
+A próxima evolução será conectar esses componentes a uma camada de serviços/API e, posteriormente, ao backend real.
+
+A separação recomendada é:
+
+COMPONENTES
+    ↓
+SERVICES
+    ↓
+API
+    ↓
+BACKEND
+    ↓
+BANCO / IA / REGRAS DE NEGÓCIO
+
+Essa estrutura permite que frontend e backend evoluam de forma independente, desde que os contratos de API sejam definidos e respeitados pelas duas partes.
+
+
+
+------------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+                              EXPLICAÇÃO COMPLETA DASHBOARD FIM
+                              
+
+                                         MARKDOWN - EP2 - DASHBOARD - ENZZO 
+                                                   ---------------------
+
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
+-----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
+------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
+++++++++++++----------------------++++++++++++++++++++++++++------------------------
