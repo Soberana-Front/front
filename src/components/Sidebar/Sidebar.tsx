@@ -1,4 +1,6 @@
 import { NavLink } from 'react-router'
+import authService from '../../services/authService'
+
 import {
   BarChart3,
   Building2,
