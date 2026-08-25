@@ -4,16 +4,10 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 import { Layout } from "../components/layout/Layout";
 import Login from "../pages/Login";
 
-// Placeholder para Register (depois você cria)
-const Register = () => <div className="p-4">Register Page</div>;
-
-// Placeholder para a página inicial (protegida)
-const Home = () => <div className="p-4">Bem-vindo! (Dashboard em breve)</div>;
-
-// Componente wrapper para prover o contexto de autenticação
-const AuthWrapper = ({ children }: { children: React.ReactNode }) => (
-  <AuthProvider>{children}</AuthProvider>
-);
+import { App } from '@/App'
+import { DashboardPage } from '@/pages/DashboardPage'
+import { HomePage } from '@/pages/home-page'
+import { NotFoundPage } from '@/pages/not-found-page'
 
 export const router = createBrowserRouter([
   {
@@ -40,13 +34,9 @@ export const router = createBrowserRouter([
       </AuthWrapper>
     ),
     children: [
-      {
-        element: <Layout />,
-        children: [
-          { index: true, element: <Home /> }, // Rota raiz "/"
-          // Adicione outras rotas protegidas aqui conforme for criando
-        ],
-      },
+      { index: true, Component: HomePage },
+      { path: 'dashboard', Component: DashboardPage },
+      { path: '*', Component: NotFoundPage },
     ],
   },
   {
