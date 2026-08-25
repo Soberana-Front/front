@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import { Bell } from 'lucide-react';
+
 import authService from '../../services/authService';
+import { useAuth } from '../../providers/AuthContext';
 
-interface HeaderProps {
-  userName?: string;
-  userInitials?: string;
-}
+export default function Header() {
+  const { user } = useAuth();
 
-export default function Header({ 
-  userName = "Doutor(a)", 
-  userInitials = "DR" 
-}: HeaderProps) {
+  const userName = user?.name ?? 'Doutor(a)';
+  const userInitials = user?.initials ?? 'DR';
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
