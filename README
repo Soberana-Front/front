@@ -208,7 +208,7 @@ fim EP:2 DASHBOARD
                               EXPLICAÇÃO COMPLETA DASHBOARD INICIO
 
 
-                      MARKDOWN - EP2 - DASHBOARD - ENZZO 
+                              MARKDOWN - EP3 - DASHBOARD - ENZZO 
                               ---------------------
 
 -----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
@@ -2098,6 +2098,7 @@ Os endpoints de precificação, mensagens e eventos SSE também já estão previ
 **Próximo ponto técnico recomendado:** revisar `dashboardService.ts` e comparar seus métodos com o contrato previsto antes de começar a integração real com o backend.
 
 
+
 ------------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
 ------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
 ++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
@@ -2108,10 +2109,10 @@ Os endpoints de precificação, mensagens e eventos SSE também já estão previ
 -----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
 ------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
 ++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
-                              EXPLICAÇÃO COMPLETA DASHBOARD FIM
+                                     EXPLICAÇÃO COMPLETA DASHBOARD FIM
                               
 
-                                         MARKDOWN - EP2 - DASHBOARD - ENZZO 
+                                         MARKDOWN - EP3 - DASHBOARD - ENZZO 
                                                    ---------------------
 
 -----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
