@@ -1,3 +1,48 @@
+
+🧠 1. A visão geral do projeto
+
+
+front/
+│
+├── src/                    ← código da aplicação
+│
+│   ├── components/        ← peças visuais reutilizáveis
+│   ├── hooks/             ← lógica reutilizável do React
+│   ├── lib/               ← funções auxiliares
+│   ├── pages/             ← páginas da aplicação
+│   ├── providers/         ← configurações/contextos globais
+│   ├── routes/            ← rotas/navegação
+│   │
+│   ├── App.tsx            ← componente principal
+│   ├── main.tsx           ← ponto de entrada
+│   └── index.css          ← estilos globais
+│
+├── package.json            ← dependências e scripts
+├── package-lock.json       ← trava versões das dependências
+├── vite.config.ts          ← configuração do Vite
+├── tsconfig.json           ← configuração TypeScript
+└── index.html              ← HTML inicial
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 👑 Soberana Front-end
 
 Aplicações e interfaces do ecossistema **Soberana**, desenvolvidas para gestão de clínicas, precificação inteligente de procedimentos médicos/odontológicos e assistente virtual integrado com IA.
