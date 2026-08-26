@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
 import { Spinner } from './ui/Spinner';
 
-export const ProtectedRoute = () => {
+export const PublicRoute = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
@@ -13,9 +13,11 @@ export const ProtectedRoute = () => {
     );
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  // Se já estiver autenticado, redireciona para dashboard
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
   }
 
+  // Se não estiver autenticado, renderiza a página pública (login, register, etc.)
   return <Outlet />;
 };
