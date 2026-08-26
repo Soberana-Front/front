@@ -6,9 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
     "typecheck": "tsc -b --pretty false",
     "preview": "vite preview",
     "api:types": "openapi-typescript $VITE_API_OPENAPI_URL -o src/api/generated/schema.d.ts"
