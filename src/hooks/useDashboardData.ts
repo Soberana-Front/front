@@ -1,6 +1,7 @@
+// Importa hooks do React
 import { useState, useEffect } from 'react';
 
-// Tipagens dos dados
+// Tipos dos dados do dashboard
 export interface IndicatorData {
   calculatedPrice: number;
   profit: number;
@@ -34,7 +35,7 @@ export interface DashboardData {
   recentHistory: HistoryItem[];
 }
 
-// Dados Mockados Iniciais
+// Dados mockados para desenvolvimento
 const MOCK_DASHBOARD_DATA: DashboardData = {
   indicators: {
     calculatedPrice: 0.0,
@@ -78,19 +79,20 @@ const MOCK_DASHBOARD_DATA: DashboardData = {
   ],
 };
 
+// Hook que simula busca de dados do dashboard
 export const useDashboardData = () => {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Função que carrega os dados (mock)
   const fetchDashboardData = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      // Simula uma chamada assíncrona de API (ex: 500ms)
+      // Simula delay de rede
       await new Promise((resolve) => setTimeout(resolve, 500));
-      
       setData(MOCK_DASHBOARD_DATA);
     } catch (err) {
       setError('Erro ao carregar dados do dashboard.');
@@ -99,10 +101,12 @@ export const useDashboardData = () => {
     }
   };
 
+  // Carrega dados ao montar o componente
   useEffect(() => {
     fetchDashboardData();
   }, []);
 
+  // Retorna dados, loading, erro e função para recarregar
   return {
     data,
     loading,

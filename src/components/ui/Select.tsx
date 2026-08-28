@@ -1,39 +1,36 @@
+// Importa React, utilitário, ícone e Label
 import * as React from 'react'
 import { cn } from '../../utils/cn'
 import { ChevronDown } from 'lucide-react'
 import { Label } from './Label'
 
+// Interface de uma opção do select
 export interface SelectOption {
   value: string
   label: string
   disabled?: boolean
 }
 
+// Props do Select com suporte a label, ícone, erro e placeholder
 export interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
-  /** Opções do select */
   options: SelectOption[]
-  /** Texto do label */
   label?: string
-  /** Texto do placeholder (exibido como opção desabilitada) */
   placeholder?: string
-  /** Mensagem de erro */
   error?: string
-  /** Indica se o campo é obrigatório (exibe asterisco no label) */
   required?: boolean
-  /** Indica se o campo é opcional (exibe "(opcional)" no label) */
   optional?: boolean
-  /** Ícone a ser exibido à esquerda do select (opcional) */
   icon?: React.ReactNode
-  /** Tamanho do select */
   size?: 'sm' | 'md' | 'lg'
 }
 
+// Mapeia tamanhos para classes Tailwind
 const sizeClasses = {
   sm: 'h-8 text-xs px-2',
   md: 'h-10 text-sm px-3',
   lg: 'h-12 text-base px-4',
 }
 
+// Componente Select com forwardRef, label e validação
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   (
     {
@@ -51,21 +48,26 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     },
     ref
   ) => {
+    // Gera ID único se não fornecido
     const selectId = id || `select-${Math.random().toString(36).substring(2, 9)}`
 
     return (
       <div className="w-full">
+        {/* Label com indicadores de obrigatório/opcional */}
         {label && (
           <Label htmlFor={selectId} required={required} optional={optional}>
             {label}
           </Label>
         )}
+        {/* Container com ícone e select */}
         <div className="relative">
+          {/* Ícone à esquerda */}
           {icon && (
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
               {icon}
             </div>
           )}
+          {/* Select com estilização condicional (erro, ícone, tamanho) */}
           <select
             ref={ref}
             id={selectId}
@@ -78,11 +80,13 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             )}
             {...props}
           >
+            {/* Placeholder como opção desabilitada */}
             {placeholder && (
               <option value="" disabled>
                 {placeholder}
               </option>
             )}
+            {/* Lista de opções */}
             {options.map((option) => (
               <option
                 key={option.value}
@@ -93,8 +97,10 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
               </option>
             ))}
           </select>
+          {/* Ícone de seta para baixo (substitui o padrão) */}
           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
         </div>
+        {/* Mensagem de erro */}
         {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
       </div>
     )

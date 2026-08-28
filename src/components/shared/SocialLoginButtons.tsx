@@ -1,15 +1,16 @@
+// Importa componente Button da UI
 import { Button } from '../ui/Button';
+// Importa ícone de e-mail (usado como ícone do Google)
 import { Mail } from 'lucide-react';
 
+// Props do componente de botões sociais
 interface SocialLoginButtonsProps {
-  /** Texto do botão */
-  buttonText?: string;
-  /** Função chamada ao clicar em Google */
-  onGoogleClick?: () => void;
-  /** Desabilita o botão */
-  disabled?: boolean;
+  buttonText?: string;    // Texto do botão (padrão: "Entrar com Google")
+  onGoogleClick?: () => void; // Função chamada ao clicar
+  disabled?: boolean;     // Desabilita o botão
 }
 
+// Componente com botão de login social (apenas Google)
 export const SocialLoginButtons = ({
   buttonText = 'Entrar com Google',
   onGoogleClick,
@@ -17,6 +18,7 @@ export const SocialLoginButtons = ({
 }: SocialLoginButtonsProps) => {
   return (
     <div className="space-y-3">
+      {/* Divisor com texto "Ou continue com" */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-gray-300" />
@@ -26,6 +28,7 @@ export const SocialLoginButtons = ({
         </div>
       </div>
 
+      {/* Botão de login com Google */}
       <Button
         variant="outline"
         className="w-full flex items-center justify-center gap-2"

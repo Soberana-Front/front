@@ -1,13 +1,14 @@
+// Importa React e utilitário
 import * as React from "react";
 import { cn } from "../../utils/cn";
 
+// Props do Card com opções de padding e variantes
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Remove o padding interno de CardHeader e CardContent */
-  noPadding?: boolean;
-  /** Variante de estilo do card */
-  variant?: "default" | "bordered" | "shadow" | "none";
+  noPadding?: boolean;                       // Remove padding interno
+  variant?: "default" | "bordered" | "shadow" | "none"; // Estilo do card
 }
 
+// Componente Card com variações de estilo
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, noPadding = false, variant = "default", ...props }, ref) => {
     const variantClasses = {
@@ -33,6 +34,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 );
 Card.displayName = "Card";
 
+// Cabeçalho do Card com padding opcional
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { noPadding?: boolean }
@@ -49,6 +51,7 @@ const CardHeader = React.forwardRef<
 ));
 CardHeader.displayName = "CardHeader";
 
+// Título do Card
 const CardTitle = React.forwardRef<
   HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
@@ -64,6 +67,7 @@ const CardTitle = React.forwardRef<
 ));
 CardTitle.displayName = "CardTitle";
 
+// Conteúdo do Card com padding opcional
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { noPadding?: boolean }
@@ -79,4 +83,5 @@ const CardContent = React.forwardRef<
 ));
 CardContent.displayName = "CardContent";
 
+// Exporta todos os subcomponentes
 export { Card, CardHeader, CardTitle, CardContent };
