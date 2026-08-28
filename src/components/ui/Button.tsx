@@ -1,8 +1,10 @@
+// Importa React e utilitários
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../utils/cn";
 import { Loader2 } from "lucide-react";
 
+// Define variantes do botão (cores, tamanhos e estados)
 const buttonVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
@@ -27,6 +29,7 @@ const buttonVariants = cva(
   },
 );
 
+// Props do botão com suporte a loading
 export interface ButtonProps
   extends
     React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -34,6 +37,7 @@ export interface ButtonProps
   isLoading?: boolean;
 }
 
+// Componente Button com forwardRef e estado de loading
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, isLoading, children, ...props }, ref) => {
     return (

@@ -8,3 +8,5 @@ export { Select } from './Select';
 export { Badge } from './Badge';
 export { FormSteps } from './FormSteps'; 
 export { UserTypeSelector } from './UserTypeSelector';
+export { ToastContainer } from './ToastContainer';
+export { ToastItem } from './ToastItem';

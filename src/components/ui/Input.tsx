@@ -1,44 +1,34 @@
+// Importa React e utilitários
 import * as React from 'react'
 import { cn } from '../../utils/cn'
 import { Label } from './Label'
 import { Eye, EyeOff } from 'lucide-react'
 
+// Props do Input com suporte a ícones, máscaras e toggle de senha
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
-  /** Texto do label */
   label?: string
-  /** Mensagem de erro */
   error?: string
-  /** Indica se o campo é obrigatório (exibe asterisco) */
   required?: boolean
-  /** Indica se o campo é opcional (exibe "(opcional)") */
   optional?: boolean
-  /** Ícone à esquerda do input */
   icon?: React.ReactNode
-  /** Ícone à direita do input (sobrescreve o toggle de senha se usado) */
   rightIcon?: React.ReactNode
-  /** Ação ao clicar no ícone direito (ex: limpar campo) */
   onRightIconClick?: () => void
-  /** Se true, exibe o botão de mostrar/ocultar senha (apenas para type="password") */
   showPasswordToggle?: boolean
-  /** Máscara para o input (ex: 'cpf', 'phone', 'cnpj', 'cep') */
   mask?: 'cpf' | 'phone' | 'cnpj' | 'cep' | 'currency' | 'none'
-  /** Tamanho do input */
   size?: 'sm' | 'md' | 'lg'
 }
 
+// Mapeia tamanhos para classes Tailwind
 const sizeClasses = {
   sm: 'h-8 text-xs px-2',
   md: 'h-10 text-sm px-3',
   lg: 'h-12 text-base px-4',
 }
 
-// Funções de máscara
+// Aplica máscara conforme o tipo (CPF, telefone, CNPJ, CEP, moeda)
 const applyMask = (value: string, mask: InputProps['mask']): string => {
   if (!mask || mask === 'none') return value
-
-  // Remove caracteres não numéricos
   const digits = value.replace(/\D/g, '')
-
   switch (mask) {
     case 'cpf':
       return digits
@@ -46,7 +36,6 @@ const applyMask = (value: string, mask: InputProps['mask']): string => {
         .replace(/(\d{3})(\d)/, '$1.$2')
         .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
         .slice(0, 14)
-
     case 'phone':
       if (digits.length <= 10) {
         return digits
@@ -59,7 +48,6 @@ const applyMask = (value: string, mask: InputProps['mask']): string => {
           .replace(/(\d{5})(\d)/, '$1-$2')
           .slice(0, 15)
       }
-
     case 'cnpj':
       return digits
         .replace(/(\d{2})(\d)/, '$1.$2')
@@ -67,12 +55,8 @@ const applyMask = (value: string, mask: InputProps['mask']): string => {
         .replace(/(\d{3})(\d)/, '$1/$2')
         .replace(/(\d{4})(\d{1,2})$/, '$1-$2')
         .slice(0, 18)
-
     case 'cep':
-      return digits
-        .replace(/(\d{5})(\d)/, '$1-$2')
-        .slice(0, 9)
-
+      return digits.replace(/(\d{5})(\d)/, '$1-$2').slice(0, 9)
     case 'currency':
       const number = parseFloat(digits) / 100
       if (isNaN(number)) return 'R$ 0,00'
@@ -81,12 +65,12 @@ const applyMask = (value: string, mask: InputProps['mask']): string => {
         currency: 'BRL',
         minimumFractionDigits: 2,
       })
-
     default:
       return value
   }
 }
 
+// Componente Input com forwardRef, máscara e toggle de senha
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -116,41 +100,32 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       (defaultValue as string) || (value as string) || ''
     )
 
-    // Controla se o input é de senha (e se o toggle está ativo)
     const isPassword = type === 'password'
     const inputType = isPassword && showPassword ? 'text' : type
 
-    // Função para aplicar máscara e atualizar estado
+    // Aplica máscara ao valor digitado e atualiza estado
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       let newValue = e.target.value
       if (mask && mask !== 'none') {
-        // Aplica a máscara
         const masked = applyMask(newValue, mask)
         newValue = masked
-        // Atualiza o valor do input
         e.target.value = masked
       }
       setInternalValue(newValue)
-      if (onChange) {
-        onChange(e)
-      }
+      if (onChange) onChange(e)
     }
 
     // Sincroniza com value controlado externamente
     React.useEffect(() => {
       if (value !== undefined && value !== null) {
         const strValue = String(value)
-        if (mask && mask !== 'none') {
-          setInternalValue(applyMask(strValue, mask))
-        } else {
-          setInternalValue(strValue)
-        }
+        setInternalValue(mask && mask !== 'none' ? applyMask(strValue, mask) : strValue)
       }
     }, [value, mask])
 
     const togglePassword = () => setShowPassword(!showPassword)
 
-    // Ícone direito padrão (toggle de senha)
+    // Renderiza ícone direito (toggle de senha ou ícone customizado)
     const defaultRightIcon = isPassword && showPasswordToggle ? (
       <button
         type="button"
@@ -174,17 +149,20 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="w-full">
+        {/* Label com indicadores opcionais e obrigatório */}
         {label && (
           <Label htmlFor={inputId} required={required} optional={optional}>
             {label}
           </Label>
         )}
         <div className="relative">
+          {/* Ícone à esquerda */}
           {icon && (
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
               {icon}
             </div>
           )}
+          {/* Campo de entrada com máscara e validação visual */}
           <input
             ref={ref}
             id={inputId}
@@ -201,8 +179,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             onChange={handleChange}
             {...props}
           />
+          {/* Ícone direito (toggle ou customizado) */}
           {defaultRightIcon || rightIcon}
         </div>
+        {/* Mensagem de erro */}
         {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
       </div>
     )

@@ -1,23 +1,24 @@
+// Importa React e utilitário de classes
 import * as React from 'react';
 import { cn } from '../../utils/cn';
+// Importa ícone de check
 import { Check } from 'lucide-react';
 
+// Interface de um passo individual
 export interface Step {
   label: string;
   value: number;
 }
 
+// Props do componente de passos
 export interface FormStepsProps {
-  /** Lista de passos */
-  steps: Step[];
-  /** Passo atual (0-indexado) */
-  currentStep: number;
-  /** Função opcional para navegar para um passo (se permitido) */
-  onStepClick?: (index: number) => void;
-  /** Classes CSS adicionais */
-  className?: string;
+  steps: Step[];                       // Lista de passos
+  currentStep: number;                 // Passo atual (0-indexado)
+  onStepClick?: (index: number) => void; // Função para navegar
+  className?: string;                  // Classes CSS adicionais
 }
 
+// Componente indicador de progresso em passos
 export const FormSteps = ({
   steps,
   currentStep,
@@ -28,13 +29,14 @@ export const FormSteps = ({
     <div className={cn('w-full', className)}>
       <div className="flex items-center justify-between">
         {steps.map((step, index) => {
+          // Define estados do passo
           const isActive = index === currentStep;
           const isCompleted = index < currentStep;
           const isClickable = onStepClick && (isCompleted || isActive);
 
           return (
             <React.Fragment key={step.value}>
-              {/* Etapa */}
+              {/* Círculo do passo com número ou check */}
               <div className="flex flex-col items-center flex-1">
                 <button
                   type="button"
@@ -57,7 +59,7 @@ export const FormSteps = ({
                   )}
                 </button>
 
-                {/* Label */}
+                {/* Label do passo */}
                 <span
                   className={cn(
                     'mt-2 text-xs font-medium',
@@ -70,7 +72,7 @@ export const FormSteps = ({
                 </span>
               </div>
 
-              {/* Linha conectora (exceto após o último passo) */}
+              {/* Linha conectora entre passos */}
               {index < steps.length - 1 && (
                 <div className="flex-1 mx-2">
                   <div

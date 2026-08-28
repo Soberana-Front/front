@@ -1,7 +1,11 @@
+// Importa React e hooks
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+// Importa serviço de autenticação e tipos
 import { authService, User, LoginCredentials, RegisterData } from '../services/authService';
+// Importa instância do Axios
 import { api } from '../services/api';
 
+// Define o tipo do contexto de autenticação
 interface AuthContextType {
   user: User | null;
   token: string | null;
@@ -15,14 +19,17 @@ interface AuthContextType {
   checkAuth: () => Promise<void>;
 }
 
+// Cria o contexto
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Provider do contexto de autenticação
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  // Estados do usuário, token e loading
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Carregar dados do localStorage ao iniciar
+  // Carrega token e usuário do localStorage ao iniciar
   useEffect(() => {
     const storedToken = localStorage.getItem('@Soberana:token');
     const storedUser = localStorage.getItem('@Soberana:user');
@@ -34,7 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   }, []);
 
-  // Função auxiliar para guardar token e usuário
+  // Persiste token e usuário no localStorage e headers do Axios
   const setAuthData = (token: string, user: User) => {
     localStorage.setItem('@Soberana:token', token);
     localStorage.setItem('@Soberana:user', JSON.stringify(user));
@@ -43,7 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(user);
   };
 
-  // Login
+  // Função de login
   const login = async (credentials: LoginCredentials) => {
     setIsLoading(true);
     try {
@@ -60,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Registro
+  // Função de registro de usuário
   const register = async (data: RegisterData) => {
     setIsLoading(true);
     try {
@@ -77,25 +84,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Logout
+  // Função de logout
   const logout = () => {
     authService.logout();
     setUser(null);
     setToken(null);
-    // Não redirecionamos aqui para permitir que o componente chame useNavigate()
   };
 
-  // Esqueci senha
+  // Solicita recuperação de senha
   const forgotPassword = async (email: string) => {
     await authService.forgotPassword(email);
   };
 
-  // Resetar senha
+  // Redefine a senha com token
   const resetPassword = async (data: { token: string; password: string; passwordConfirmation: string }) => {
     await authService.resetPassword(data);
   };
 
-  // Verificar autenticação (buscar dados do usuário se token válido)
+  // Verifica autenticação e busca dados do usuário
   const checkAuth = async () => {
     const storedToken = localStorage.getItem('@Soberana:token');
     if (!storedToken) {
@@ -111,16 +117,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(storedToken);
       localStorage.setItem('@Soberana:user', JSON.stringify(userData));
     } catch (error) {
-      // Token inválido ou expirado
       logout();
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Derivado: isAuthenticated
+  // Indica se o usuário está autenticado
   const isAuthenticated = !!user && !!token;
 
+  // Retorna o provider com os valores do contexto
   return (
     <AuthContext.Provider
       value={{
@@ -141,6 +147,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Hook para usar o contexto de autenticação
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

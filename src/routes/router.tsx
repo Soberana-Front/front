@@ -1,22 +1,37 @@
+// Importa função para criar roteador
 import { createBrowserRouter } from "react-router";
+// Importa provedor de autenticação
 import { AuthProvider } from "../contexts/AuthContext";
+// Importa componentes de proteção de rotas
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { PublicRoute } from "../components/PublicRoute";
+// Importa layout base
 import { Layout } from "../components/layout/Layout";
+// Importa páginas de autenticação
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
+// Importa página principal do dashboard
+import DashboardPage from "../pages/DashboardPage";
 
-// Placeholder para a página inicial (protegida)
-const Home = () => <div className="p-4">Bem-vindo! (Dashboard em breve)</div>;
+// Placeholders para páginas ainda não implementadas
+const Clinicas = () => <div className="p-4">Clínicas (em breve)</div>;
+const Procedimentos = () => <div className="p-4">Procedimentos (em breve)</div>;
+const Comparacoes = () => <div className="p-4">Comparações (em breve)</div>;
+const Historico = () => <div className="p-4">Histórico (em breve)</div>;
+const Perfil = () => <div className="p-4">Perfil (em breve)</div>;
+const Configuracoes = () => <div className="p-4">Configurações (em breve)</div>;
 
-// Componente wrapper para prover o contexto de autenticação
+// Wrapper para injetar AuthProvider nas rotas
 const AuthWrapper = ({ children }: { children: React.ReactNode }) => (
   <AuthProvider>{children}</AuthProvider>
 );
 
+// Cria o roteador com as rotas da aplicação
 export const router = createBrowserRouter([
   {
-    // Rotas públicas (acessíveis sem login)
+    // Grupo de rotas públicas (acessíveis sem login)
     element: (
       <AuthWrapper>
         <PublicRoute />
@@ -25,11 +40,12 @@ export const router = createBrowserRouter([
     children: [
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
-      // Adicione outras rotas públicas aqui (ex: forgot-password, reset-password)
+      { path: "forgot-password", element: <ForgotPassword /> },
+      { path: "reset-password/:token", element: <ResetPassword /> },
     ],
   },
   {
-    // Rotas protegidas (exigem login)
+    // Grupo de rotas protegidas (exigem autenticação)
     element: (
       <AuthWrapper>
         <ProtectedRoute />
@@ -37,17 +53,24 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        // Layout com Sidebar e Header aplicado a todas as rotas filhas
         element: <Layout />,
         children: [
-          { index: true, element: <Home /> },
-          { path: "dashboard", element: <Home /> },
-          // Adicione outras rotas protegidas aqui (clinicas, procedimentos, etc.)
+          { index: true, element: <DashboardPage /> },
+          { path: "dashboard", element: <DashboardPage /> },
+          { path: "clinicas", element: <Clinicas /> },
+          { path: "procedimentos", element: <Procedimentos /> },
+          { path: "comparacoes", element: <Comparacoes /> },
+          { path: "historico", element: <Historico /> },
+          { path: "perfil", element: <Perfil /> },
+          { path: "configuracoes", element: <Configuracoes /> },
         ],
       },
     ],
   },
   {
+    // Rota 404 - página não encontrada
     path: "*",
-    element: <div>Página não encontrada</div>,
+    element: <div className="p-4">Página não encontrada</div>,
   },
 ]);

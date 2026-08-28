@@ -1,27 +1,22 @@
+// Importa React, utilitários, ícone e botão
 import * as React from 'react'
 import { cn } from '../../utils/cn'
 import { X } from 'lucide-react'
 import { Button } from './Button'
 
+// Props do Modal (abertura, fechamento, tamanho, overlay, etc.)
 export interface ModalProps {
-  /** Controla se o modal está aberto */
   open: boolean
-  /** Função para fechar o modal */
   onOpenChange: (open: boolean) => void
-  /** Conteúdo do modal */
   children: React.ReactNode
-  /** Tamanho do modal: sm, md, lg, xl, full */
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
-  /** Se true, fecha ao clicar no overlay (fundo) */
   closeOnOverlayClick?: boolean
-  /** Se true, exibe o botão de fechar no canto superior direito */
   showCloseButton?: boolean
-  /** Classes CSS adicionais para o conteúdo do modal */
   className?: string
-  /** Desabilita o scroll da página quando o modal está aberto */
   disableScroll?: boolean
 }
 
+// Mapeia tamanhos para classes Tailwind
 const sizeClasses = {
   sm: 'max-w-sm',
   md: 'max-w-md',
@@ -30,6 +25,7 @@ const sizeClasses = {
   full: 'max-w-full mx-4',
 }
 
+// Componente Modal com overlay, animação e fechamento por ESC
 export const Modal = ({
   open,
   onOpenChange,
@@ -40,7 +36,7 @@ export const Modal = ({
   className,
   disableScroll = true,
 }: ModalProps) => {
-  // Impedir scroll da página quando modal está aberto
+  // Bloqueia scroll da página quando o modal está aberto
   React.useEffect(() => {
     if (open && disableScroll) {
       document.body.style.overflow = 'hidden'
@@ -52,7 +48,7 @@ export const Modal = ({
     }
   }, [open, disableScroll])
 
-  // Fechar ao pressionar ESC
+  // Fecha modal ao pressionar ESC
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && open) {
@@ -63,26 +59,30 @@ export const Modal = ({
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [open, onOpenChange])
 
+  // Fecha ao clicar no overlay (se permitido)
   const handleOverlayClick = () => {
     if (closeOnOverlayClick) {
       onOpenChange(false)
     }
   }
 
+  // Fecha ao clicar no botão X
   const handleClose = () => {
     onOpenChange(false)
   }
 
+  // Não renderiza se estiver fechado
   if (!open) return null
 
   return (
+    // Container centralizado com overlay
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={handleOverlayClick}
       role="dialog"
       aria-modal="true"
     >
-      {/* Overlay com animação */}
+      {/* Fundo escuro com blur */}
       <div
         className={cn(
           'absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300',
@@ -91,7 +91,7 @@ export const Modal = ({
         aria-hidden="true"
       />
 
-      {/* Conteúdo do modal com animação de escala e fade */}
+      {/* Card do modal com animação de escala */}
       <div
         className={cn(
           'relative bg-white rounded-lg shadow-xl w-full transition-all duration-300 transform',
@@ -101,6 +101,7 @@ export const Modal = ({
         )}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Botão de fechar (X) */}
         {showCloseButton && (
           <button
             onClick={handleClose}
@@ -116,7 +117,7 @@ export const Modal = ({
   )
 }
 
-// Subcomponentes
+// Cabeçalho do modal
 export const ModalHeader = ({
   children,
   className,
@@ -129,6 +130,7 @@ export const ModalHeader = ({
   </div>
 )
 
+// Corpo do modal
 export const ModalBody = ({
   children,
   className,
@@ -137,6 +139,7 @@ export const ModalBody = ({
   className?: string
 }) => <div className={cn('my-4', className)}>{children}</div>
 
+// Rodapé do modal com botões alinhados à direita
 export const ModalFooter = ({
   children,
   className,

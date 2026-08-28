@@ -1,6 +1,7 @@
+// Importa o Axios para requisições HTTP
 import axios from 'axios';
 
-// Criar instância do Axios com configurações padrão
+// Cria instância do Axios com configurações padrão
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
   headers: {
@@ -9,7 +10,7 @@ export const api = axios.create({
   timeout: 30000, // 30 segundos
 });
 
-// Interceptor de requisição: adiciona token de autenticação
+// Interceptor de requisição: adiciona token de autenticação no header
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('@Soberana:token');
@@ -18,12 +19,10 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Interceptor de resposta: trata erros globais
+// Interceptor de resposta: trata erros globais (401, mensagens, etc.)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -39,7 +38,7 @@ api.interceptors.response.use(
       }
     }
     
-    // Exibe mensagem de erro padrão se houver
+    // Extrai mensagem de erro da resposta ou usa fallback
     const errorMessage = error.response?.data?.message || error.message || 'Erro na requisição';
     console.error('[API Error]', errorMessage);
     
