@@ -13,7 +13,7 @@ import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 // Importa página principal do dashboard
-import DashboardPage from "../pages/DashboardPage";
+import DashboardPage from "../pages/DashboardPage/DashboardPage";
 
 // Placeholders para páginas ainda não implementadas
 const Clinicas = () => <div className="p-4">Clínicas (em breve)</div>;
