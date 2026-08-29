@@ -27,10 +27,20 @@ front/
 
 
 
+///////////////////////////////////////////////////////////////////
+para desenvolvedor :
 
+antes de desenvolver certifique que a branch enzzo deve ficar exatamente igual à main, descartando o conteúdo/commits atuais da enzzo.
+Se você não precisa preservar nada que está na enzzo, faça:
 
+git checkout enzzo
+git fetch origin
+git reset --hard origin/main
 
+Agora sua enzzo local estará igual à main.
+Se a branch enzzo também existe no remoto e você quer que ela seja substituída pela main lá também:
 
+//////////////////////////////////////////////////////////////////////
 
 
 
