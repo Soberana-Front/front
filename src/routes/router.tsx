@@ -52,20 +52,22 @@ export const router = createBrowserRouter([
       </AuthWrapper>
     ),
     children: [
-      {
-        // Layout com Sidebar e Header aplicado a todas as rotas filhas
-        element: <Layout />,
-        children: [
-          { index: true, element: <DashboardPage /> },
-          { path: "dashboard", element: <DashboardPage /> },
-          { path: "clinicas", element: <Clinicas /> },
-          { path: "procedimentos", element: <Procedimentos /> },
-          { path: "comparacoes", element: <Comparacoes /> },
-          { path: "historico", element: <Historico /> },
-          { path: "perfil", element: <Perfil /> },
-          { path: "configuracoes", element: <Configuracoes /> },
-        ],
-      },
+      // Dashboard possui seu próprio DashboardLayout
+    { index: true, element: <DashboardPage /> },
+    { path: "dashboard", element: <DashboardPage /> },
+
+    // Demais páginas continuam utilizando o Layout compartilhado
+   {
+     element: <Layout />,
+     children: [
+    { path: "clinicas", element: <Clinicas /> },
+    { path: "procedimentos", element: <Procedimentos /> },
+    { path: "comparacoes", element: <Comparacoes /> },
+    { path: "historico", element: <Historico /> },
+    { path: "perfil", element: <Perfil /> },
+    { path: "configuracoes", element: <Configuracoes /> },
+     ],
+     },
     ],
   },
   {
