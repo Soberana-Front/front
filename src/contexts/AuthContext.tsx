@@ -124,7 +124,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Indica se o usuário está autenticado
-  const isAuthenticated = !!user && !!token;
+  const isAuthenticated = !!user && !!token;       /* PRECISA SER DESCOMENTADO DEPOIS DE TESTAR VISUALIZAR PAGINAS */
+
+// const isAuthenticated = import.meta.env.DEV
+//  ? true
+//  : !!user && !!token;
+// PRECISA SER APAGADO AS TRES LINHAS A CIMA DEPOIS DE TESTAR
 
   // Retorna o provider com os valores do contexto
   return (
