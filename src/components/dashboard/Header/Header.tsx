@@ -57,7 +57,7 @@ export default function DashboardHeader() {
     // CABEÇALHO PRINCIPAL
     // ========================================
     <header className="w-full bg-white border-b border-gray-100 px-8 py-4 flex items-center justify-between">
-      
+
       {/* ===== LADO ESQUERDO: Título e subtítulo ===== */}
       <div>
         <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
@@ -68,7 +68,7 @@ export default function DashboardHeader() {
 
       {/* ===== LADO DIREITO: Ações (data, notificações, avatar) ===== */}
       <div className="flex items-center gap-4">
-        
+
         {/* Data atual (estático) */}
         <div className="flex items-center gap-2 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg">
           <Bell className="w-3.5 h-3.5 text-gray-400" />
