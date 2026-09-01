@@ -14,56 +14,53 @@ interface ToastItemProps {
   onClose: () => void;
 }
 
-// Mapeia cada tipo para ícone, cores de fundo, texto e ícone
+// Mapeia cada tipo para classes customizadas e ícone
 const typeConfig = {
   success: {
     icon: CheckCircle,
-    bg: 'bg-green-50 border-green-200',
-    text: 'text-green-800',
-    iconColor: 'text-green-500',
+    containerClass: 'toast-item-success',
+    iconClass: 'toast-item-icon-success',
+    textClass: 'toast-item-text-success',
   },
   error: {
     icon: AlertCircle,
-    bg: 'bg-red-50 border-red-200',
-    text: 'text-red-800',
-    iconColor: 'text-red-500',
+    containerClass: 'toast-item-error',
+    iconClass: 'toast-item-icon-error',
+    textClass: 'toast-item-text-error',
   },
   warning: {
     icon: AlertTriangle,
-    bg: 'bg-yellow-50 border-yellow-200',
-    text: 'text-yellow-800',
-    iconColor: 'text-yellow-500',
+    containerClass: 'toast-item-warning',
+    iconClass: 'toast-item-icon-warning',
+    textClass: 'toast-item-text-warning',
   },
   info: {
     icon: Info,
-    bg: 'bg-blue-50 border-blue-200',
-    text: 'text-blue-800',
-    iconColor: 'text-blue-500',
+    containerClass: 'toast-item-info',
+    iconClass: 'toast-item-icon-info',
+    textClass: 'toast-item-text-info',
   },
 };
 
 // Componente que exibe um único toast com ícone, mensagem e botão fechar
 export const ToastItem = ({ message, type, onClose }: ToastItemProps) => {
-  const { icon: Icon, bg, text, iconColor } = typeConfig[type];
+  const { icon: Icon, containerClass, iconClass, textClass } = typeConfig[type];
 
   return (
     // Card do toast com animação de entrada
     <div
-      className={cn(
-        'flex items-start gap-3 rounded-lg border p-4 shadow-lg animate-in slide-in-from-top-5 fade-in duration-300',
-        bg
-      )}
+      className={cn('toast-item-base', containerClass)}
       role="alert"
     >
       {/* Ícone do tipo de toast */}
-      <Icon className={cn('h-5 w-5 mt-0.5 shrink-0', iconColor)} />
+      <Icon className={cn('toast-item-icon', iconClass)} />
       {/* Mensagem do toast */}
-      <span className={cn('text-sm font-medium flex-1', text)}>{message}</span>
+      <span className={cn('toast-item-text', textClass)}>{message}</span>
       {/* Botão de fechar */}
       <button
         type="button"
         onClick={onClose}
-        className="text-gray-400 hover:text-gray-600 transition-colors"
+        className="toast-item-close-btn"
         aria-label="Fechar notificação"
       >
         <X className="h-4 w-4" />

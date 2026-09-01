@@ -99,8 +99,8 @@ const Register = () => {
         navigate('/login');
       })
       .catch((err: any) => {
-        setError(err.message || 'Erro ao criar conta. Tente novamente.');
-      })
+      showToast(err.message || 'Erro ao criar conta. Tente novamente.', 'error');
+})
       .finally(() => {
         setIsLoading(false);
       });
@@ -114,7 +114,8 @@ const Register = () => {
     >
       {/* Provider do react-hook-form para os componentes filhos */}
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Formulário com submissão via react-hook-form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="register-form">
           {/* Indicador de passos */}
           <FormSteps
             steps={steps}
@@ -126,7 +127,7 @@ const Register = () => {
 
           {/* Passo 1: Dados Pessoais + Tipo de Usuário */}
           {currentStep === 0 && (
-            <div className="space-y-4">
+            <div className="step-content">
               <PersonalDataSection />
               <UserTypeSelector
                 value={userType}
@@ -134,14 +135,14 @@ const Register = () => {
                 disabled={isLoading}
               />
               {errors.userType && (
-                <p className="text-sm text-red-500">{errors.userType.message}</p>
+                <p className="field-error">{errors.userType.message}</p>
               )}
             </div>
           )}
 
           {/* Passo 2: Senha e Confirmação */}
           {currentStep === 1 && (
-            <div className="space-y-4">
+            <div className="step-content">
               <Input
                 label="Senha"
                 type="password"
@@ -165,11 +166,11 @@ const Register = () => {
 
           {/* Mensagem de erro geral */}
           {error && (
-            <div className="text-sm text-red-500 text-center">{error}</div>
+            <div className="auth-error">{error}</div>
           )}
 
           {/* Botões de navegação entre passos */}
-          <div className="flex justify-between gap-4 pt-4">
+          <div className="step-navigation">
             <Button
               type="button"
               variant="outline"
@@ -191,9 +192,9 @@ const Register = () => {
           </div>
 
           {/* Link para página de login */}
-          <div className="text-center text-sm text-gray-600">
+          <div className="auth-footer">
             Já tem uma conta?{' '}
-            <a href="/login" className="text-indigo-600 hover:underline font-medium">
+            <a href="/login" className="link">
               Faça login
             </a>
           </div>

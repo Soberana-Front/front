@@ -1,20 +1,1543 @@
-@import 'tailwindcss';
+/* ===========================
+   Tailwind
+   =========================== */
+@import "tailwindcss";
 
-:root {
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  color: #0f172a;
-  background: #f8fafc;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+/* ===========================
+   Classes customizadas para páginas de autenticação
+   =========================== */
+
+/* Container principal da página de autenticação */
+.auth-page {
+  @apply flex min-h-screen bg-gray-50;
 }
 
-body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
+/* Lado esquerdo com gradiente (desktop) */
+.auth-brand {
+  @apply hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-indigo-600 to-indigo-800;
 }
 
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
+.auth-brand-title {
+  @apply text-4xl font-bold mb-4;
+}
+
+.auth-brand-slogan {
+  @apply text-lg text-indigo-100;
+}
+
+/* Lado direito com formulário centralizado */
+.auth-form-side {
+  @apply flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:px-8;
+}
+
+.auth-mobile-logo {
+  @apply lg:hidden text-center mb-8;
+}
+
+.auth-mobile-title {
+  @apply text-3xl font-bold text-indigo-600;
+}
+
+.auth-header {
+  @apply text-center mb-8;
+}
+
+.auth-title {
+  @apply text-3xl font-bold text-gray-900;
+}
+
+.auth-subtitle {
+  @apply mt-2 text-sm text-gray-600;
+}
+
+.auth-card {
+  @apply bg-white p-8 rounded-lg shadow-sm border border-gray-200;
+}
+
+.auth-footer-text {
+  @apply mt-6 text-center text-sm text-gray-500;
+}
+
+.auth-form-container {
+  @apply space-y-6;
+}
+
+/* Formulário de autenticação (login, reset, etc.) */
+.auth-form {
+  @apply space-y-4;
+}
+
+.register-form {
+  @apply space-y-6;
+}
+
+.auth-error {
+  @apply text-sm text-red-500 text-center;
+}
+
+.field-error {
+  @apply text-sm text-red-500;
+}
+
+.auth-links-container {
+  @apply text-center text-sm space-y-2;
+}
+
+.auth-footer {
+  @apply text-center text-sm text-gray-600;
+}
+
+.link {
+  @apply font-medium text-indigo-600 hover:underline;
+}
+
+.link-block {
+  @apply block text-indigo-600 hover:underline;
+}
+
+.step-content {
+  @apply space-y-4;
+}
+
+.step-navigation {
+  @apply flex justify-between gap-4 pt-4;
+}
+
+/* Instrução do formulário (ex: "Digite sua nova senha abaixo.") */
+.form-instruction {
+  @apply text-sm text-gray-600 -mt-2;
+}
+
+/* Container da mensagem de sucesso (centralizado com espaçamento) */
+.success-container {
+  @apply text-center space-y-4;
+}
+
+/* Caixa de sucesso (verde com borda e padding) */
+.success-box {
+  @apply rounded-lg bg-green-50 border border-green-200 p-4 text-green-700;
+}
+
+/* Título da mensagem de sucesso */
+.success-title {
+  @apply font-medium;
+}
+
+/* Subtítulo da mensagem de sucesso */
+.success-subtext {
+  @apply text-sm mt-1;
+}
+
+/* ===========================
+   Classes customizadas para página 404
+   =========================== */
+
+/* Container centralizado da página 404 */
+.not-found-page {
+  @apply text-center;
+}
+
+/* Código do erro (Erro 404) */
+.not-found-code {
+  @apply text-sm font-medium text-emerald-700;
+}
+
+/* Título da página 404 */
+.not-found-title {
+  @apply mt-2 text-3xl font-bold;
+}
+
+/* Link para voltar ao início */
+.not-found-link {
+  @apply mt-6 inline-block font-medium text-emerald-700 underline;
+}
+
+/* ===========================
+   Classes customizadas para o dashboard
+   =========================== */
+
+/* Container principal do dashboard (espaçamento e largura máxima) */
+.dashboard-container {
+  @apply flex flex-col gap-6 p-6 max-w-[1600px] mx-auto;
+}
+
+/* Grid de 3 colunas (responsivo) */
+.dashboard-grid {
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-6 items-start;
+}
+
+/* Coluna esquerda: seletores e ações rápidas */
+.dashboard-col-left {
+  @apply lg:col-span-3 flex flex-col gap-6;
+}
+
+/* Card com seletores (clínica + procedimento) */
+.dashboard-selectors-card {
+  @apply bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col gap-5;
+}
+
+/* Coluna central: chat com IA */
+.dashboard-col-center {
+  @apply lg:col-span-5 h-140;
+}
+
+/* Coluna direita: resumo e histórico */
+.dashboard-col-right {
+  @apply lg:col-span-4 flex flex-col gap-6;
+}
+/* ===========================
+   Classes customizadas para componentes do dashboard (Chat)
+   =========================== */
+
+/* Container principal do ChatInput */
+.chat-input-container {
+  @apply w-full flex items-center gap-2 p-1.5 bg-white border border-slate-200 rounded-2xl shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition-all;
+}
+
+/* Campo de texto do chat */
+.chat-input-field {
+  @apply flex-1 px-4 py-2 text-sm text-slate-800 placeholder-slate-400 bg-transparent outline-none disabled:cursor-not-allowed;
+}
+
+/* Botão de enviar mensagem */
+.chat-input-button {
+  @apply w-9 h-9 flex items-center justify-center rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100 shrink-0 cursor-pointer;
+}
+
+/* ===========================
+   Classes customizadas para componentes do dashboard (Chat)
+   =========================== */
+
+/* Container da mensagem (alinhamento flexível) */
+.chat-message {
+  @apply flex items-start gap-3 my-3;
+}
+
+/* Mensagem do usuário: alinhada à direita */
+.chat-message-user {
+  @apply flex-row-reverse;
+}
+
+/* Mensagem da IA: alinhada à esquerda */
+.chat-message-ia {
+  @apply flex-row;
+}
+
+/* Avatar base */
+.chat-avatar {
+  @apply w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-semibold text-xs;
+}
+
+/* Avatar da IA (fundo roxo/índigo) */
+.chat-avatar-ia {
+  @apply bg-indigo-600 text-white shadow-sm;
+}
+
+/* Avatar do usuário (fundo escuro) */
+.chat-avatar-user {
+  @apply bg-slate-800 text-white;
+}
+
+/* Wrapper do balão (controla alinhamento e largura máxima) */
+.chat-bubble-wrapper {
+  @apply flex flex-col max-w-[80%];
+}
+
+/* Wrapper do balão do usuário: alinhado à direita */
+.chat-bubble-wrapper-user {
+  @apply items-end;
+}
+
+/* Wrapper do balão da IA: alinhado à esquerda */
+.chat-bubble-wrapper-ia {
+  @apply items-start;
+}
+
+/* Balão da mensagem (base) */
+.chat-bubble {
+  @apply p-4 rounded-2xl text-sm leading-relaxed;
+}
+
+/* Balão do usuário: fundo roxo, texto branco, sem borda superior direita */
+.chat-bubble-user {
+  @apply bg-indigo-600 text-white rounded-tr-none;
+}
+
+/* Balão da IA: fundo cinza claro, texto escuro, sem borda superior esquerda */
+.chat-bubble-ia {
+  @apply bg-[#EEF2F6] text-slate-800 rounded-tl-none;
+}
+
+/* Texto da mensagem (suporta quebras de linha) */
+.chat-bubble-text {
+  @apply whitespace-pre-line;
+}
+
+/* Timestamp (horário) */
+.chat-timestamp {
+  @apply text-[11px] text-slate-400 mt-1 px-1;
+}
+
+/*===========================
+   Classes customizadas para componentes do dashboard (Chat)
+   =========================== */
+
+/* Container principal do ChatWindow */
+.chat-window {
+  @apply flex flex-col h-full w-full bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden;
+}
+
+/* Cabeçalho do chat */
+.chat-header {
+  @apply px-5 py-3.5 border-b border-slate-100 flex items-center gap-2 bg-white;
+}
+
+/* Indicador de status online (bola verde) */
+.chat-status-dot {
+  @apply w-2.5 h-2.5 rounded-full bg-emerald-500;
+}
+
+/* Nome do assistente */
+.chat-assistant-name {
+  @apply font-bold text-slate-800 text-sm;
+}
+
+/* Texto do status online */
+.chat-status-text {
+  @apply text-xs text-slate-400;
+}
+
+/* Área de mensagens (rolável) */
+.chat-messages-area {
+  @apply flex-1 p-5 overflow-y-auto space-y-2 bg-slate-50/50 min-h-75;
+}
+
+/* Wrapper do input de envio */
+.chat-input-wrapper {
+  @apply p-3 bg-white border-t border-slate-100;
+}
+
+
+/* ===========================
+   Classes customizadas para componentes do dashboard (ClinicSelector)
+   =========================== */
+
+/* Card principal do seletor de clínica */
+.clinic-selector-card {
+  @apply bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex flex-col gap-4 w-full;
+}
+
+/* Título do seletor com indicador verde */
+.clinic-selector-title {
+  @apply flex items-center gap-2 text-indigo-600 font-semibold text-xs tracking-wider uppercase;
+}
+
+/* Bolinha verde indicadora */
+.clinic-selector-dot {
+  @apply w-2 h-2 rounded-full bg-emerald-500;
+}
+
+/* Wrapper do select (para posicionar o ícone) */
+.clinic-selector-select-wrapper {
+  @apply relative;
+}
+
+/* Select dropdown estilizado */
+.clinic-selector-select {
+  @apply w-full bg-gray-50 border border-gray-200 text-gray-900 text-xs rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all cursor-pointer appearance-none;
+}
+
+/* Ícone decorativo à direita do select */
+.clinic-selector-icon {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400;
+}
+
+/* Container dos detalhes da clínica selecionada */
+.clinic-selector-details {
+  @apply space-y-3 pt-2 text-xs;
+}
+
+/* Label dos detalhes (ex: "Nome da Clínica") */
+.clinic-selector-label {
+  @apply text-gray-400 block font-normal;
+}
+
+/* Valor dos detalhes (ex: "Clínica OdontoSoberana") */
+.clinic-selector-value {
+  @apply text-gray-800 font-medium;
+}
+
+/* ===========================
+   Classes customizadas para componentes do dashboard (DashboardLayout)
+   =========================== */
+
+/* Container principal do layout */
+.dashboard-layout {
+  @apply min-h-screen bg-slate-50;
+}
+
+/* Container interno com flex */
+.dashboard-inner {
+  @apply flex min-h-screen;
+}
+
+/* Sidebar desktop (visível apenas em telas grandes) */
+.dashboard-desktop-sidebar {
+  @apply hidden lg:flex lg:w-60 lg:shrink-0 lg:flex-col border-r border-slate-200 bg-white;
+}
+
+/* Sticky wrapper da sidebar desktop */
+.dashboard-desktop-sidebar-sticky {
+  @apply sticky top-0 h-screen overflow-y-auto;
+}
+
+/* Área principal (conteúdo) */
+.dashboard-main-area {
+  @apply min-w-0 flex-1 flex flex-col;
+}
+
+/* Barra mobile (visível apenas em telas menores que lg) */
+.dashboard-mobile-bar {
+  @apply sticky top-0 z-40 flex h-12 items-center border-b border-slate-200 bg-white px-3 lg:hidden;
+}
+
+/* Botão do menu mobile */
+.dashboard-mobile-menu-button {
+  @apply rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900;
+}
+
+/* Título na barra mobile */
+.dashboard-mobile-title {
+  @apply ml-2 text-sm font-semibold text-slate-900;
+}
+
+/* Backdrop do menu mobile */
+.dashboard-mobile-backdrop {
+  @apply fixed inset-0 z-40 bg-black/40 lg:hidden;
+}
+
+/* Drawer do menu mobile */
+.dashboard-mobile-drawer {
+  @apply fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-white shadow-xl lg:hidden;
+}
+
+/* Cabeçalho do drawer mobile */
+.dashboard-mobile-drawer-header {
+  @apply flex h-14 shrink-0 items-center justify-between border-b border-slate-200 px-4;
+}
+
+/* Título do drawer mobile */
+.dashboard-mobile-drawer-title {
+  @apply text-sm font-bold text-slate-900;
+}
+
+/* Botão fechar do drawer mobile */
+.dashboard-mobile-drawer-close {
+  @apply rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900;
+}
+
+/* Conteúdo do drawer mobile (sidebar) */
+.dashboard-mobile-drawer-content {
+  @apply min-h-0 flex-1 overflow-y-auto;
+}
+
+/* Wrapper do header (fixo) */
+.dashboard-header-wrapper {
+  @apply sticky top-0 z-30 shrink-0;
+}
+
+/* Área de conteúdo principal */
+.dashboard-content {
+  @apply min-w-0 flex-1;
+}
+
+/* ===========================
+   Classes customizadas para componentes do dashboard (Header)
+   =========================== */
+
+/* Cabeçalho principal do dashboard */
+.dashboard-header {
+  @apply w-full bg-white border-b border-gray-100 px-8 py-4 flex items-center justify-between;
+}
+
+/* Título do dashboard */
+.dashboard-header-title {
+  @apply text-xl font-bold text-gray-900;
+}
+
+/* Subtítulo do dashboard */
+.dashboard-header-subtitle {
+  @apply text-xs text-gray-500 mt-0.5;
+}
+
+/* Container das ações à direita */
+.dashboard-header-actions {
+  @apply flex items-center gap-4;
+}
+
+/* Badge de data */
+.dashboard-header-date-badge {
+  @apply flex items-center gap-2 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-lg;
+}
+
+/* Botão de notificações */
+.dashboard-header-notification-btn {
+  @apply p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors relative;
+}
+
+/* Avatar do usuário */
+.dashboard-header-avatar {
+  @apply w-9 h-9 rounded-lg bg-indigo-600 text-white font-semibold text-xs flex items-center justify-center hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+}
+
+/* Dropdown do usuário (menu) */
+.dashboard-header-dropdown {
+  @apply absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50;
+}
+
+/* Cabeçalho do dropdown com saudação */
+.dashboard-header-dropdown-user {
+  @apply px-4 py-2 border-b border-gray-100;
+}
+
+/* Texto de saudação no dropdown */
+.dashboard-header-dropdown-user-text {
+  @apply text-xs font-semibold text-gray-900;
+}
+
+/* Item do dropdown (Perfil, Configurações) */
+.dashboard-header-dropdown-item {
+  @apply w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-gray-50 transition-colors;
+}
+
+/* Item de logout (vermelho) */
+.dashboard-header-dropdown-item-danger {
+  @apply w-full text-left px-4 py-2 text-xs text-red-600 hover:bg-red-50 transition-colors font-medium border-t border-gray-100;
+}
+
+/* ===========================
+   Classes customizadas para componentes do dashboard (IndicatorCard)
+   =========================== */
+
+/* Card principal */
+.indicator-card {
+  @apply bg-white rounded-2xl p-5 border transition-all shadow-sm flex flex-col justify-between h-full;
+}
+
+/* Cabeçalho do card (título + ícone) */
+.indicator-card-header {
+  @apply flex items-start justify-between gap-2;
+}
+
+/* Título do indicador */
+.indicator-card-title {
+  @apply text-xs font-semibold text-gray-500 uppercase tracking-wider;
+}
+
+/* Container do ícone (com fundo e cor definidos pela variante) */
+.indicator-card-icon {
+  @apply p-2 rounded-xl flex items-center justify-center;
+}
+
+/* Corpo do card (valor + subtítulo) */
+.indicator-card-body {
+  @apply mt-4;
+}
+
+/* Valor do indicador */
+.indicator-card-value {
+  @apply text-2xl font-bold text-gray-900 tracking-tight;
+}
+
+/* Subtítulo do indicador */
+.indicator-card-subtitle {
+  @apply text-xs text-gray-400 mt-1 font-normal;
+}
+
+/* ========================================
+   VARIANTES DE COR PARA O INDICATOR CARD
+   ======================================== */
+
+/* PRIMARY */
+.indicator-card-border-primary {
+  @apply border-gray-100 hover:border-indigo-200;
+}
+.indicator-card-icon-primary {
+  @apply bg-indigo-50 text-indigo-600;
+}
+
+/* SUCCESS */
+.indicator-card-border-success {
+  @apply border-gray-100 hover:border-emerald-200;
+}
+.indicator-card-icon-success {
+  @apply bg-emerald-50 text-emerald-600;
+}
+
+/* WARNING */
+.indicator-card-border-warning {
+  @apply border-gray-100 hover:border-amber-200;
+}
+.indicator-card-icon-warning {
+  @apply bg-amber-50 text-amber-600;
+}
+
+/* DANGER */
+.indicator-card-border-danger {
+  @apply border-gray-100 hover:border-rose-200;
+}
+.indicator-card-icon-danger {
+  @apply bg-rose-50 text-rose-600;
+}
+
+/* ===========================
+   Classes customizadas para componentes do dashboard (IndicatorsGrid)
+   =========================== */
+
+/* Grid de indicadores (responsivo) */
+.indicators-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full;
+}
+
+/* ===========================
+   Classes customizadas para componentes do dashboard (PriceDisplay)
+   =========================== */
+
+/* Tamanhos */
+.price-display-sm {
+  @apply text-xs md:text-sm font-medium;
+}
+.price-display-md {
+  @apply text-base md:text-lg font-semibold;
+}
+.price-display-lg {
+  @apply text-2xl md:text-3xl font-bold;
+}
+
+/* Variantes de cor */
+.price-display-default {
+  @apply text-slate-900;
+}
+.price-display-primary {
+  @apply text-emerald-600;
+}
+.price-display-muted {
+  @apply text-slate-500;
+}
+
+/* ===========================
+   Classes customizadas para componentes do dashboard (PricingSummary)
+   =========================== */
+
+/* Container principal do resumo */
+.pricing-summary-container {
+  @apply w-full max-w-md p-5 bg-white rounded-lg shadow-sm border border-gray-200;
+}
+
+/* Título do resumo */
+.pricing-summary-title {
+  @apply text-lg font-bold text-gray-800 mb-4 border-b pb-2;
+}
+
+/* Lista de itens */
+.pricing-summary-items {
+  @apply space-y-3;
+}
+
+/* Cada item da lista (label + valor) */
+.pricing-summary-item {
+  @apply flex justify-between items-center text-sm text-gray-600;
+}
+
+/* Valor do item (ex: R$ 150,00) */
+.pricing-summary-item-value {
+  @apply font-medium text-gray-900;
+}
+
+/* Destaque do Preço Final (fundo azul) */
+.pricing-summary-highlight {
+  @apply mt-4 pt-3 border-t-2 border-gray-100 flex justify-between items-center bg-blue-50 p-3 rounded-md;
+}
+
+/* Label do Preço Final */
+.pricing-summary-highlight-label {
+  @apply text-base font-bold text-blue-900;
+}
+
+/* Valor do Preço Final */
+.pricing-summary-highlight-value {
+  @apply text-lg font-extrabold text-blue-600;
+}
+/* ===========================
+   Classes customizadas para componentes do dashboard (ProcedureSelector)
+   =========================== */
+
+/* Container do seletor de procedimento */
+.procedure-selector-container {
+  @apply flex flex-col gap-1.5 w-full max-w-xs;
+}
+
+/* Label do seletor */
+.procedure-selector-label {
+  @apply text-sm font-medium text-gray-700;
+}
+
+/* Select dropdown estilizado */
+.procedure-selector-select {
+  @apply w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+}
+/* ===========================
+   Classes customizadas para componentes do dashboard (ProfitIndicator)
+   =========================== */
+
+/* Badge base do indicador de lucro */
+.profit-indicator {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold;
+}
+
+/* Variação positiva (verde) */
+.profit-indicator-positive {
+  @apply bg-emerald-50 text-emerald-700 border border-emerald-200;
+}
+
+/* Variação negativa (vermelho) */
+.profit-indicator-negative {
+  @apply bg-rose-50 text-rose-700 border border-rose-200;
+}
+/* ===========================
+   Classes customizadas para componentes do dashboard (QuickActions)
+   =========================== */
+
+/* Container das ações rápidas */
+.quick-actions-container {
+  @apply flex flex-wrap gap-3 items-center;
+}
+
+/* Botão principal: Nova Precificação (azul) */
+.quick-action-primary {
+  @apply inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer;
+}
+
+/* Botão secundário: Comparar Clínicas (branco com borda) */
+.quick-action-secondary {
+  @apply inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium text-sm rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer;
+}
+/* ===========================
+   Classes customizadas para componentes do dashboard (RecentHistory)
+   =========================== */
+
+/* Container principal do histórico */
+.recent-history-container {
+  @apply w-full bg-white border border-slate-200 rounded-2xl p-5 shadow-sm;
+}
+
+/* Cabeçalho com ícone de relógio */
+.recent-history-header {
+  @apply flex items-center gap-2 mb-4 pb-2 border-b border-slate-100;
+}
+
+/* Título do histórico */
+.recent-history-title {
+  @apply font-bold text-slate-800 text-xs tracking-wider uppercase;
+}
+
+/* Lista de itens (divisória entre eles) */
+.recent-history-list {
+  @apply divide-y divide-slate-100;
+}
+
+/* Cada item da lista (com hover e cursor pointer) */
+.recent-history-item {
+  @apply py-3 px-2 flex items-center justify-between hover:bg-slate-50 rounded-xl transition-colors cursor-pointer ;
+}
+
+/* Container das informações (procedimento + meta) */
+.recent-history-item-info {
+  @apply flex flex-col gap-0.5;
+}
+
+/* Nome do procedimento */
+.recent-history-item-name {
+  @apply font-semibold text-slate-800 text-sm hover:text-indigo-600 transition-colors;
+}
+
+/* Meta dados (clínica • data) */
+.recent-history-item-meta {
+  @apply flex items-center gap-2 text-xs text-slate-400;
+}
+
+/* Wrapper do preço + chevron */
+.recent-history-item-price-wrapper {
+  @apply flex items-center gap-3;
+}
+
+/* Preço formatado (badge) */
+.recent-history-item-price {
+  @apply font-bold text-indigo-700 text-sm whitespace-nowrap bg-indigo-50 px-2.5 py-1 rounded-lg shadow-sm border border-indigo-100;
+}
+
+/* Ícone de navegação (chevron) */
+.recent-history-item-chevron {
+  @apply w-4 h-4 text-slate-300 hover:text-indigo-600 hover:translate-x-0.5 transition-all;
+}
+/* ===========================
+   Classes customizadas para componentes de formulário (PasswordFields)
+   =========================== */
+
+/* Container dos campos de senha */
+.password-fields-container {
+  @apply space-y-4;
+}
+/* ===========================
+   Classes customizadas para componentes de rota (PublicRoute, ProtectedRoute)
+   =========================== */
+
+/* Container de loading para rotas (tela cheia, centralizado) */
+.route-loading-container {
+  @apply flex min-h-screen items-center justify-center;
+}
+/* ===========================
+   Classes customizadas para componentes de formulário
+   =========================== */
+
+/* Container dos campos de dados pessoais */
+.personal-data-section {
+  @apply space-y-4;
+}
+
+/* ===========================
+   Classes customizadas para componentes de layout (LayoutHeader)
+   =========================== */
+
+/* Cabeçalho do layout base */
+.layout-header {
+  @apply bg-white shadow px-4 py-3 flex justify-between items-center;
+}
+
+/* Título do cabeçalho */
+.layout-header-title {
+  @apply text-xl font-semibold;
+}
+
+/* ===========================
+   Classes customizadas para componentes de layout (Layout)
+   =========================== */
+
+/* Container principal do layout */
+.layout-page {
+  @apply flex min-h-screen bg-gray-100;
+}
+
+/* Sidebar desktop (visível apenas em telas grandes) */
+.layout-desktop-sidebar {
+  @apply hidden lg:flex lg:w-60 lg:shrink-0 lg:flex-col;
+}
+
+/* Sticky wrapper da sidebar desktop */
+.layout-desktop-sidebar-sticky {
+  @apply sticky top-0 h-screen overflow-y-auto;
+}
+
+/* Backdrop do menu mobile */
+.layout-mobile-backdrop {
+  @apply fixed inset-0 z-40 bg-black/40 lg:hidden;
+}
+
+/* Drawer do menu mobile */
+.layout-mobile-drawer {
+  @apply fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl lg:hidden;
+}
+
+/* Cabeçalho do drawer mobile */
+.layout-mobile-drawer-header {
+  @apply flex h-14 items-center justify-between border-b border-slate-200 px-4;
+}
+
+/* Título do drawer mobile */
+.layout-mobile-drawer-title {
+  @apply text-sm font-bold text-slate-900;
+}
+
+/* Botão fechar do drawer mobile */
+.layout-mobile-drawer-close {
+  @apply rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900;
+}
+
+/* Conteúdo do drawer mobile (sidebar) */
+.layout-mobile-drawer-content {
+  @apply h-[calc(100vh-3.5rem)] overflow-y-auto;
+}
+
+/* Área principal (conteúdo + header) */
+.layout-main-area {
+  @apply flex min-w-0 flex-1 flex-col overflow-hidden;
+}
+
+/* Barra mobile (visível apenas em telas menores que lg) */
+.layout-mobile-bar {
+  @apply sticky top-0 z-30 flex h-12 shrink-0 items-center border-b border-slate-200 bg-white px-3 lg:hidden;
+}
+
+/* Botão do menu mobile */
+.layout-mobile-menu-button {
+  @apply rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900;
+}
+
+/* Título na barra mobile */
+.layout-mobile-title {
+  @apply ml-2 text-sm font-semibold text-slate-900;
+}
+
+/* Área de conteúdo principal (com scroll) */
+.layout-content {
+  @apply min-h-0 flex-1 overflow-y-auto p-4;
+}
+
+/* ===========================
+   Classes customizadas para componentes de layout (Sidebar)
+   =========================== */
+
+/* Container da sidebar (altura total, largura fixa, borda, fundo branco) */
+.sidebar-container {
+  @apply flex h-screen w-60 shrink-0 flex-col border-r border-slate-200 bg-white;
+}
+
+/* Logo da aplicação */
+.sidebar-logo {
+  @apply flex h-14 items-center border-b border-slate-100 px-5;
+}
+
+/* Ícone da logo (círculo com gradiente) */
+.sidebar-logo-icon {
+  @apply flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-blue-600 text-xs font-bold text-white;
+}
+
+/* Texto da logo */
+.sidebar-logo-text {
+  @apply text-sm font-bold text-slate-900;
+}
+
+/* Navegação principal */
+.sidebar-nav {
+  @apply flex-1 overflow-y-auto px-3 py-4;
+}
+
+/* Lista de itens da navegação */
+.sidebar-nav-list {
+  @apply space-y-1;
+}
+
+/* Item base da navegação */
+.sidebar-nav-item {
+  @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors;
+}
+
+/* Item ativo (roxa) */
+.sidebar-nav-item-active {
+  @apply bg-violet-50 font-semibold text-violet-700;
+}
+
+/* Item inativo (cinza com hover) */
+.sidebar-nav-item-inactive {
+  @apply text-slate-500 hover:bg-slate-50 hover:text-slate-900;
+}
+
+/* Container do botão de logout */
+.sidebar-logout {
+  @apply border-t border-slate-100 p-3;
+}
+
+/* Botão de logout (vermelho com hover) */
+.sidebar-logout-btn {
+  @apply flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-red-500 transition-colors hover:bg-red-50;
+}
+
+/* ===========================
+   Classes customizadas para componentes shared (SocialLoginButtons)
+   =========================== */
+
+/* Container principal com espaçamento vertical */
+.social-login-buttons {
+  @apply space-y-3;
+}
+
+/* Container do divisor (relativo para posicionar a linha) */
+.social-login-divider {
+  @apply relative;
+}
+
+/* Linha do divisor */
+.social-login-divider-line {
+  @apply w-full border-t border-gray-300;
+}
+
+/* Wrapper do texto centralizado */
+.social-login-divider-text-wrapper {
+  @apply relative flex justify-center text-sm;
+}
+
+/* Texto do divisor com fundo branco */
+.social-login-divider-text {
+  @apply bg-white px-2 text-gray-500;
+}
+
+/* Botão de login social (largura total, flex, centralizado) */
+.social-login-btn {
+  @apply w-full flex items-center justify-center gap-2;
+}
+
+/* ===========================
+   Classes customizadas para componentes UI (Card)
+   =========================== */
+
+/* Card base */
+.card {
+  @apply rounded-lg;
+}
+
+/* Card: sem padding (remove padding interno) */
+.card-no-padding {
+  @apply p-0;
+}
+
+/* Variantes do Card */
+.card-variant-default {
+  @apply bg-white border border-gray-200 shadow-sm;
+}
+.card-variant-bordered {
+  @apply bg-white border border-gray-300;
+}
+.card-variant-shadow {
+  @apply bg-white shadow-lg;
+}
+.card-variant-none {
+  @apply bg-transparent border-0 shadow-none;
+}
+
+/* Cabeçalho do Card */
+.card-header {
+  @apply flex flex-col space-y-1.5;
+}
+.card-header-padding {
+  @apply p-6;
+}
+
+/* Título do Card */
+.card-title {
+  @apply text-2xl font-semibold leading-none tracking-tight;
+}
+.card-content-padding {
+  @apply p-6 pt-0;
+}
+
+/* ===========================
+   Classes customizadas para componentes UI (FormSteps)
+   =========================== */
+
+/* Container principal dos passos */
+.form-steps {
+  @apply w-full;
+}
+
+/* Container interno com flex */
+.form-steps-inner {
+  @apply flex items-center justify-between;
+}
+
+/* Cada item (círculo + label) */
+.form-step-item {
+  @apply flex flex-col items-center flex-1;
+}
+
+/* Círculo do passo (base) */
+.form-step-circle {
+  @apply flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors;
+}
+
+/* Passo ativo */
+.form-step-circle-active {
+  @apply border-indigo-600 bg-indigo-600 text-white;
+}
+
+/* Passo concluído */
+.form-step-circle-completed {
+  @apply border-green-500 bg-green-500 text-white;
+}
+
+/* Passo inativo (não concluído nem ativo) */
+.form-step-circle-inactive {
+  @apply border-gray-300 bg-white text-gray-500;
+}
+
+/* Círculo clicável */
+.form-step-circle-clickable {
+  @apply cursor-pointer hover:opacity-80;
+}
+
+/* Círculo não clicável */
+.form-step-circle-disabled {
+  @apply cursor-default;
+}
+
+/* Label do passo (base) */
+.form-step-label {
+  @apply mt-2 text-xs font-medium;
+}
+
+/* Label do passo ativo */
+.form-step-label-active {
+  @apply text-indigo-600;
+}
+
+/* Label do passo concluído */
+.form-step-label-completed {
+  @apply text-green-600;
+}
+
+/* Label do passo inativo */
+.form-step-label-inactive {
+  @apply text-gray-500;
+}
+
+/* Wrapper da linha conectora */
+.form-step-connector-wrapper {
+  @apply flex-1 mx-2;
+}
+
+/* Linha conectora (base) */
+.form-step-connector-line {
+  @apply h-0.5 w-full;
+}
+
+/* Linha concluída (verde) */
+.form-step-connector-completed {
+  @apply bg-green-500;
+}
+
+/* Linha inativa (cinza) */
+.form-step-connector-inactive {
+  @apply bg-gray-300;
+}
+
+/* ===========================
+   Classes customizadas para componentes UI (Input)
+   =========================== */
+
+/* Wrapper principal do input */
+.input-wrapper {
+  @apply w-full;
+}
+
+/* Wrapper do campo (input + ícones) */
+.input-field-wrapper {
+  @apply relative;
+}
+
+/* Campo de entrada base */
+.input-field {
+  @apply w-full rounded-md border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+/* Tamanhos */
+.input-size-sm {
+  @apply h-8 text-xs px-2;
+}
+.input-size-md {
+  @apply h-10 text-sm px-3;
+}
+.input-size-lg {
+  @apply h-12 text-base px-4;
+}
+
+/* Input com ícone à esquerda */
+.input-with-icon-left {
+  @apply pl-9;
+}
+
+/* Input com ícone à direita */
+.input-with-icon-right {
+  @apply pr-9;
+}
+
+/* Estado de erro */
+.input-error {
+  @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+}
+
+/* Ícone à esquerda (fixo) */
+.input-icon-left {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none;
+}
+
+/* Botão do ícone à direita (toggle ou customizado) */
+.input-icon-right-btn {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors;
+}
+
+/* Mensagem de erro */
+.input-error-text {
+  @apply mt-1 text-xs text-red-500;
+}
+/* ===========================
+   Classes customizadas para componentes UI (Label)
+   =========================== */
+
+/* Label base */
+.label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+/* Asterisco para campos obrigatórios */
+.label-required {
+  @apply ml-0.5 text-red-500;
+}
+
+/* Indicador de campo opcional */
+.label-optional {
+  @apply ml-1 text-xs font-normal text-gray-400;
+}
+
+/* ===========================
+   Classes customizadas para componentes UI (Modal)
+   =========================== */
+
+/* Container centralizado do modal (overlay + conteúdo) */
+.modal-container {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+}
+
+/* Overlay (fundo escuro com blur) */
+.modal-overlay {
+  @apply absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300;
+}
+
+/* Overlay: estado de entrada (visível) */
+.modal-overlay-enter {
+  @apply opacity-100;
+}
+
+/* Overlay: estado de saída (invisível) */
+.modal-overlay-exit {
+  @apply opacity-0;
+}
+
+/* Card do modal (conteúdo) */
+.modal-content {
+  @apply relative bg-white rounded-lg shadow-xl w-full transition-all duration-300 transform;
+}
+
+/* Modal: estado de entrada (escala normal) */
+.modal-content-enter {
+  @apply scale-100 opacity-100;
+}
+
+/* Modal: estado de saída (escala reduzida) */
+.modal-content-exit {
+  @apply scale-95 opacity-0;
+}
+
+/* Tamanhos do modal */
+.modal-size-sm {
+  @apply max-w-sm;
+}
+.modal-size-md {
+  @apply max-w-md;
+}
+.modal-size-lg {
+  @apply max-w-lg;
+}
+.modal-size-xl {
+  @apply max-w-xl;
+}
+.modal-size-full {
+  @apply max-w-full mx-4;
+}
+
+/* Botão de fechar (X) */
+.modal-close-btn {
+  @apply absolute top-3 right-3 rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors;
+}
+
+/* Cabeçalho do modal */
+.modal-header {
+  @apply mb-4 border-b pb-3;
+}
+
+/* Título do modal */
+.modal-title {
+  @apply text-lg font-semibold;
+}
+
+/* Corpo do modal */
+.modal-body {
+  @apply my-4;
+}
+
+/* Rodapé do modal (botões alinhados à direita) */
+.modal-footer {
+  @apply mt-6 flex justify-end gap-3 border-t pt-4;
+}
+/* ===========================
+   Classes customizadas para componentes UI (Select)
+   =========================== */
+
+/* Wrapper principal do select */
+.select-wrapper {
+  @apply w-full;
+}
+
+/* Wrapper do campo (select + ícones) */
+.select-field-wrapper {
+  @apply relative;
+}
+
+/* Campo de select base */
+.select-field {
+  @apply w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 appearance-none pr-8;
+}
+
+/* Tamanhos do select */
+.select-size-sm {
+  @apply h-8 text-xs px-2;
+}
+.select-size-md {
+  @apply h-10 text-sm px-3;
+}
+.select-size-lg {
+  @apply h-12 text-base px-4;
+}
+
+/* Select com ícone à esquerda */
+.select-with-icon-left {
+  @apply pl-9;
+}
+
+/* Estado de erro */
+.select-error {
+  @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+}
+
+/* Ícone à esquerda (fixo) */
+.select-icon-left {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none;
+}
+
+/* Ícone de seta para baixo (substitui o padrão) */
+.select-chevron {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none;
+}
+
+/* Mensagem de erro */
+.select-error-text {
+  @apply mt-1 text-xs text-red-500;
+}
+
+/* ===========================
+   Classes customizadas para componentes UI (Spinner)
+   =========================== */
+
+/* Overlay de tela cheia para o spinner */
+.spinner-fullscreen-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm;
+}
+
+/* Conteúdo do spinner em tela cheia */
+.spinner-fullscreen-content {
+  @apply flex flex-col items-center gap-3;
+}
+
+/* Label do spinner em tela cheia */
+.spinner-fullscreen-label {
+  @apply text-sm text-gray-600;
+}
+
+/* Spinner com label (container flexível) */
+.spinner-with-label {
+  @apply inline-flex items-center gap-2;
+}
+
+/* Label posicionado abaixo do spinner */
+.spinner-label-bottom {
+  @apply flex-col;
+}
+
+/* Texto do label do spinner */
+.spinner-label-text {
+  @apply text-sm text-gray-600;
+}
+
+/* Container do SimpleSpinner (centralizado) */
+.simple-spinner-container {
+  @apply flex justify-center items-center;
+}
+
+/* Elemento do SimpleSpinner (animado) */
+.simple-spinner {
+  @apply h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent;
+}
+
+/* ===========================
+   Classes customizadas para componentes UI (ToastContainer)
+   =========================== */
+
+/* Lista de toasts (container fixo no canto superior direito) */
+.toast-container-list {
+  @apply fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none;
+}
+
+/* Item do toast (base) */
+.toast-item {
+  @apply pointer-events-auto flex items-start gap-3 rounded-lg border p-4 shadow-lg    duration-300;
+}
+
+/* Mensagem do toast */
+.toast-message {
+  @apply flex-1 text-sm font-medium;
+}
+
+/* Botão de fechar */
+.toast-close-btn {
+  @apply shrink-0 rounded-md p-1 hover:bg-black/5 transition-colors;
+}
+
+/* Ícone do toast (base) */
+.toast-icon {
+  @apply h-5 w-5 shrink-0 mt-0.5;
+}
+
+/* ========================================
+   Variantes de cores para os toasts
+   ======================================== */
+
+/* Success */
+.toast-container-success {
+  @apply bg-green-50 border-green-400 text-green-800;
+}
+.toast-icon-success {
+  @apply text-green-500;
+}
+
+/* Error */
+.toast-container-error {
+  @apply bg-red-50 border-red-400 text-red-800;
+}
+.toast-icon-error {
+  @apply text-red-500;
+}
+
+/* Warning */
+.toast-container-warning {
+  @apply bg-yellow-50 border-yellow-400 text-yellow-800;
+}
+.toast-icon-warning {
+  @apply text-yellow-500;
+}
+
+/* Info */
+.toast-container-info {
+  @apply bg-blue-50 border-blue-400 text-blue-800;
+}
+.toast-icon-info {
+  @apply text-blue-500;
+}
+
+/* ===========================
+   Classes customizadas para componentes UI (ToastItem)
+   =========================== */
+
+/* Toast item base (estrutura + animação) */
+.toast-item-base {
+  @apply flex items-start gap-3 rounded-lg border p-4 shadow-lg    duration-300;
+}
+
+/* Ícone do toast (base) */
+.toast-item-icon {
+  @apply h-5 w-5 mt-0.5 shrink-0;
+}
+
+/* Mensagem do toast (base) */
+.toast-item-text {
+  @apply text-sm font-medium flex-1;
+}
+
+/* Botão de fechar */
+.toast-item-close-btn {
+  @apply text-gray-400 hover:text-gray-600 transition-colors;
+}
+
+/* ========================================
+   Variantes de cores para os toasts
+   ======================================== */
+
+/* Success */
+.toast-item-success {
+  @apply bg-green-50 border-green-200;
+}
+.toast-item-icon-success {
+  @apply text-green-500;
+}
+.toast-item-text-success {
+  @apply text-green-800;
+}
+
+/* Error */
+.toast-item-error {
+  @apply bg-red-50 border-red-200;
+}
+.toast-item-icon-error {
+  @apply text-red-500;
+}
+.toast-item-text-error {
+  @apply text-red-800;
+}
+
+/* Warning */
+.toast-item-warning {
+  @apply bg-yellow-50 border-yellow-200;
+}
+.toast-item-icon-warning {
+  @apply text-yellow-500;
+}
+.toast-item-text-warning {
+  @apply text-yellow-800;
+}
+
+/* Info */
+.toast-item-info {
+  @apply bg-blue-50 border-blue-200;
+}
+.toast-item-icon-info {
+  @apply text-blue-500;
+}
+.toast-item-text-info {
+  @apply text-blue-800;
+}
+
+/* ===========================
+   Classes customizadas para componentes UI (UserTypeSelector)
+   =========================== */
+
+/* Container principal do seletor */
+.user-type-selector {
+  @apply space-y-2;
+}
+
+/* Grupo de opções (radio buttons lado a lado) */
+.user-type-options {
+  @apply flex gap-4;
+}
+
+/* Cada opção (label com radio + texto) */
+.user-type-option {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+/* Radio input estilizado */
+.user-type-radio {
+  @apply h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300;
+}
+
+/* Texto da opção */
+.user-type-label {
+  @apply text-sm text-gray-700;
 }

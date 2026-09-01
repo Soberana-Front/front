@@ -23,10 +23,10 @@ export const AuthLayout = ({
 }: AuthLayoutProps) => {
   return (
     // Container principal com altura total e fundo cinza
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="auth-page">
       
       {/* Lado esquerdo com gradiente (visível apenas em desktop) */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-br from-indigo-600 to-indigo-800">
+      <div className="auth-brand">
         
         {/* Elementos decorativos: círculos com blur */}
         <div className="absolute inset-0 opacity-10">
@@ -41,8 +41,8 @@ export const AuthLayout = ({
         {/* Nome e slogan da marca */}
         <div className="relative z-10 flex flex-col items-center justify-center w-full px-8 text-white">
           <div className="max-w-md text-center">
-            <h1 className="text-4xl font-bold mb-4">Soberana</h1>
-            <p className="text-lg text-indigo-100">
+            <h1 className="auth-brand-title">Soberana</h1>
+            <p className="auth-brand-slogan">
               Sistema de precificação odontológica com inteligência artificial
             </p>
           </div>
@@ -50,34 +50,34 @@ export const AuthLayout = ({
       </div>
 
       {/* Lado direito com o formulário centralizado */}
-      <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div className="auth-form-side">
         <div className="mx-auto w-full max-w-md">
           
           {/* Logo visível apenas em mobile */}
-          <div className="lg:hidden text-center mb-8">
-            <h1 className="text-3xl font-bold text-indigo-600">Soberana</h1>
+          <div className="auth-mobile-logo">
+            <h1 className="auth-mobile-title">Soberana</h1>
           </div>
 
           {/* Título e subtítulo da página */}
           {(title || subtitle) && (
-            <div className="text-center mb-8">
+            <div className="auth-header">
               {title && (
-                <h2 className="text-3xl font-bold text-gray-900">{title}</h2>
+                <h2 className="auth-title">{title}</h2>
               )}
               {subtitle && (
-                <p className="mt-2 text-sm text-gray-600">{subtitle}</p>
+                <p className="auth-subtitle">{subtitle}</p>
               )}
             </div>
           )}
 
           {/* Card branco com o conteúdo do formulário */}
-          <div className={cn("bg-white p-8 rounded-lg shadow-sm border border-gray-200", className)}>
+          <div className={cn("auth-card", className)}>
             {children}
           </div>
 
           {/* Rodapé com direitos autorais */}
           {showFooter && (
-            <div className="mt-6 text-center text-sm text-gray-500">
+            <div className="auth-footer-text">
               {footerContent || (
                 <p>
                   &copy; {new Date().getFullYear()} Soberana. Todos os direitos reservados.

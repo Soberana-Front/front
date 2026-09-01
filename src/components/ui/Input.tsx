@@ -18,13 +18,6 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   size?: 'sm' | 'md' | 'lg'
 }
 
-// Mapeia tamanhos para classes Tailwind
-const sizeClasses = {
-  sm: 'h-8 text-xs px-2',
-  md: 'h-10 text-sm px-3',
-  lg: 'h-12 text-base px-4',
-}
-
 // Aplica máscara conforme o tipo (CPF, telefone, CNPJ, CEP, moeda)
 const applyMask = (value: string, mask: InputProps['mask']): string => {
   if (!mask || mask === 'none') return value
@@ -130,7 +123,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <button
         type="button"
         onClick={togglePassword}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+        className="input-icon-right-btn"
         tabIndex={-1}
       >
         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -140,25 +133,32 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <button
         type="button"
         onClick={onRightIconClick}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+        className="input-icon-right-btn"
         tabIndex={-1}
       >
         {rightIcon}
       </button>
     ) : null
 
+    // Tamanho do input
+    const sizeClass = {
+      sm: 'input-size-sm',
+      md: 'input-size-md',
+      lg: 'input-size-lg',
+    }[size]
+
     return (
-      <div className="w-full">
+      <div className="input-wrapper">
         {/* Label com indicadores opcionais e obrigatório */}
         {label && (
           <Label htmlFor={inputId} required={required} optional={optional}>
             {label}
           </Label>
         )}
-        <div className="relative">
+        <div className="input-field-wrapper">
           {/* Ícone à esquerda */}
           {icon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+            <div className="input-icon-left">
               {icon}
             </div>
           )}
@@ -168,11 +168,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             type={inputType}
             className={cn(
-              'w-full rounded-md border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50',
-              error && 'border-red-500 focus:border-red-500 focus:ring-red-500',
-              icon ? 'pl-9' : 'pl-3',
-              (rightIcon || defaultRightIcon) ? 'pr-9' : 'pr-3',
-              sizeClasses[size],
+              'input-field',
+              sizeClass,
+              icon && 'input-with-icon-left',
+              (rightIcon || defaultRightIcon) && 'input-with-icon-right',
+              error && 'input-error',
               className
             )}
             value={internalValue}
@@ -183,7 +183,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {defaultRightIcon || rightIcon}
         </div>
         {/* Mensagem de erro */}
-        {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+        {error && <p className="input-error-text">{error}</p>}
       </div>
     )
   }

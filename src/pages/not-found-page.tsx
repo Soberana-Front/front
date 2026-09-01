@@ -5,14 +5,14 @@ import { Link } from 'react-router'
 export function NotFoundPage() {
   return (
     // Container centralizado com texto
-    <section className="text-center">
+    <section className="not-found-page">
       {/* Código do erro */}
-      <p className="text-sm font-medium text-emerald-700">Erro 404</p>
+      <p className="not-found-code">Erro 404</p>
       {/* Mensagem principal */}
-      <h1 className="mt-2 text-3xl font-bold">Página não encontrada</h1>
+      <h1 className="not-found-title">Página não encontrada</h1>
       {/* Link para voltar à home */}
       <Link
-        className="mt-6 inline-block font-medium text-emerald-700 underline"
+        className="not-found-link"
         to="/"
       >
         Voltar ao início

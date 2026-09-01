@@ -10,42 +10,28 @@ export const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="layout-page">
       
-      {/* =====================================================
-          SIDEBAR DESKTOP
-          Aparece SOMENTE em telas grandes.
-          
-          hidden      = escondida por padrão
-          lg:flex     = aparece a partir de 1024px
-      ===================================================== */}
-      <aside className="hidden lg:flex lg:w-60 lg:shrink-0 lg:flex-col">
-        <div className="sticky top-0 h-screen overflow-y-auto">
+      {/* SIDEBAR DESKTOP */}
+      <aside className="layout-desktop-sidebar">
+        <div className="layout-desktop-sidebar-sticky">
           <Sidebar />
         </div>
       </aside>
 
-      {/* =====================================================
-          SIDEBAR MOBILE
-          Só existe visualmente em telas menores que lg.
-          
-          Ela NÃO ocupa espaço no layout.
-          É um drawer sobre o conteúdo.
-      ===================================================== */}
+      {/* SIDEBAR MOBILE */}
       {isSidebarOpen && (
         <>
-          {/* Backdrop */}
           <button
             type="button"
             aria-label="Fechar menu"
             onClick={() => setIsSidebarOpen(false)}
-            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+            className="layout-mobile-backdrop"
           />
 
-          {/* Drawer */}
-          <aside className="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl lg:hidden">
-            <div className="flex h-14 items-center justify-between border-b border-slate-200 px-4">
-              <span className="text-sm font-bold text-slate-900">
+          <aside className="layout-mobile-drawer">
+            <div className="layout-mobile-drawer-header">
+              <span className="layout-mobile-drawer-title">
                 Menu
               </span>
 
@@ -53,14 +39,14 @@ export const Layout = () => {
                 type="button"
                 aria-label="Fechar menu"
                 onClick={() => setIsSidebarOpen(false)}
-                className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                className="layout-mobile-drawer-close"
               >
                 <X size={20} />
               </button>
             </div>
 
             <div
-              className="h-[calc(100vh-3.5rem)] overflow-y-auto"
+              className="layout-mobile-drawer-content"
               onClick={() => setIsSidebarOpen(false)}
             >
               <Sidebar />
@@ -69,39 +55,30 @@ export const Layout = () => {
         </>
       )}
 
-      {/* =====================================================
-          ÁREA PRINCIPAL
-      ===================================================== */}
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+      {/* ÁREA PRINCIPAL */}
+      <div className="layout-main-area">
 
-        {/* ===================================================
-            BARRA MOBILE
-            Aparece somente abaixo do breakpoint lg.
-        =================================================== */}
-        <div className="sticky top-0 z-30 flex h-12 shrink-0 items-center border-b border-slate-200 bg-white px-3 lg:hidden">
+        {/* BARRA MOBILE */}
+        <div className="layout-mobile-bar">
           <button
             type="button"
             aria-label="Abrir menu"
             onClick={() => setIsSidebarOpen(true)}
-            className="rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+            className="layout-mobile-menu-button"
           >
             <Menu size={22} />
           </button>
 
-          <span className="ml-2 text-sm font-semibold text-slate-900">
+          <span className="layout-mobile-title">
             Soberana
           </span>
         </div>
 
-        {/* ===================================================
-            HEADER
-        =================================================== */}
+        {/* HEADER */}
         <LayoutHeader />
 
-        {/* ===================================================
-            CONTEÚDO DAS ROTAS
-        =================================================== */}
-        <main className="min-h-0 flex-1 overflow-y-auto p-4">
+        {/* CONTEÚDO DAS ROTAS */}
+        <main className="layout-content">
           <Outlet />
         </main>
 

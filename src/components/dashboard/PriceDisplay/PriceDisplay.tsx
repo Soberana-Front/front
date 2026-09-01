@@ -3,41 +3,39 @@ import React from 'react';
 
 // Props do componente de exibição de preço
 interface PriceDisplayProps {
-  value: number;                           // Valor numérico a ser formatado
-  size?: 'sm' | 'md' | 'lg';               // Tamanho do texto
-  variant?: 'default' | 'primary' | 'muted'; // Cor do texto
-  className?: string;                      // Classes CSS adicionais
+  value: number;
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'primary' | 'muted';
+  className?: string;
 }
 
-// Mapeia tamanhos para classes Tailwind
+// Mapeia tamanhos para classes customizadas
 const sizeClasses = {
-  sm: 'text-xs md:text-sm font-medium',
-  md: 'text-base md:text-lg font-semibold',
-  lg: 'text-2xl md:text-3xl font-bold',
+  sm: 'price-display-sm',
+  md: 'price-display-md',
+  lg: 'price-display-lg',
 };
 
-// Mapeia variantes para cores
+// Mapeia variantes para classes customizadas
 const variantClasses = {
-  default: 'text-slate-900',
-  primary: 'text-emerald-600',
-  muted: 'text-slate-500',
+  default: 'price-display-default',
+  primary: 'price-display-primary',
+  muted: 'price-display-muted',
 };
 
 // Componente que exibe um valor monetário formatado em R$
 export const PriceDisplay: React.FC<PriceDisplayProps> = ({
   value,
-  size = 'md',           // Tamanho padrão: médio
-  variant = 'default',    // Cor padrão: escura
+  size = 'md',
+  variant = 'default',
   className = '',
 }) => {
-  // Formata o valor para moeda brasileira (R$)
   const formattedValue = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   }).format(value);
 
   return (
-    // Span com classes combinadas: tamanho + cor + customização
     <span className={`${sizeClasses[size]} ${variantClasses[variant]} ${className}`}>
       {formattedValue}
     </span>

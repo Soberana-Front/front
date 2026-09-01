@@ -81,26 +81,20 @@ export const ChatWindow: React.FC = () => {
 
   return (
     // Container principal do chat com borda, sombra e altura total
-    <div className="flex flex-col h-full w-full bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
+    <div className="chat-window">
       
-      {/* ========================================
-          CABEÇALHO DO CHAT
-          Exibe nome do assistente e status online
-      ======================================== */}
-      <div className="px-5 py-3.5 border-b border-slate-100 flex items-center gap-2 bg-white">
+      {/* CABEÇALHO DO CHAT */}
+      <div className="chat-header">
         {/* Indicador de status (bola verde) */}
-        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+        <div className="chat-status-dot" />
         {/* Nome do assistente */}
-        <span className="font-bold text-slate-800 text-sm">Soberana AI</span>
+        <span className="chat-assistant-name">Soberana AI</span>
         {/* Status online */}
-        <span className="text-xs text-slate-400">• On-line</span>
+        <span className="chat-status-text">• On-line</span>
       </div>
 
-      {/* ========================================
-          ÁREA DE MENSAGENS (rolável)
-          Exibe todas as mensagens em uma lista rolável
-      ======================================== */}
-      <div className="flex-1 p-5 overflow-y-auto space-y-2 bg-slate-50/50 min-h-75">
+      {/* ÁREA DE MENSAGENS (rolável) */}
+      <div className="chat-messages-area">
         {/* Renderiza cada mensagem usando o componente ChatMessage */}
         {messages.map((msg, index) => (
           <ChatMessage
@@ -115,11 +109,8 @@ export const ChatWindow: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* ========================================
-          INPUT DE ENVIO DE MENSAGEM
-          Campo de texto + botão enviar
-      ======================================== */}
-      <div className="p-3 bg-white border-t border-slate-100">
+      {/* INPUT DE ENVIO DE MENSAGEM */}
+      <div className="chat-input-wrapper">
         <ChatInput onSendMessage={handleSendMessage} />
       </div>
     </div>

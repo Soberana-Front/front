@@ -30,7 +30,7 @@ export const LoginForm = ({ onSubmit, isLoading, error }: LoginFormProps) => {
 
   return (
     // Formulário com submissão via react-hook-form
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
       {/* Campo de e-mail */}
       <Input
         label="E-mail"
@@ -54,7 +54,7 @@ export const LoginForm = ({ onSubmit, isLoading, error }: LoginFormProps) => {
 
       {/* Mensagem de erro geral */}
       {error && (
-        <div className="text-sm text-red-500 text-center">{error}</div>
+        <div className="auth-error">{error}</div>
       )}
 
       {/* Botão de submit com estado de loading */}
@@ -63,13 +63,13 @@ export const LoginForm = ({ onSubmit, isLoading, error }: LoginFormProps) => {
       </Button>
 
       {/* Links de navegação: esqueci senha e criar conta */}
-      <div className="text-center text-sm space-y-2">
-        <Link to="/forgot-password" className="text-indigo-600 hover:underline block">
+      <div className="auth-links-container">
+        <Link to="/forgot-password" className="link-block">
           Esqueci minha senha
         </Link>
         <div className="text-gray-600">
           Não tem uma conta?{' '}
-          <Link to="/register" className="text-indigo-600 hover:underline font-medium">
+          <Link to="/register" className="link">
             Criar conta
           </Link>
         </div>

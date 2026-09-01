@@ -6,34 +6,34 @@ export type IndicatorVariant = 'primary' | 'success' | 'warning' | 'danger';
 
 // Props do componente
 interface IndicatorCardProps {
-  title: string;          // Título do indicador
-  value: string;          // Valor exibido (ex: R$ 1.500,00)
-  icon?: ReactNode;       // Ícone opcional
-  subtitle?: string;      // Subtítulo opcional
-  variant?: IndicatorVariant; // Cor do card
+  title: string;
+  value: string;
+  icon?: ReactNode;
+  subtitle?: string;
+  variant?: IndicatorVariant;
 }
 
-// Mapeia estilos para cada variante (fundo do ícone, cor, borda)
-const variantStyles: Record<IndicatorVariant, { iconBg: string; iconColor: string; border: string }> = {
+// Mapeia estilos para cada variante (borda do card e cores do ícone)
+const variantStyles: Record<IndicatorVariant, { borderClass: string; iconBgClass: string; iconColorClass: string }> = {
   primary: {
-    iconBg: 'bg-indigo-50',
-    iconColor: 'text-indigo-600',
-    border: 'border-gray-100 hover:border-indigo-200',
+    borderClass: 'indicator-card-border-primary',
+    iconBgClass: 'indicator-card-icon-primary',
+    iconColorClass: 'indicator-card-icon-primary',
   },
   success: {
-    iconBg: 'bg-emerald-50',
-    iconColor: 'text-emerald-600',
-    border: 'border-gray-100 hover:border-emerald-200',
+    borderClass: 'indicator-card-border-success',
+    iconBgClass: 'indicator-card-icon-success',
+    iconColorClass: 'indicator-card-icon-success',
   },
   warning: {
-    iconBg: 'bg-amber-50',
-    iconColor: 'text-amber-600',
-    border: 'border-gray-100 hover:border-amber-200',
+    borderClass: 'indicator-card-border-warning',
+    iconBgClass: 'indicator-card-icon-warning',
+    iconColorClass: 'indicator-card-icon-warning',
   },
   danger: {
-    iconBg: 'bg-rose-50',
-    iconColor: 'text-rose-600',
-    border: 'border-gray-100 hover:border-rose-200',
+    borderClass: 'indicator-card-border-danger',
+    iconBgClass: 'indicator-card-icon-danger',
+    iconColorClass: 'indicator-card-icon-danger',
   },
 };
 
@@ -45,33 +45,29 @@ export default function IndicatorCard({
   subtitle,
   variant = 'primary',
 }: IndicatorCardProps) {
-  // Obtém os estilos da variante selecionada (fallback para primary)
   const styles = variantStyles[variant] || variantStyles.primary;
 
   return (
-    // Card com fundo branco, borda e sombra suave
-    <div
-      className={`bg-white rounded-2xl p-5 border transition-all shadow-sm ${styles.border} flex flex-col justify-between h-full`}
-    >
+    <div className={`indicator-card ${styles.borderClass}`}>
       {/* Cabeçalho: título + ícone */}
-      <div className="flex items-start justify-between gap-2">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+      <div className="indicator-card-header">
+        <span className="indicator-card-title">
           {title}
         </span>
         {icon && (
-          <div className={`p-2 rounded-xl flex items-center justify-center ${styles.iconBg} ${styles.iconColor}`}>
+          <div className={`indicator-card-icon ${styles.iconBgClass} ${styles.iconColorClass}`}>
             {icon}
           </div>
         )}
       </div>
 
       {/* Corpo: valor + subtítulo */}
-      <div className="mt-4">
-        <div className="text-2xl font-bold text-gray-900 tracking-tight">
+      <div className="indicator-card-body">
+        <div className="indicator-card-value">
           {value}
         </div>
         {subtitle && (
-          <p className="text-xs text-gray-400 mt-1 font-normal">
+          <p className="indicator-card-subtitle">
             {subtitle}
           </p>
         )}

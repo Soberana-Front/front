@@ -12,10 +12,10 @@ export interface Step {
 
 // Props do componente de passos
 export interface FormStepsProps {
-  steps: Step[];                       // Lista de passos
-  currentStep: number;                 // Passo atual (0-indexado)
-  onStepClick?: (index: number) => void; // Função para navegar
-  className?: string;                  // Classes CSS adicionais
+  steps: Step[];
+  currentStep: number;
+  onStepClick?: (index: number) => void;
+  className?: string;
 }
 
 // Componente indicador de progresso em passos
@@ -26,10 +26,9 @@ export const FormSteps = ({
   className,
 }: FormStepsProps) => {
   return (
-    <div className={cn('w-full', className)}>
-      <div className="flex items-center justify-between">
+    <div className={cn('form-steps', className)}>
+      <div className="form-steps-inner">
         {steps.map((step, index) => {
-          // Define estados do passo
           const isActive = index === currentStep;
           const isCompleted = index < currentStep;
           const isClickable = onStepClick && (isCompleted || isActive);
@@ -37,18 +36,17 @@ export const FormSteps = ({
           return (
             <React.Fragment key={step.value}>
               {/* Círculo do passo com número ou check */}
-              <div className="flex flex-col items-center flex-1">
+              <div className="form-step-item">
                 <button
                   type="button"
                   onClick={() => isClickable && onStepClick(index)}
                   disabled={!isClickable}
                   className={cn(
-                    'flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-semibold transition-colors',
-                    isActive && 'border-indigo-600 bg-indigo-600 text-white',
-                    isCompleted && 'border-green-500 bg-green-500 text-white',
-                    !isActive && !isCompleted && 'border-gray-300 bg-white text-gray-500',
-                    isClickable && 'cursor-pointer hover:opacity-80',
-                    !isClickable && 'cursor-default'
+                    'form-step-circle',
+                    isActive && 'form-step-circle-active',
+                    isCompleted && 'form-step-circle-completed',
+                    !isActive && !isCompleted && 'form-step-circle-inactive',
+                    isClickable ? 'form-step-circle-clickable' : 'form-step-circle-disabled'
                   )}
                   aria-current={isActive ? 'step' : undefined}
                 >
@@ -62,10 +60,10 @@ export const FormSteps = ({
                 {/* Label do passo */}
                 <span
                   className={cn(
-                    'mt-2 text-xs font-medium',
-                    isActive && 'text-indigo-600',
-                    isCompleted && 'text-green-600',
-                    !isActive && !isCompleted && 'text-gray-500'
+                    'form-step-label',
+                    isActive && 'form-step-label-active',
+                    isCompleted && 'form-step-label-completed',
+                    !isActive && !isCompleted && 'form-step-label-inactive'
                   )}
                 >
                   {step.label}
@@ -74,11 +72,11 @@ export const FormSteps = ({
 
               {/* Linha conectora entre passos */}
               {index < steps.length - 1 && (
-                <div className="flex-1 mx-2">
+                <div className="form-step-connector-wrapper">
                   <div
                     className={cn(
-                      'h-0.5 w-full',
-                      index < currentStep ? 'bg-green-500' : 'bg-gray-300'
+                      'form-step-connector-line',
+                      index < currentStep ? 'form-step-connector-completed' : 'form-step-connector-inactive'
                     )}
                   />
                 </div>

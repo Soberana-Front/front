@@ -16,13 +16,13 @@ export interface ModalProps {
   disableScroll?: boolean
 }
 
-// Mapeia tamanhos para classes Tailwind
+// Mapeia tamanhos para classes customizadas
 const sizeClasses = {
-  sm: 'max-w-sm',
-  md: 'max-w-md',
-  lg: 'max-w-lg',
-  xl: 'max-w-xl',
-  full: 'max-w-full mx-4',
+  sm: 'modal-size-sm',
+  md: 'modal-size-md',
+  lg: 'modal-size-lg',
+  xl: 'modal-size-xl',
+  full: 'modal-size-full',
 }
 
 // Componente Modal com overlay, animação e fechamento por ESC
@@ -77,7 +77,7 @@ export const Modal = ({
   return (
     // Container centralizado com overlay
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="modal-container"
       onClick={handleOverlayClick}
       role="dialog"
       aria-modal="true"
@@ -85,8 +85,8 @@ export const Modal = ({
       {/* Fundo escuro com blur */}
       <div
         className={cn(
-          'absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300',
-          open ? 'opacity-100' : 'opacity-0'
+          'modal-overlay',
+          open ? 'modal-overlay-enter' : 'modal-overlay-exit'
         )}
         aria-hidden="true"
       />
@@ -94,9 +94,9 @@ export const Modal = ({
       {/* Card do modal com animação de escala */}
       <div
         className={cn(
-          'relative bg-white rounded-lg shadow-xl w-full transition-all duration-300 transform',
+          'modal-content',
           sizeClasses[size],
-          open ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
+          open ? 'modal-content-enter' : 'modal-content-exit',
           className
         )}
         onClick={(e) => e.stopPropagation()}
@@ -105,7 +105,7 @@ export const Modal = ({
         {showCloseButton && (
           <button
             onClick={handleClose}
-            className="absolute top-3 right-3 rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+            className="modal-close-btn"
             aria-label="Fechar"
           >
             <X className="h-5 w-5" />
@@ -125,8 +125,8 @@ export const ModalHeader = ({
   children: React.ReactNode
   className?: string
 }) => (
-  <div className={cn('mb-4 border-b pb-3', className)}>
-    <h3 className="text-lg font-semibold">{children}</h3>
+  <div className={cn('modal-header', className)}>
+    <h3 className="modal-title">{children}</h3>
   </div>
 )
 
@@ -137,7 +137,7 @@ export const ModalBody = ({
 }: {
   children: React.ReactNode
   className?: string
-}) => <div className={cn('my-4', className)}>{children}</div>
+}) => <div className={cn('modal-body', className)}>{children}</div>
 
 // Rodapé do modal com botões alinhados à direita
 export const ModalFooter = ({
@@ -147,7 +147,7 @@ export const ModalFooter = ({
   children: React.ReactNode
   className?: string
 }) => (
-  <div className={cn('mt-6 flex justify-end gap-3 border-t pt-4', className)}>
+  <div className={cn('modal-footer', className)}>
     {children}
   </div>
 )

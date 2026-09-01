@@ -4,14 +4,14 @@ import { formatCurrency } from '@/utils/formatCurrency';
 
 // Interface com os dados do resumo de precificação
 export interface PricingSummaryData {
-  clinicCosts: number;      // Custos da clínica
-  procedureCost: number;    // Custo do procedimento
-  taxIncidences: number;    // Incidências de impostos
-  profit: number;           // Lucro
-  result: number;           // Resultado
-  directCost: number;       // Custo direto
-  correctedCost: number;    // Custo corrigido
-  finalPrice: number;       // Preço final
+  clinicCosts: number;
+  procedureCost: number;
+  taxIncidences: number;
+  profit: number;
+  result: number;
+  directCost: number;
+  correctedCost: number;
+  finalPrice: number;
 }
 
 // Dados mockados iniciais (todos zerados)
@@ -28,12 +28,12 @@ export const MOCK_PRICING_DATA: PricingSummaryData = {
 
 // Props do componente
 interface PricingSummaryProps {
-  data?: PricingSummaryData; // Dados do resumo (opcional, usa mock)
+  data?: PricingSummaryData;
 }
 
 // Componente que exibe o resumo da precificação
 export const PricingSummary: React.FC<PricingSummaryProps> = ({
-  data = MOCK_PRICING_DATA, // Usa mock se nenhum dado for fornecido
+  data = MOCK_PRICING_DATA,
 }) => {
   // Lista de itens do resumo (rótulo + valor)
   const items = [
@@ -48,31 +48,28 @@ export const PricingSummary: React.FC<PricingSummaryProps> = ({
 
   return (
     // Container principal do resumo
-    <div className="w-full max-w-md p-5 bg-white rounded-lg shadow-sm border border-gray-200">
-      <h2 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">
+    <div className="pricing-summary-container">
+      <h2 className="pricing-summary-title">
         Resumo da Precificação
       </h2>
 
-      <div className="space-y-3">
+      <div className="pricing-summary-items">
         {/* Renderiza todos os itens de custo e resultado */}
         {items.map((item, index) => (
-          <div
-            key={index}
-            className="flex justify-between items-center text-sm text-gray-600"
-          >
+          <div key={index} className="pricing-summary-item">
             <span>{item.label}</span>
-            <span className="font-medium text-gray-900">
+            <span className="pricing-summary-item-value">
               {formatCurrency(item.value)}
             </span>
           </div>
         ))}
 
         {/* Destaque especial para o Preço Final (azul) */}
-        <div className="mt-4 pt-3 border-t-2 border-gray-100 flex justify-between items-center bg-blue-50 p-3 rounded-md">
-          <span className="text-base font-bold text-blue-900">
+        <div className="pricing-summary-highlight">
+          <span className="pricing-summary-highlight-label">
             Preço Final
           </span>
-          <span className="text-lg font-extrabold text-blue-600">
+          <span className="pricing-summary-highlight-value">
             {formatCurrency(data.finalPrice)}
           </span>
         </div>

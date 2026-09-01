@@ -39,14 +39,14 @@ export const ResetPasswordForm = ({
   // Tela de sucesso após redefinição
   if (success) {
     return (
-      <div className="text-center space-y-4">
-        <div className="rounded-lg bg-green-50 border border-green-200 p-4 text-green-700">
-          <p className="font-medium">Senha redefinida com sucesso!</p>
-          <p className="text-sm mt-1">
+      <div className="success-container">
+        <div className="success-box">
+          <p className="success-title">Senha redefinida com sucesso!</p>
+          <p className="success-subtext">
             Sua senha foi alterada. Agora você pode fazer login com sua nova senha.
           </p>
         </div>
-        <a href="/login" className="text-sm text-indigo-600 hover:underline font-medium">
+        <a href="/login" className="link">
           Ir para o login
         </a>
       </div>
@@ -55,9 +55,9 @@ export const ResetPasswordForm = ({
 
   return (
     // Formulário com submissão via react-hook-form
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
       {/* Instrução para o usuário */}
-      <p className="text-sm text-gray-600 -mt-2">
+      <p className="form-instruction">
         Digite sua nova senha abaixo.
       </p>
 
@@ -85,7 +85,7 @@ export const ResetPasswordForm = ({
 
       {/* Mensagem de erro geral */}
       {error && (
-        <div className="text-sm text-red-500 text-center">{error}</div>
+        <div className="auth-error">{error}</div>
       )}
 
       {/* Botão de submit com estado de loading */}
@@ -94,9 +94,9 @@ export const ResetPasswordForm = ({
       </Button>
 
       {/* Link para voltar ao login */}
-      <div className="text-center text-sm text-gray-600">
+      <div className="auth-footer">
         Lembrou sua senha?{' '}
-        <a href="/login" className="text-indigo-600 hover:underline font-medium">
+        <a href="/login" className="link">
           Faça login
         </a>
       </div>
