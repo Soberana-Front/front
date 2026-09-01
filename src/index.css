@@ -14,7 +14,7 @@
 
 /* Lado esquerdo com gradiente (desktop) */
 .auth-brand {
-  @apply hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gradient-to-br from-indigo-600 to-indigo-800;
+  @apply hidden lg:flex lg:w-1/2 relative overflow-hidden bg-linear-to-br from-indigo-600 to-indigo-800;
 }
 
 .auth-brand-title {
