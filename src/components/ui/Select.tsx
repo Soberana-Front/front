@@ -23,13 +23,6 @@ export interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectE
   size?: 'sm' | 'md' | 'lg'
 }
 
-// Mapeia tamanhos para classes Tailwind
-const sizeClasses = {
-  sm: 'h-8 text-xs px-2',
-  md: 'h-10 text-sm px-3',
-  lg: 'h-12 text-base px-4',
-}
-
 // Componente Select com forwardRef, label e validação
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
   (
@@ -48,11 +41,17 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     },
     ref
   ) => {
-    // Gera ID único se não fornecido
     const selectId = id || `select-${Math.random().toString(36).substring(2, 9)}`
 
+    // Tamanho do select
+    const sizeClass = {
+      sm: 'select-size-sm',
+      md: 'select-size-md',
+      lg: 'select-size-lg',
+    }[size]
+
     return (
-      <div className="w-full">
+      <div className="select-wrapper">
         {/* Label com indicadores de obrigatório/opcional */}
         {label && (
           <Label htmlFor={selectId} required={required} optional={optional}>
@@ -60,10 +59,10 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           </Label>
         )}
         {/* Container com ícone e select */}
-        <div className="relative">
+        <div className="select-field-wrapper">
           {/* Ícone à esquerda */}
           {icon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+            <div className="select-icon-left">
               {icon}
             </div>
           )}
@@ -72,10 +71,10 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             ref={ref}
             id={selectId}
             className={cn(
-              'w-full rounded-md border border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 appearance-none pr-8',
-              error && 'border-red-500 focus:border-red-500 focus:ring-red-500',
-              icon ? 'pl-9' : 'pl-3',
-              sizeClasses[size],
+              'select-field',
+              sizeClass,
+              icon && 'select-with-icon-left',
+              error && 'select-error',
               className
             )}
             {...props}
@@ -98,10 +97,10 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             ))}
           </select>
           {/* Ícone de seta para baixo (substitui o padrão) */}
-          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+          <ChevronDown className="select-chevron" />
         </div>
         {/* Mensagem de erro */}
-        {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+        {error && <p className="select-error-text">{error}</p>}
       </div>
     )
   }

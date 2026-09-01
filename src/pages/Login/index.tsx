@@ -42,13 +42,12 @@ const Login = () => {
   };
 
   return (
-    // Layout com título e subtítulo
     <AuthLayout
       title="Bem-vindo de volta"
       subtitle="Faça login para acessar o sistema"
     >
       {/* Container com espaçamento entre formulário e botão social */}
-      <div className="space-y-6">
+      <div className="auth-form-container">
         {/* Formulário de login */}
         <LoginForm onSubmit={handleSubmit} isLoading={isLoading} error={error} />
         {/* Botão de login com Google */}

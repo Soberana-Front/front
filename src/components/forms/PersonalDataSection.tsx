@@ -7,15 +7,13 @@ import { User, Mail, Phone, UserSquare } from 'lucide-react';
 
 // Componente com os campos de dados pessoais (Passo 1 do cadastro)
 export const PersonalDataSection = () => {
-  // Obtém register e errors do contexto do formulário
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
   return (
-    // Container com espaçamento vertical entre os campos
-    <div className="space-y-4">
+    <div className="personal-data-section">
       {/* Campo: Nome Completo */}
       <Input
         label="Nome Completo"

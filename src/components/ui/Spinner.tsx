@@ -42,7 +42,6 @@ export interface SpinnerProps
 // Componente Spinner com forwardRef e modos fullScreen/label
 export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
   ({ className, size, color, label, labelPosition = 'right', fullScreen, ...props }, ref) => {
-    // Elemento principal do spinner (animado)
     const spinnerElement = (
       <div
         ref={ref}
@@ -58,10 +57,10 @@ export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
     // Modo tela cheia com overlay
     if (fullScreen) {
       return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-3">
+        <div className="spinner-fullscreen-overlay">
+          <div className="spinner-fullscreen-content">
             {spinnerElement}
-            {label && <span className="text-sm text-gray-600">{label}</span>}
+            {label && <span className="spinner-fullscreen-label">{label}</span>}
           </div>
         </div>
       )
@@ -74,14 +73,14 @@ export const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
     return (
       <div
         className={cn(
-          'inline-flex items-center gap-2',
-          labelPosition === 'bottom' && 'flex-col'
+          'spinner-with-label',
+          labelPosition === 'bottom' && 'spinner-label-bottom'
         )}
       >
-        {labelPosition === 'left' && <span className="text-sm text-gray-600">{label}</span>}
+        {labelPosition === 'left' && <span className="spinner-label-text">{label}</span>}
         {spinnerElement}
-        {labelPosition === 'right' && <span className="text-sm text-gray-600">{label}</span>}
-        {labelPosition === 'bottom' && <span className="text-sm text-gray-600">{label}</span>}
+        {labelPosition === 'right' && <span className="spinner-label-text">{label}</span>}
+        {labelPosition === 'bottom' && <span className="spinner-label-text">{label}</span>}
       </div>
     )
   }
@@ -91,7 +90,7 @@ Spinner.displayName = 'Spinner'
 
 // Spinner simples para compatibilidade com versões anteriores
 export const SimpleSpinner = () => (
-  <div className="flex justify-center items-center">
-    <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent"></div>
+  <div className="simple-spinner-container">
+    <div className="simple-spinner"></div>
   </div>
 )

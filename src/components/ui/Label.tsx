@@ -4,9 +4,9 @@ import { cn } from '../../utils/cn'
 
 // Props do Label com indicadores de obrigatório/opcional
 export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  children: React.ReactNode // Conteúdo do label
-  required?: boolean        // Exibe asterisco vermelho
-  optional?: boolean        // Exibe "(opcional)"
+  children: React.ReactNode
+  required?: boolean
+  optional?: boolean
 }
 
 // Componente Label com forwardRef para acessibilidade
@@ -15,22 +15,19 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     return (
       <label
         ref={ref}
-        className={cn(
-          'block text-sm font-medium text-gray-700 mb-1',
-          className
-        )}
+        className={cn('label', className)}
         {...props}
       >
         {children}
         {/* Asterisco para campos obrigatórios */}
         {required && (
-          <span className="ml-0.5 text-red-500" aria-hidden="true">
+          <span className="label-required" aria-hidden="true">
             *
           </span>
         )}
         {/* Indicador de campo opcional */}
         {optional && (
-          <span className="ml-1 text-xs font-normal text-gray-400">
+          <span className="label-optional">
             (opcional)
           </span>
         )}

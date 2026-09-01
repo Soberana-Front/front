@@ -1,15 +1,9 @@
-
-
-
 // Importa componentes de navegação do React Router
 import { Navigate, Outlet } from 'react-router';
 // Importa hook de autenticação
 import { useAuth } from '../contexts/AuthContext';
 // Importa componente de loading
 import { Spinner } from './ui/Spinner';
-
-
-
 
 
 // Componente que protege rotas privadas

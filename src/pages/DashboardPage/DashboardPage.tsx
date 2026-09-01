@@ -21,16 +21,16 @@ export const DashboardPage: React.FC = () => {
     // Layout com sidebar e header
     <DashboardLayout>
       {/* Container com espaçamento e largura máxima centralizada */}
-      <div className="flex flex-col gap-6 p-6 max-w-[1600px] mx-auto">
+      <div className="dashboard-container">
         {/* Linha com os 4 indicadores principais */}
         <IndicatorsGrid />
 
         {/* Grid de 3 colunas (seletores, chat, resumo) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="dashboard-grid">
           
           {/* Coluna esquerda: seletores e ações rápidas */}
-          <div className="lg:col-span-3 flex flex-col gap-6">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col gap-5">
+          <div className="dashboard-col-left">
+            <div className="dashboard-selectors-card">
               <ClinicSelector />
               <ProcedureSelector />
             </div>
@@ -39,12 +39,12 @@ export const DashboardPage: React.FC = () => {
           </div>
 
           {/* Coluna central: chat com IA */}
-          <div className="lg:col-span-5 h-140">
+          <div className="dashboard-col-center">
             <ChatWindow />
           </div>
 
           {/* Coluna direita: resumo da precificação e histórico */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
+          <div className="dashboard-col-right">
             <PricingSummary />
             <RecentHistory />
           </div>

@@ -17,27 +17,23 @@ export const MOCK_PROCEDURES: Procedure[] = [
 
 // Props do seletor de procedimento
 interface ProcedureSelectorProps {
-  onSelectProcedure?: (procedure: Procedure | null) => void; // Callback ao selecionar
-  procedures?: Procedure[]; // Lista de procedimentos (opcional)
+  onSelectProcedure?: (procedure: Procedure | null) => void;
+  procedures?: Procedure[];
 }
 
 // Componente que exibe um select para escolher o procedimento
 export const ProcedureSelector: React.FC<ProcedureSelectorProps> = ({
   onSelectProcedure,
-  procedures = MOCK_PROCEDURES, // Usa mock se nenhuma lista for fornecida
+  procedures = MOCK_PROCEDURES,
 }) => {
-  // Estado para armazenar o ID selecionado
   const [selectedId, setSelectedId] = useState<string>('');
 
-  // Função chamada quando o usuário altera a seleção
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const id = event.target.value;
     setSelectedId(id);
 
-    // Encontra o procedimento selecionado (ou null)
     const foundProcedure = procedures.find((proc) => proc.id === id) || null;
     
-    // Se houver callback, chama com o procedimento encontrado
     if (onSelectProcedure) {
       onSelectProcedure(foundProcedure);
     }
@@ -45,11 +41,8 @@ export const ProcedureSelector: React.FC<ProcedureSelectorProps> = ({
 
   return (
     // Container do seletor com label
-    <div className="flex flex-col gap-1.5 w-full max-w-xs">
-      <label 
-        htmlFor="procedure-select" 
-        className="text-sm font-medium text-gray-700"
-      >
+    <div className="procedure-selector-container">
+      <label htmlFor="procedure-select" className="procedure-selector-label">
         Procedimento
       </label>
       
@@ -58,7 +51,7 @@ export const ProcedureSelector: React.FC<ProcedureSelectorProps> = ({
         id="procedure-select"
         value={selectedId}
         onChange={handleChange}
-        className="w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        className="procedure-selector-select"
       >
         {/* Opção placeholder (desabilitada) */}
         <option value="" disabled>

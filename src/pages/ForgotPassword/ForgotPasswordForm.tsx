@@ -38,14 +38,14 @@ export const ForgotPasswordForm = ({
   // Tela de sucesso após envio do e-mail
   if (success) {
     return (
-      <div className="text-center space-y-4">
-        <div className="rounded-lg bg-green-50 border border-green-200 p-4 text-green-700">
-          <p className="font-medium">E-mail enviado!</p>
-          <p className="text-sm mt-1">
+      <div className="success-container">
+        <div className="success-box">
+          <p className="success-title">E-mail enviado!</p>
+          <p className="success-subtext">
             Enviamos um link de recuperação para o seu e-mail. Verifique sua caixa de entrada.
           </p>
         </div>
-        <a href="/login" className="text-sm text-indigo-600 hover:underline font-medium">
+        <a href="/login" className="link">
           Voltar para o login
         </a>
       </div>
@@ -54,9 +54,9 @@ export const ForgotPasswordForm = ({
 
   return (
     // Formulário com submissão via react-hook-form
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
       {/* Instrução para o usuário */}
-      <p className="text-sm text-gray-600 -mt-2">
+      <p className="form-instruction">
         Digite seu e-mail cadastrado e enviaremos um link para redefinir sua senha.
       </p>
 
@@ -72,7 +72,7 @@ export const ForgotPasswordForm = ({
 
       {/* Mensagem de erro geral */}
       {error && (
-        <div className="text-sm text-red-500 text-center">{error}</div>
+        <div className="auth-error">{error}</div>
       )}
 
       {/* Botão de envio com estado de loading */}
@@ -81,9 +81,9 @@ export const ForgotPasswordForm = ({
       </Button>
 
       {/* Link para voltar ao login */}
-      <div className="text-center text-sm text-gray-600">
+      <div className="auth-footer">
         Lembrou sua senha?{' '}
-        <a href="/login" className="text-indigo-600 hover:underline font-medium">
+        <a href="/login" className="link">
           Faça login
         </a>
       </div>

@@ -20,7 +20,7 @@ export default function IndicatorsGrid({
 }: IndicatorsGridProps) {
   return (
     // Grid responsivo: 1 coluna (mobile) → 2 (tablet) → 4 (desktop)
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+    <div className="indicators-grid">
       
       {/* Card: Preço Calculado */}
       <IndicatorCard

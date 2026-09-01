@@ -23,14 +23,11 @@ export const UserTypeSelector = ({
   className,
 }: UserTypeSelectorProps) => {
   return (
-    // Container com espaçamento vertical
-    <div className={cn('space-y-2', className)}>
-      {/* Rótulo do grupo de radio buttons */}
+    <div className={cn('user-type-selector', className)}>
       <Label>Tipo de usuário</Label>
-      {/* Grupo de opções lado a lado */}
-      <div className="flex gap-4">
+      <div className="user-type-options">
         {/* Opção: Estudante */}
-        <label className="flex items-center gap-2 cursor-pointer">
+        <label className="user-type-option">
           <input
             type="radio"
             name="userType"
@@ -38,12 +35,12 @@ export const UserTypeSelector = ({
             checked={value === 'student'}
             onChange={() => onChange('student')}
             disabled={disabled}
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+            className="user-type-radio"
           />
-          <span className="text-sm text-gray-700">Estudante</span>
+          <span className="user-type-label">Estudante</span>
         </label>
         {/* Opção: Profissional */}
-        <label className="flex items-center gap-2 cursor-pointer">
+        <label className="user-type-option">
           <input
             type="radio"
             name="userType"
@@ -51,9 +48,9 @@ export const UserTypeSelector = ({
             checked={value === 'professional'}
             onChange={() => onChange('professional')}
             disabled={disabled}
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+            className="user-type-radio"
           />
-          <span className="text-sm text-gray-700">Profissional</span>
+          <span className="user-type-label">Profissional</span>
         </label>
       </div>
     </div>

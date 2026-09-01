@@ -24,13 +24,13 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
 
   return (
     // Container flexível com espaçamento
-    <div className={`flex flex-wrap gap-3 items-center ${className}`}>
+    <div className={`quick-actions-container ${className}`}>
       
       {/* Botão principal: Nova Precificação (azul) */}
       <button
         type="button"
         onClick={handleNewPricing}
-        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+        className="quick-action-primary"
       >
         <Plus className="w-4 h-4" />
         <span>Nova Precificação</span>
@@ -40,7 +40,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
       <button
         type="button"
         onClick={handleCompareClinics}
-        className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 font-medium text-sm rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+        className="quick-action-secondary"
       >
         <ArrowLeftRight className="w-4 h-4 text-gray-500" />
         <span>Comparar Clínicas</span>

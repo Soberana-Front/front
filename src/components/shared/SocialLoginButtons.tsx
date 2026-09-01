@@ -5,9 +5,9 @@ import { Mail } from 'lucide-react';
 
 // Props do componente de botões sociais
 interface SocialLoginButtonsProps {
-  buttonText?: string;    // Texto do botão (padrão: "Entrar com Google")
-  onGoogleClick?: () => void; // Função chamada ao clicar
-  disabled?: boolean;     // Desabilita o botão
+  buttonText?: string;
+  onGoogleClick?: () => void;
+  disabled?: boolean;
 }
 
 // Componente com botão de login social (apenas Google)
@@ -17,21 +17,21 @@ export const SocialLoginButtons = ({
   disabled = false,
 }: SocialLoginButtonsProps) => {
   return (
-    <div className="space-y-3">
+    <div className="social-login-buttons">
       {/* Divisor com texto "Ou continue com" */}
-      <div className="relative">
+      <div className="social-login-divider">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-300" />
+          <div className="social-login-divider-line" />
         </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="bg-white px-2 text-gray-500">Ou continue com</span>
+        <div className="social-login-divider-text-wrapper">
+          <span className="social-login-divider-text">Ou continue com</span>
         </div>
       </div>
 
       {/* Botão de login com Google */}
       <Button
         variant="outline"
-        className="w-full flex items-center justify-center gap-2"
+        className="social-login-btn"
         onClick={onGoogleClick}
         disabled={disabled}
       >
