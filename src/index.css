@@ -317,6 +317,29 @@
   @apply p-3 bg-white border-t border-slate-100;
 }
 
+/* ===========================
+   Classes customizadas para componentes UI (SearchBar)
+   =========================== */
+
+/* Wrapper externo do componente */
+.search-bar-wrapper {
+  @apply w-full;
+}
+
+/* Wrapper do campo (posiciona o ícone dentro do input) */
+.search-bar-input-wrapper {
+  @apply relative;
+}
+
+/* Ícone de lupa fixo à esquerda */
+.search-bar-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none;
+}
+
+/* Campo de texto da pesquisa (reaproveita o mesmo visual do Input padrão) */
+.search-bar-input {
+  @apply w-full h-10 rounded-md border border-gray-300 bg-white pl-9 pr-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500;
+}
 
 /* ===========================
    Classes customizadas para componentes do dashboard (ClinicSelector)
@@ -1540,4 +1563,23 @@
 /* Texto da opção */
 .user-type-label {
   @apply text-sm text-gray-700;
+}
+
+/* ===========================
+   Classes customizadas para componentes UI (Pagination)
+   =========================== */
+
+/* Container geral (botões + info centralizados e espaçados) */
+.pagination-container {
+  @apply flex items-center justify-between gap-4 pt-4;
+}
+
+/* Texto "Página X de Y" */
+.pagination-info {
+  @apply text-sm text-gray-500;
+}
+
+/* Botão Anterior/Próximo (mesmo visual para os dois) */
+.pagination-button {
+  @apply inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white;
 }

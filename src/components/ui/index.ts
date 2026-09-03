@@ -10,3 +10,6 @@ export { FormSteps } from './FormSteps';
 export { UserTypeSelector } from './UserTypeSelector';
 export { ToastContainer } from './ToastContainer';
 export { ToastItem } from './ToastItem';
+
+export { SearchBar } from './SearchBar';    //issue 58
+export { Pagination } from './Pagination';  //issue 59
