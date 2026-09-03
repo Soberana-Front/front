@@ -187,5 +187,5 @@ export const useClinics = () => {
 
 /*
 é quem realmente trata o erro — captura no catch, guarda uma mensagem amigável em error (estado exposto pro componente exibir), e usa finally pra garantir que isLoading sempre volte a false, mesmo se der erro.
-46 51  50  
+ 
 */

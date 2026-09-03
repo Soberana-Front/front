@@ -15,3 +15,4 @@ export { SearchBar } from './SearchBar';    //issue 58
 export { Pagination } from './Pagination';  //issue 59
 export { ClinicTable } from './ClinicTable'; //issue 48
 export { ClinicForm } from './ClinicForm'; //issue 46
+export { ClinicModal } from './ClinicModal'; //issue 47
