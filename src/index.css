@@ -1686,3 +1686,22 @@
 .clinic-form-suffix {
   @apply text-sm text-gray-400;
 }
+
+/* ===========================
+   Classes customizadas para a página de Clínicas
+   =========================== */
+
+/* Cabeçalho: título à esquerda, botão Cadastrar à direita */
+.clinics-page-header {
+  @apply flex items-center justify-between gap-4;
+}
+
+/* Wrapper da barra de pesquisa (limita a largura em telas grandes) */
+.clinics-page-toolbar {
+  @apply max-w-md;
+}
+
+/* Mensagem de erro acima da tabela */
+.clinics-page-error {
+  @apply text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2;
+}
