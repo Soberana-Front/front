@@ -1662,3 +1662,27 @@
 .clinic-table-action-delete {
   @apply text-gray-400 hover:text-red-600 hover:bg-red-50;
 }
+
+/* ===========================
+   Classes customizadas para componentes UI (ClinicForm)
+   =========================== */
+
+/* Container do formulário (espaçamento vertical entre campos) */
+.clinic-form {
+  @apply space-y-4;
+}
+
+/* Linha com campos lado a lado (2 colunas por padrão) */
+.clinic-form-row {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+}
+
+/* Variante com 3 colunas (Comissão, Aluguel, Custos) */
+.clinic-form-row-three {
+  @apply sm:grid-cols-3;
+}
+
+/* Sufixo "%" ao lado do campo de Comissão */
+.clinic-form-suffix {
+  @apply text-sm text-gray-400;
+}
