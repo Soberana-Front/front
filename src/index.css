@@ -1719,3 +1719,32 @@
 .delete-confirmation-error {
   @apply mt-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2;
 }
+
+/* ===========================
+   Classes customizadas para o EmptyState
+   =========================== */
+
+/* Container centralizado com espaçamento generoso */
+.empty-state-container {
+  @apply flex flex-col items-center justify-center text-center py-12 px-4;
+}
+
+/* Ícone grande e discreto */
+.empty-state-icon {
+  @apply h-12 w-12 text-gray-300 mb-4;
+}
+
+/* Mensagem principal */
+.empty-state-title {
+  @apply text-sm font-medium text-gray-700;
+}
+
+/* Subtítulo, mais claro que o título */
+.empty-state-subtitle {
+  @apply text-sm text-gray-400 mt-1;
+}
+
+/* Espaçamento do botão de ação, quando presente */
+.empty-state-action {
+  @apply mt-4;
+}

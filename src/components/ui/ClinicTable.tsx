@@ -3,6 +3,7 @@ import { Pencil, Trash2 } from 'lucide-react'
 import { formatCurrency } from '../../utils/formatCurrency'
 // Importa o tipo de Clínica já definido no service (Issue #51)
 import type { Clinic } from '../../services/clinicService'
+import { EmptyState } from './EmptyState'
 
 // Props do componente ClinicTable
 export interface ClinicTableProps {
@@ -36,12 +37,18 @@ export const ClinicTable = ({
   }
 
   // Lista vazia: mostra mensagem simples.
+  /*<div className="clinic-table-wrapper">
+        <div className="clinic-table-status">Nenhuma clínica encontrada.</div>
+      </div> */
   // (Quando a Issue #60 - EmptyState - estiver pronta, trocar este bloco
   // pelo componente <EmptyState /> reutilizável.)
   if (clinics.length === 0) {
     return (
       <div className="clinic-table-wrapper">
-        <div className="clinic-table-status">Nenhuma clínica encontrada.</div>
+        <EmptyState
+          title="Nenhuma clínica encontrada"
+          subtitle="Comece cadastrando uma nova clínica"
+        />
       </div>
     )
   }

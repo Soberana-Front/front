@@ -17,3 +17,4 @@ export { ClinicTable } from './ClinicTable'; //issue 48
 export { ClinicForm } from './ClinicForm'; //issue 46
 export { ClinicModal } from './ClinicModal'; //issue 47
 export { DeleteConfirmation } from './DeleteConfirmation'; //issue 49
+export { EmptyState } from './EmptyState'; //issue 60
