@@ -1,18 +1,18 @@
 // Importa a instância do Axios já configurada (baseURL + interceptor de token)
 import { api } from './api'
-
-// ===========================
-// TIPOS
-// ===========================
+// Importa os tipos literais de Estado e Tipo, definidos junto com o schema
+// de validação do formulário — assim Clinic usa exatamente os mesmos
+// valores possíveis que o ClinicForm, sem duplicar a lista em dois lugares
+import type { BrazilianState, ClinicType } from '../validations/clinicSchema'
 
 // Formato de uma clínica retornada pela API
 export interface Clinic {
   id: string
   name: string
   city: string
-  state: string
+  state: BrazilianState   // antes era "string" — agora só aceita uma UF válida
   address: string
-  type: string
+  type: ClinicType   // antes era "string" — agora só aceita um tipo válido
   commission: number   // percentual (%)
   rent: number          // R$
   costs: number          // R$

@@ -62,3 +62,10 @@ export type ClinicFormInput = z.input<typeof clinicSchema>
 
 // Tipo dos dados DEPOIS da transformação (o que sai pronto pro clinicService)
 export type ClinicFormOutput = z.output<typeof clinicSchema>
+
+//atualização
+// Tipos derivados das listas acima, usados também pelo clinicService.ts
+// para que o tipo Clinic use exatamente os mesmos valores literais do
+// formulário (evita a necessidade de "as any" ao passar dados entre os dois)
+export type BrazilianState = (typeof BRAZILIAN_STATES)[number]
+export type ClinicType = (typeof CLINIC_TYPES)[number]

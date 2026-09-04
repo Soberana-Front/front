@@ -45,9 +45,11 @@ export const ClinicModal = ({
     ? {
         name: clinic.name,
         city: clinic.city,
-        state: clinic.state as any,
+        // clinic.state e clinic.type agora já são BrazilianState/ClinicType
+      // (mesmos tipos literais do formulário), então não precisam mais de "as any"
+        state: clinic.state,
         address: clinic.address,
-        type: clinic.type as any,
+        type: clinic.type,
         commission: clinic.commission,
         rent: formatCurrency(clinic.rent),
         costs: formatCurrency(clinic.costs),

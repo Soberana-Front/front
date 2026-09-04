@@ -12,6 +12,8 @@ import { Button } from '../../components/ui/Button'
 import { useClinics } from '../../hooks/useClinics'
 import type { Clinic } from '../../services/clinicService'
 import type { ClinicFormOutput } from '../../validations/clinicSchema'
+import { DeleteConfirmation } from '@/components/ui'
+export { DeleteConfirmation } from '../../components/ui/DeleteConfirmation';
 
 /**
  * Página de listagem de Clínicas (Issue #45).
@@ -72,10 +74,25 @@ export const ClinicsPage = () => {
 
   // Exclusão: por enquanto usa window.confirm como confirmação temporária.
   // Quando a Issue #49 (DeleteConfirmation) estiver pronta, troco isso pela modal de verdade.
-  const handleDelete = async (clinic: Clinic) => {
+  /* Antes
+    const handleDelete = async (clinic: Clinic) => {
     const confirmed = window.confirm(`Tem certeza que deseja excluir ${clinic.name}?`)
     if (!confirmed) return
     await deleteClinic(clinic.id)
+  }*/
+  // DEPOIS
+  // Substitui o window.confirm por um estado que controla a modal de exclusão
+  const [deletingClinic, setDeletingClinic] = useState<Clinic | null>(null)
+
+  // Chamado pelo ícone de lixeira na ClinicTable — só abre a modal
+  const handleDeleteClick = (clinic: Clinic) => {
+    setDeletingClinic(clinic)
+  }
+
+  // Chamado pelo botão "Confirmar" dentro do DeleteConfirmation
+  const handleConfirmDelete = async () => {
+    if (!deletingClinic) return
+    await deleteClinic(deletingClinic.id)
   }
 
   return (
@@ -110,7 +127,7 @@ export const ClinicsPage = () => {
           clinics={clinics}
           isLoading={isLoading}
           onEdit={handleOpenEditModal}
-          onDelete={handleDelete}
+          onDelete={handleDeleteClick}
         />
 
         {/* Paginação (Issue #59) */}
@@ -128,6 +145,14 @@ export const ClinicsPage = () => {
         clinic={editingClinic}
         onSubmit={handleSubmit}
         isSubmitting={isSubmitting}
+      />
+
+      {/* Modal de confirmação de exclusão (Issue #49) */}
+      <DeleteConfirmation
+        open={Boolean(deletingClinic)}
+        onOpenChange={(open: boolean) => !open && setDeletingClinic(null)}
+        itemName={deletingClinic?.name ?? ''}
+        onConfirm={handleConfirmDelete}
       />
     </DashboardLayout>
   )
