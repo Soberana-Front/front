@@ -1758,3 +1758,17 @@
 .empty-state-action {
   @apply mt-4;
 }
+
+/* ===========================
+   Classes customizadas para a página de Procedimentos
+   =========================== */
+
+/* Toolbar com busca + filtro de categoria lado a lado */
+.procedures-page-toolbar {
+  @apply flex flex-col sm:flex-row gap-3;
+}
+
+/* Limita a largura da busca quando está lado a lado com o filtro */
+.procedures-page-search {
+  @apply sm:max-w-md;
+}
