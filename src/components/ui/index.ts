@@ -22,3 +22,4 @@ export { CategoryFilter } from './CategoryFilter';  //Filtro por categoria issue
 export { ProcedureTable } from './ProcedureTable';  //issue #55
 export { Textarea } from './Textarea'; //issue #53
 export { ProcedureForm } from './ProcedureForm';  //issue #57
+export { ProcedureModal } from './ProcedureModal';  //issue #54 
