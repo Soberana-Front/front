@@ -20,3 +20,5 @@ export { DeleteConfirmation } from './DeleteConfirmation'; //issue 49
 export { EmptyState } from './EmptyState'; //issue 60
 export { CategoryFilter } from './CategoryFilter';  //Filtro por categoria issue #52
 export { ProcedureTable } from './ProcedureTable';  //issue #55
+export { Textarea } from './Textarea'; //issue #53
+export { ProcedureForm } from './ProcedureForm';  //issue #57

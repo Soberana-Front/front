@@ -1202,6 +1202,16 @@
   @apply mt-1 text-xs text-red-500;
 }
 /* ===========================
+   Classes customizadas para o Textarea
+   =========================== */
+
+/* Ajusta altura mínima e permite redimensionar verticalmente
+   (o .input-field sozinho usa h-10, fixo demais para um textarea) */
+.textarea-field {
+  @apply min-h-[80px] py-2 px-3 text-sm resize-y;
+}
+
+/* ===========================
    Classes customizadas para componentes UI (Label)
    =========================== */
 
