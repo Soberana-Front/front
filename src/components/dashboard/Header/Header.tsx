@@ -1,15 +1,18 @@
-// ========================================
-// IMPORTAÇÕES
-// ========================================
+/* ========================================
+ * IMPORTAÇÕES
+ * ======================================== */
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Bell } from 'lucide-react';
+
 import { useAuth } from '../../../contexts/AuthContext';
 import { authService } from '../../../services/authService';
 
-// ========================================
-// UTILITÁRIO: GERAR INICIAIS DO NOME
-// ========================================
+/* ========================================
+ * UTILITÁRIO: GERAR INICIAIS DO NOME
+ * ======================================== */
+
 const getInitials = (name: string) => {
   return name
     .split(' ')
@@ -20,9 +23,10 @@ const getInitials = (name: string) => {
     .toUpperCase();
 };
 
-// ========================================
-// COMPONENTE PRINCIPAL
-// ========================================
+/* ========================================
+ * COMPONENTE PRINCIPAL
+ * ======================================== */
+
 export default function DashboardHeader() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -46,7 +50,10 @@ export default function DashboardHeader() {
     <header className="dashboard-header">
       {/* ===== LADO ESQUERDO ===== */}
       <div>
-        <h1 className="dashboard-header-title">Dashboard</h1>
+        <h1 className="dashboard-header-title">
+          Dashboard
+        </h1>
+
         <p className="dashboard-header-subtitle">
           Precifique seus procedimentos com precisão
         </p>
@@ -54,6 +61,7 @@ export default function DashboardHeader() {
 
       {/* ===== LADO DIREITO ===== */}
       <div className="dashboard-header-actions">
+
         {/* Data atual */}
         <div className="dashboard-header-date-badge">
           <Bell className="w-3.5 h-3.5 text-gray-400" />
@@ -67,6 +75,7 @@ export default function DashboardHeader() {
           className="dashboard-header-notification-btn"
         >
           <Bell className="w-5 h-5" />
+
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-600 rounded-full" />
         </button>
 
@@ -82,9 +91,13 @@ export default function DashboardHeader() {
 
           {isDropdownOpen && (
             <div className="dashboard-header-dropdown">
+
               <div className="dashboard-header-dropdown-user">
-                <p className="dashboard-header-dropdown-user-text">Olá, {userName}</p>
+                <p className="dashboard-header-dropdown-user-text">
+                  Olá, {userName}
+                </p>
               </div>
+
               <button
                 type="button"
                 onClick={() => setIsDropdownOpen(false)}
@@ -92,6 +105,7 @@ export default function DashboardHeader() {
               >
                 Perfil
               </button>
+
               <button
                 type="button"
                 onClick={() => setIsDropdownOpen(false)}
@@ -99,6 +113,7 @@ export default function DashboardHeader() {
               >
                 Configurações
               </button>
+
               <button
                 type="button"
                 onClick={handleLogout}
@@ -106,9 +121,11 @@ export default function DashboardHeader() {
               >
                 Sair
               </button>
+
             </div>
           )}
         </div>
+
       </div>
     </header>
   );
