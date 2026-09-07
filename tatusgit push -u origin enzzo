@@ -1,0 +1,37 @@
+[33mcommit b8a0414e3c3dcd07d44ec6f293ea85a1ba17a457[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32menzzo[m[33m)[m
+Author: enzzodasul <enzzodasul@gmail.com>
+Date:   Mon Sep 7 17:47:54 2026 -0300
+
+    feat(procedure-step): adiciona etapa de seleção de procedimento
+    
+    Implementa a Issue #63, responsável pela criação da segunda etapa do fluxo de precificação, destinada à seleção do procedimento.
+    
+    Cria o componente ProcedureStep para representar a etapa 2 do futuro wizard de precificação, mantendo a arquitetura existente do projeto e reutilizando o hook useProcedures e o tipo Procedure já disponíveis.
+    
+    A etapa apresenta os procedimentos disponíveis em cards responsivos, permitindo que o usuário selecione uma única opção. O procedimento selecionado recebe destaque visual e um indicador de confirmação, tornando clara a opção atualmente escolhida.
+    
+    Também foi implementada a validação da etapa. Enquanto nenhum procedimento estiver selecionado, o botão Próximo permanece desabilitado. Após a seleção de um procedimento, o botão é habilitado e, ao ser acionado, o componente disponibiliza o procedimento selecionado através da propriedade onNext para que a próxima etapa do wizard possa utilizá-lo.
+    
+    A implementação utiliza os procedimentos mockados já existentes no hook useProcedures, sem criar uma nova fonte de dados ou duplicar a lógica existente. O carregamento e os possíveis erros do hook também são tratados pelo componente.
+    
+    Foram adicionadas classes globais específicas ao index.css para centralizar a estilização do ProcedureStep, seguindo o padrão definido no projeto e evitando a duplicação de estilos diretamente nos componentes.
+    
+    A implementação foi mantida isolada da página atual de procedimentos e do Dashboard, evitando alterações em funcionalidades existentes ou antecipação de responsabilidades pertencentes às próximas issues.
+    
+    Entregas:
+    - Criação do componente ProcedureStep.
+    - Listagem dos procedimentos disponíveis.
+    - Seleção visual de procedimento.
+    - Destaque da opção selecionada.
+    - Indicador visual de seleção.
+    - Exibição de categoria, descrição e tempo do procedimento.
+    - Validação da seleção antes de avançar.
+    - Controle de habilitação do botão Próximo.
+    - Callback onNext com o procedimento selecionado.
+    - Tratamento de carregamento e erro.
+    - Reutilização do useProcedures existente.
+    - Reutilização do tipo Procedure existente.
+    - Criação das classes globais de estilização no index.css.
+    - Preservação das funcionalidades existentes do projeto.
+    
+    A Issue #63 representa somente a implementação da etapa de seleção de procedimento. A integração com o wizard completo e com as etapas seguintes permanece para as respectivas issues.
