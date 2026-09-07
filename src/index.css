@@ -717,24 +717,47 @@
 .procedure-selector-select {
   @apply w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
 }
+
+
+
 /* ===========================
-   Classes customizadas para componentes do dashboard (ProfitIndicator)
+   Classes customizadas para o ProfitIndicator
    =========================== */
 
-/* Badge base do indicador de lucro */
+/* Estrutura base do indicador de lucro */
 .profit-indicator {
-  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold;
+  @apply inline-flex items-center gap-1.5 font-semibold;
 }
 
-/* Variação positiva (verde) */
+/* Lucro positivo */
 .profit-indicator-positive {
-  @apply bg-emerald-50 text-emerald-700 border border-emerald-200;
+  @apply text-emerald-600;
 }
 
-/* Variação negativa (vermelho) */
+/* Lucro negativo / prejuízo */
 .profit-indicator-negative {
-  @apply bg-rose-50 text-rose-700 border border-rose-200;
+  @apply text-red-600;
 }
+
+/* Valor igual a zero */
+.profit-indicator-neutral {
+  @apply text-slate-500;
+}
+
+/* Texto opcional do label */
+.profit-indicator-label {
+  @apply font-medium;
+}
+
+
+
+
+
+
+
+
+
+
 /* ===========================
    Classes customizadas para componentes do dashboard (QuickActions)
    =========================== */
