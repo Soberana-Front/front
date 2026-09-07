@@ -1,42 +1,57 @@
-// Importa React para usar JSX e tipos
+// Importa React para usar JSX e o tipo React.FC
 import React from 'react';
 
-// Props do componente de exibição de preço
+// Função centralizada para formatação de valores monetários
+import { formatCurrency } from '@/utils/formatCurrency';
+
+// Props do componente reutilizável de exibição de preço
 interface PriceDisplayProps {
+  // Valor monetário que será exibido
   value: number;
+
+  // Define o tamanho da fonte
   size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'primary' | 'muted';
+
+  // Define o estilo visual do valor
+  variant?: 'default' | 'highlight';
+
+  // Texto opcional exibido antes do valor
+  label?: string;
+
+  // Permite adicionar classes extras ao componente
   className?: string;
 }
 
-// Mapeia tamanhos para classes customizadas
+// Mapeia os tamanhos para as classes globais definidas no index.css
 const sizeClasses = {
   sm: 'price-display-sm',
   md: 'price-display-md',
   lg: 'price-display-lg',
 };
 
-// Mapeia variantes para classes customizadas
+// Mapeia as variantes para as classes globais definidas no index.css
 const variantClasses = {
   default: 'price-display-default',
-  primary: 'price-display-primary',
-  muted: 'price-display-muted',
+  highlight: 'price-display-highlight',
 };
 
-// Componente que exibe um valor monetário formatado em R$
+// Componente reutilizável para exibição de valores monetários
 export const PriceDisplay: React.FC<PriceDisplayProps> = ({
   value,
   size = 'md',
   variant = 'default',
+  label,
   className = '',
 }) => {
-  const formattedValue = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(value);
+  // Utiliza a função centralizada para manter a formatação monetária
+  // padronizada em todo o projeto.
+  const formattedValue = formatCurrency(value);
 
   return (
-    <span className={`${sizeClasses[size]} ${variantClasses[variant]} ${className}`}>
+    <span
+      className={`${sizeClasses[size]} ${variantClasses[variant]} ${className}`}
+    >
+      {label && <span className="price-display-label">{label}: </span>}
       {formattedValue}
     </span>
   );

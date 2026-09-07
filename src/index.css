@@ -637,15 +637,23 @@
   @apply text-2xl md:text-3xl font-bold;
 }
 
-/* Variantes de cor */
+/* ===========================
+   Variantes visuais do PriceDisplay
+   =========================== */
+
+/* Estilo padrão para valores monetários */
 .price-display-default {
   @apply text-slate-900;
 }
-.price-display-primary {
+
+/* Estilo destacado para valores importantes, como o preço final */
+.price-display-highlight {
   @apply text-emerald-600;
 }
-.price-display-muted {
-  @apply text-slate-500;
+
+/* Texto opcional exibido antes do valor monetário */
+.price-display-label {
+  @apply font-medium;
 }
 
 /* ===========================
