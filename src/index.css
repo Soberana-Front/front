@@ -2262,3 +2262,131 @@
     @apply w-full;
   }
 }
+
+
+
+
+
+
+
+
+
+
+/* ===========================
+   PricingResult - Issue #65
+   Etapa 4 - Resultado final
+   =========================== */
+
+/* Container principal do resultado */
+.pricing-result {
+  @apply flex w-full flex-col gap-6;
+}
+
+/* Cabeçalho da etapa */
+.pricing-result__header {
+  @apply flex flex-col gap-2;
+}
+
+/* Identificação da etapa atual */
+.pricing-result__step {
+  @apply mb-1 inline-block text-sm font-semibold text-indigo-600;
+}
+
+/* Título principal do resultado */
+.pricing-result__title {
+  @apply m-0 text-2xl font-bold leading-tight text-gray-900;
+}
+
+/* Descrição abaixo do título */
+.pricing-result__description {
+  @apply mt-1.5 text-sm leading-relaxed text-gray-500;
+}
+
+/* Card que contém os resultados e ações */
+.pricing-result__card {
+  @apply w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm;
+}
+
+/* Área que contém todos os valores */
+.pricing-result__items {
+  @apply flex flex-col gap-1 p-5;
+}
+
+/* Linha individual de cada resultado */
+.pricing-result__item {
+  @apply flex items-center justify-between border-b border-slate-100 py-3 text-sm;
+}
+
+/* Nome do indicador */
+.pricing-result__label {
+  @apply text-slate-600;
+}
+
+/* Valor do indicador */
+.pricing-result__value {
+  @apply font-semibold text-slate-900;
+}
+
+/* Área de destaque do preço final */
+.pricing-result__final {
+  @apply mt-4 flex items-center justify-between rounded-xl border border-indigo-100 bg-indigo-50 p-5;
+}
+
+/* Texto do preço final */
+.pricing-result__final-label {
+  @apply text-base font-bold text-indigo-900;
+}
+
+/* Valor principal da precificação */
+.pricing-result__final-value {
+  @apply text-2xl font-extrabold text-indigo-600 md:text-3xl;
+}
+
+/* Container dos botões */
+.pricing-result__actions {
+  @apply flex items-center justify-end gap-3 border-t border-slate-100 bg-slate-50 p-4;
+}
+
+/* Botão de exportação */
+.pricing-result__export-button {
+  @apply rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+}
+
+/* Botão de finalização */
+.pricing-result__finish-button {
+  @apply rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+}
+
+/* Ajustes responsivos para telas menores */
+@media (max-width: 768px) {
+  /* Reduz o espaçamento geral */
+  .pricing-result {
+    @apply gap-4;
+  }
+
+  /* Reduz o tamanho do título */
+  .pricing-result__title {
+    @apply text-xl;
+  }
+
+  /* Reduz o espaçamento interno dos resultados */
+  .pricing-result__items {
+    @apply p-4;
+  }
+
+  /* Ajusta o destaque do preço final */
+  .pricing-result__final {
+    @apply p-4;
+  }
+
+  /* Organiza os botões verticalmente no mobile */
+  .pricing-result__actions {
+    @apply flex-col;
+  }
+
+  /* Faz os botões ocuparem toda a largura */
+  .pricing-result__export-button,
+  .pricing-result__finish-button {
+    @apply w-full;
+  }
+}
