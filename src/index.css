@@ -1772,3 +1772,89 @@
 .procedures-page-search {
   @apply sm:max-w-md;
 }
+
+
+
+/* ===========================
+   Classes customizadas para o ProcedureStep
+   =========================== */
+
+/* Container principal da etapa de seleção de procedimento */
+.procedure-step {
+  @apply space-y-6;
+}
+
+/* Cabeçalho da etapa */
+.procedure-step-header {
+  @apply space-y-1;
+}
+
+/* Identificação da etapa atual */
+.procedure-step-indicator {
+  @apply text-xs font-semibold text-indigo-600 uppercase tracking-wider;
+}
+
+/* Título principal da etapa */
+.procedure-step-title {
+  @apply text-2xl font-semibold text-gray-900;
+}
+
+/* Descrição auxiliar da etapa */
+.procedure-step-description {
+  @apply text-sm text-gray-600;
+}
+
+/* Grid responsivo dos procedimentos */
+.procedure-step-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+}
+
+/* Card de procedimento */
+.procedure-step-card {
+  @apply relative w-full text-left bg-white border border-gray-200 rounded-xl p-5 shadow-sm transition-all cursor-pointer;
+}
+
+/* Card de procedimento no hover */
+.procedure-step-card:hover {
+  @apply border-indigo-300 bg-gray-50;
+}
+
+/* Card de procedimento selecionado */
+.procedure-step-card-selected {
+  @apply border-indigo-600 bg-indigo-50 ring-2 ring-indigo-200;
+}
+
+/* Ícone de confirmação da seleção */
+.procedure-step-selected-icon {
+  @apply absolute top-4 right-4 flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-white;
+}
+
+/* Nome do procedimento */
+.procedure-step-card-title {
+  @apply pr-8 font-semibold text-gray-900;
+}
+
+/* Categoria do procedimento */
+.procedure-step-card-category {
+  @apply mt-1 text-sm text-indigo-600;
+}
+
+/* Descrição do procedimento */
+.procedure-step-card-description {
+  @apply mt-3 text-sm leading-relaxed text-gray-600;
+}
+
+/* Informações adicionais do procedimento */
+.procedure-step-card-meta {
+  @apply mt-4 flex items-center gap-2 text-sm text-gray-500;
+}
+
+/* Mensagem de erro da validação */
+.procedure-step-error {
+  @apply text-sm text-red-600;
+}
+
+/* Área de navegação da etapa */
+.procedure-step-navigation {
+  @apply flex justify-end gap-4 pt-4;
+}

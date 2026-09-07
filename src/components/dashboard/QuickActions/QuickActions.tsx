@@ -21,7 +21,7 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = '' }) =>
   const handleCompareClinics = () => {
     navigate('/comparacoes');
   };
-
+ 
   return (
     // Container flexível com espaçamento
     <div className={`quick-actions-container ${className}`}>

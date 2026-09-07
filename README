@@ -46,7 +46,7 @@ Se a branch enzzo também existe no remoto e você quer que ela seja substituíd
 
 
 
-
+//
 
 
 
@@ -115,6 +115,103 @@ npm run build
 ********
 ******
 ***
+📋 Módulo de Tarefas Desenvolvidas Enzzo — EP4:  Precificação com IA
+
+
+
+
+
+
+Objetivo da Issue #63
+
+Criar o segundo passo do wizard:
+
+Etapa 1 → Clínica
+↓
+Etapa 2 → Procedimento ← vamos trabalhar agora
+↓
+Etapa 3 → Chat com IA
+↓
+Etapa 4 → Resultado da precificação
+
+O que precisamos implementar
+
+A ProcedureStep deve:
+
+Receber/listar procedimentos mockados.
+Mostrar os procedimentos em cards ou outra UI definida pelo projeto.
+Permitir selecionar um procedimento.
+Deixar visualmente claro qual está selecionado.
+Manter o botão Próximo desabilitado enquanto nenhum procedimento estiver selecionado.
+Habilitar Próximo depois da seleção.
+Ao avançar, guardar o procedimento selecionado para o próximo passo.
+Não criar ainda a lógica real de IA/API.
+
+
+Resultado da auditoria da #63
+Requisito da Issue	Situação
+Criar ProcedureStep	❌ Não existe
+Lista de procedimentos	🟡 Existe, mas em outro componente
+Procedimentos mockados	✅ Já existem
+Selecionar procedimento	🟡 Existe no ProcedureSelector
+Destacar opção escolhida	❌ Não existe
+Botão "Próximo"	❌ Não existe nessa etapa
+Próximo desabilitado sem seleção	❌ Não implementado
+Validação	🟡 Existe seleção, mas não a validação da etapa
+Integrar ao wizard	❌ Wizard ainda não está implementado
+
+Conclusão: a Issue #63 não está pronta. Porém, aproximadamente metade da base necessária já existe.
+
+Vamos transformar a #63 na verdadeira etapa 2 do fluxo, reaproveitando:
+
+useProcedures
+      ↓
+ProcedureStep
+      ↓
+seleção
+      ↓
+Próximo
+      ↓
+próxima etapa
+
+E deixar o ProcedureSelector atual intacto por enquanto, porque ele está sendo usado no DashboardPage:
+
+<ProcedureSelector />
+
+Ou seja, ele é uma funcionalidade existente do dashboard e não devemos quebrá-la só para atender a nova etapa.
+
+Para a #63, vamos fazer assim
+
+Vou considerar a Issue como concluída somente quando tivermos:
+
+ ProcedureStep funcionando como segunda etapa do wizard
+ procedimentos sendo exibidos
+ seleção de um procedimento
+ procedimento selecionado visualmente destacado
+ Próximo desabilitado sem seleção
+ Próximo habilitado após seleção
+ validação funcionando
+ procedimento selecionado sendo passado corretamente para a próxima etapa
+ código compilando sem erros
+ lint passando
+ Issue atualizada com o que realmente foi feito
+ commit/PR relacionado à #63
+
+Não vamos mexer em nada que pertença às Issues #64 em diante.
+
+
+
+**********
+********
+******
+***
+
+------------------------------------------------
+------------------------------------------------------
+--------------------------------------------------------------
+-------------------------------------------------------------------
+
+
 📋 Módulo de Tarefas Desenvolvidas Enzzo — EP2: Dashboard
 📐 Layout Base & Estrutura
 Issue #28 — Criar DashboardLayout: Componente de layout principal definindo o grid estrutural, delimitando as zonas fixas da aplicação (Sidebar e Header) e injetando as páginas filhas via children.
@@ -148,6 +245,7 @@ Issue #36 (#87) — Criar QuickActions: Painel utilitário de botões de atalho 
 *********
 *******
 ****
+
 
 💬 Chat & Inteligência Artificial
 Issue #37 (#88) — Criar ChatMessage: Componente de renderização individual de mensagens da conversa, aplicando tratamento visual distinto para usuário e assistente (Soberana AI), com suporte a avatares e timestamps.
