@@ -1,9 +1,14 @@
+
 import React from 'react';
+
 import { formatCurrency } from '@/utils/formatCurrency';
+
 import {
   MOCK_PRICING_DATA,
   PricingSummaryData,
 } from '../PricingSumary/PricingSumary';
+
+import ExportPDFButton from '../ExportPDFButton/ExportPDFButton';
 
 // Props do resultado final da precificação
 interface PricingResultProps {
@@ -50,11 +55,6 @@ export const PricingResult: React.FC<PricingResultProps> = ({
       value: data.correctedCost,
     },
   ];
-
-  // Exportação mockada conforme especificação da Issue #65
-  const handleExportPDF = () => {
-    console.log('Exportar PDF - funcionalidade mockada');
-  };
 
   return (
     <section className="pricing-result">
@@ -106,13 +106,7 @@ export const PricingResult: React.FC<PricingResultProps> = ({
 
         {/* Ações disponíveis na etapa final */}
         <div className="pricing-result__actions">
-          <button
-            type="button"
-            className="pricing-result__export-button"
-            onClick={handleExportPDF}
-          >
-            Exportar PDF
-          </button>
+          <ExportPDFButton />
 
           <button
             type="button"
@@ -128,3 +122,4 @@ export const PricingResult: React.FC<PricingResultProps> = ({
 };
 
 export default PricingResult;
+
