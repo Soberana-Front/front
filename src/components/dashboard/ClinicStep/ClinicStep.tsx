@@ -1,44 +1,62 @@
 import { useState } from 'react'
 
 import ClinicSelector from '../ClinicSelector/ClinicSelector'
+import type { Clinic } from '../ClinicSelector/ClinicSelector'
 
-// Props da primeira etapa do wizard
+// ========================================
+// PROPS
+// ========================================
+
 interface ClinicStepProps {
-  // ID da clínica anteriormente selecionada
+  /**
+   * ID da clínica anteriormente selecionada.
+   *
+   * Mantemos essa prop para preservar o funcionamento
+   * atual do wizard quando o usuário volta para essa etapa.
+   */
   initialClinicId?: string
 
-  // Callback executado ao avançar para a próxima etapa
-  onNext?: (clinicId: string) => void
+  /**
+   * Agora o callback entrega a clínica completa.
+   *
+   * Isso permite que o usePricingWizard mantenha:
+   *
+   * selectedClinic: Clinic | null
+   */
+  onNext?: (clinic: Clinic) => void
 }
 
-// Primeira etapa do fluxo de nova precificação
-//
-// Responsabilidades:
-// - Exibir o seletor de clínicas existente
-// - Controlar a clínica selecionada
-// - Validar a seleção
-// - Entregar a clínica selecionada ao PricingWizard
+// ========================================
+// COMPONENTE
+// ========================================
+
 export default function ClinicStep({
   initialClinicId = '',
   onNext,
 }: ClinicStepProps) {
-  // Guarda a clínica selecionada nesta etapa
-  const [selectedClinicId, setSelectedClinicId] =
-    useState(initialClinicId)
+  // Guarda a clínica completa selecionada.
+  const [selectedClinic, setSelectedClinic] =
+    useState<Clinic | null>(null)
 
-  // Guarda uma mensagem de validação
+  // Guarda uma mensagem de validação.
   const [validationError, setValidationError] =
     useState<string | null>(null)
 
-  // Atualiza a clínica selecionada
-  const handleSelectClinic = (clinicId: string) => {
-    setSelectedClinicId(clinicId)
+  // ========================================
+  // SELEÇÃO DA CLÍNICA
+  // ========================================
+
+  const handleSelectClinic = (clinic: Clinic) => {
+    setSelectedClinic(clinic)
     setValidationError(null)
   }
 
-  // Valida a seleção antes de avançar
+  // ========================================
+  // AVANÇAR
+  // ========================================
+
   const handleNext = () => {
-    if (!selectedClinicId) {
+    if (!selectedClinic) {
       setValidationError(
         'Selecione uma clínica para continuar.',
       )
@@ -46,9 +64,13 @@ export default function ClinicStep({
       return
     }
 
-    // Envia o ID selecionado para o componente principal
-    onNext?.(selectedClinicId)
+    // Entrega a clínica completa ao PricingWizard.
+    onNext?.(selectedClinic)
   }
+
+  // ========================================
+  // RENDERIZAÇÃO
+  // ========================================
 
   return (
     <section className="clinic-step">
@@ -67,10 +89,12 @@ export default function ClinicStep({
         </p>
       </header>
 
-      {/* Reutiliza o ClinicSelector já existente no projeto */}
+      {/* Reutiliza o seletor existente */}
       <ClinicSelector
-        selectedClinicId={selectedClinicId}
-        onSelectClinic={handleSelectClinic}
+        selectedClinicId={
+          selectedClinic?.id || initialClinicId
+        }
+        onSelectClinicData={handleSelectClinic}
       />
 
       {/* Mensagem de validação */}
@@ -88,7 +112,7 @@ export default function ClinicStep({
         <button
           type="button"
           onClick={handleNext}
-          disabled={!selectedClinicId}
+          disabled={!selectedClinic}
           className="pagination-button"
         >
           Próximo

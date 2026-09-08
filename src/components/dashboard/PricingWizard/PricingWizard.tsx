@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import ClinicStep from '../ClinicStep/ClinicStep'
@@ -7,22 +6,19 @@ import ChatConversation from '../ChatConversation/ChatConversation'
 import PricingResult from '../PricingResult/PricingResult'
 
 import {
-  MOCK_PRICING_DATA,
-  type PricingSummaryData,
-} from '../PricingSumary/PricingSumary'
-
-import type { Procedure } from '../../../services/procedureService'
-
-import {
   FormSteps,
   type Step,
 } from '../../ui/FormSteps'
+
+import {
+  usePricingWizard,
+} from '../../../hooks/usePricingWizard'
 
 // ========================================
 // ETAPAS DO WIZARD
 // ========================================
 
-// Configuração visual das quatro etapas
+// Configuração visual das quatro etapas.
 const WIZARD_STEPS: Step[] = [
   {
     label: 'Clínica',
@@ -49,86 +45,78 @@ const WIZARD_STEPS: Step[] = [
 // Componente responsável por integrar
 // todo o fluxo da nova precificação.
 export default function PricingWizard() {
-  // Permite redirecionar o usuário ao finalizar
+  // Permite redirecionar o usuário ao finalizar.
   const navigate = useNavigate()
 
-  // Índice da etapa atual:
-  // 0 = Clínica
-  // 1 = Procedimento
-  // 2 = Conversa
-  // 3 = Resultado
-  const [currentStep, setCurrentStep] = useState(0)
-
   // ========================================
-  // ESTADO DA CLÍNICA
+  // ESTADO CENTRAL DO WIZARD
   // ========================================
 
-  // Guarda a clínica selecionada pelo usuário
-  const [selectedClinicId, setSelectedClinicId] =
-    useState('')
+  /**
+   * Toda a lógica de estado agora vem
+   * do hook usePricingWizard.
+   *
+   * Isso remove a necessidade de manter
+   * vários useState dentro deste componente.
+   */
+  const {
+    currentStep,
+    selectedClinic,
+    selectedProcedure,
+    chatMessages,
+    pricingResult,
+    isLoading,
+
+    goToStep,
+
+    selectClinic,
+    selectProcedure,
+
+    addChatMessage,
+
+    calculatePricing,
+  } = usePricingWizard()
 
   // ========================================
-  // ESTADO DO PROCEDIMENTO
+  // NAVEGAÇÃO
   // ========================================
 
-  // Guarda o procedimento selecionado
-  const [selectedProcedure, setSelectedProcedure] =
-    useState<Procedure | null>(null)
-
-  // ========================================
-  // ESTADO DA CONVERSA
-  // ========================================
-
-  // Indica se a conversa da etapa 3 foi concluída
-  const [chatCompleted, setChatCompleted] =
-    useState(false)
-
-  // ========================================
-  // ESTADO DO RESULTADO
-  // ========================================
-
-  // Resultado atual da precificação.
-  //
-  // Por enquanto utilizamos o mock existente.
-  // A integração real poderá substituir este estado
-  // posteriormente sem alterar a estrutura do wizard.
-  const [pricingResult] =
-    useState<PricingSummaryData>(
-      MOCK_PRICING_DATA,
-    )
-
-  // ========================================
-  // NAVEGAÇÃO DO WIZARD
-  // ========================================
-
-  // Permite navegar somente para etapas
-  // que já foram alcançadas.
+  /**
+   * Permite navegar somente para etapas
+   * que já foram alcançadas.
+   */
   const handleStepClick = (stepIndex: number) => {
-    // Não permite pular etapas futuras
+    // Não permite pular etapas futuras.
     if (stepIndex > currentStep) {
       return
     }
 
-    setCurrentStep(stepIndex)
+    goToStep(stepIndex)
   }
 
-  // Volta uma etapa
+  /**
+   * Volta uma etapa.
+   */
   const handlePrevious = () => {
-    setCurrentStep((currentStepValue) =>
-      Math.max(currentStepValue - 1, 0),
-    )
+    goToStep(currentStep - 1)
   }
 
   // ========================================
   // ETAPA 1 — CLÍNICA
   // ========================================
 
-  const handleClinicNext = (clinicId: string) => {
-    // Salva a clínica no estado central
-    setSelectedClinicId(clinicId)
+  const handleClinicNext = (
+    clinic: typeof selectedClinic,
+  ) => {
+    if (!clinic) {
+      return
+    }
 
-    // Avança para a segunda etapa
-    setCurrentStep(1)
+    // Salva a clínica no hook.
+    selectClinic(clinic)
+
+    // Avança para a etapa seguinte.
+    goToStep(1)
   }
 
   // ========================================
@@ -136,13 +124,17 @@ export default function PricingWizard() {
   // ========================================
 
   const handleProcedureNext = (
-    procedure: Procedure,
+    procedure: typeof selectedProcedure,
   ) => {
-    // Salva o procedimento no estado central
-    setSelectedProcedure(procedure)
+    if (!procedure) {
+      return
+    }
 
-    // Avança para a conversa
-    setCurrentStep(2)
+    // Salva o procedimento no hook.
+    selectProcedure(procedure)
+
+    // Avança para a conversa.
+    goToStep(2)
   }
 
   // ========================================
@@ -150,19 +142,25 @@ export default function PricingWizard() {
   // ========================================
 
   const handleConversationComplete = () => {
-    // Marca a conversa como concluída
-    setChatCompleted(true)
+    /**
+     * O ChatConversation já controla a conclusão
+     * visual da conversa.
+     *
+     * Aqui apenas mantemos o callback disponível
+     * para o fluxo do wizard.
+     */
   }
 
   const handleChatNext = () => {
-    // Não permite avançar enquanto a conversa
-    // não tiver sido concluída
-    if (!chatCompleted) {
-      return
-    }
+    /**
+     * O próprio ChatConversation só chama
+     * onNext quando a conversa está concluída.
+     *
+     * Portanto podemos avançar diretamente.
+     */
+    calculatePricing()
 
-    // Avança para o resultado
-    setCurrentStep(3)
+    goToStep(3)
   }
 
   // ========================================
@@ -170,7 +168,7 @@ export default function PricingWizard() {
   // ========================================
 
   const handleFinish = () => {
-    // Finaliza o fluxo e retorna ao dashboard
+    // Finaliza o fluxo e retorna ao dashboard.
     navigate('/dashboard')
   }
 
@@ -213,9 +211,12 @@ export default function PricingWizard() {
         {/* ====================================
             ETAPA 1 — CLÍNICA
             ==================================== */}
+
         {currentStep === 0 && (
           <ClinicStep
-            initialClinicId={selectedClinicId}
+            initialClinicId={
+              selectedClinic?.id
+            }
             onNext={handleClinicNext}
           />
         )}
@@ -223,6 +224,7 @@ export default function PricingWizard() {
         {/* ====================================
             ETAPA 2 — PROCEDIMENTO
             ==================================== */}
+
         {currentStep === 1 && (
           <ProcedureStep
             initialProcedureId={
@@ -235,8 +237,11 @@ export default function PricingWizard() {
         {/* ====================================
             ETAPA 3 — CONVERSA COM A IA
             ==================================== */}
+
         {currentStep === 2 && (
           <ChatConversation
+            messages={chatMessages}
+            onAddMessage={addChatMessage}
             onNext={handleChatNext}
             onConversationComplete={
               handleConversationComplete
@@ -247,13 +252,23 @@ export default function PricingWizard() {
         {/* ====================================
             ETAPA 4 — RESULTADO
             ==================================== */}
+
         {currentStep === 3 && (
           <PricingResult
-            data={pricingResult}
+            data={pricingResult || undefined}
             onFinish={handleFinish}
           />
         )}
       </div>
+
+      {/* Indicador de carregamento do cálculo.
+          Mantido fora das etapas para não alterar
+          o layout existente. */}
+      {isLoading && (
+        <p className="pricing-wizard-loading">
+          Calculando precificação...
+        </p>
+      )}
 
       {/* Botão voltar.
           Não aparece na primeira etapa. */}
