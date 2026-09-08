@@ -1,199 +1,156 @@
-// Importa a instância do Axios já configurada.
-//
-// Essa instância já possui:
-// - baseURL da API;
-// - Content-Type JSON;
-// - token JWT;
-// - tratamento global de erro 401.
-//
-// Dessa forma, não criamos uma segunda instância
-// específica para o serviço de precificação.
+// ============================================================
+// SERVIÇO DE PRECIFICAÇÃO
+// ============================================================
+
+/**
+ * Importa a instância Axios centralizada da aplicação.
+ *
+ * A instância já possui:
+ * - baseURL;
+ * - Content-Type;
+ * - autenticação;
+ * - tratamento global de erros.
+ */
 import { api } from './api'
 
-// ========================================
-// TIPOS
-// ========================================
+/**
+ * Importa os tipos centralizados do domínio de Pricing.
+ */
+import type {
+  ChatMessage,
+  CreatePricingData,
+  PricingChatResponse,
+  PricingResult,
+} from '../types/pricing'
+
+// ============================================================
+// TIPOS EXPORTADOS
+// ============================================================
 
 /**
- * Dados enviados para criar uma nova precificação.
- *
- * A API poderá receber outros campos futuramente.
- * Por enquanto mantemos o payload genérico o suficiente
- * para a estrutura atual do projeto.
+ * Reexporta os tipos para manter compatibilidade
+ * com arquivos que eventualmente importem esses tipos
+ * diretamente do pricingService.
  */
-export interface CreatePricingData {
-  clinicId: string
-  procedureId: string
-  [key: string]: unknown
+export type {
+  ChatMessage,
+  CreatePricingData,
+  PricingChatResponse,
+  PricingResult,
 }
 
-/**
- * Resultado retornado pela API após criar ou
- * consultar uma precificação.
- *
- * O backend poderá evoluir esse contrato posteriormente.
- */
-export interface PricingResult {
-  id: string
-  [key: string]: unknown
-}
-
-/**
- * Resposta esperada ao enviar uma mensagem
- * para o chat de uma precificação.
- */
-export interface PricingChatResponse {
-  [key: string]: unknown
-}
-
-// ========================================
+// ============================================================
 // SERVIÇO
-// ========================================
+// ============================================================
 
 /**
- * Serviço responsável pela comunicação com os
- * endpoints de precificação da API.
+ * Serviço responsável pela comunicação com a API
+ * de precificação.
  *
- * Issue #72 — Criar pricingService.
+ * Endpoints:
  *
- * Responsabilidades:
- * - criar uma precificação;
- * - buscar uma precificação;
- * - enviar mensagens para o chat;
- * - solicitar a exportação em PDF.
- *
- * O serviço não possui lógica de interface ou estado.
- * Essas responsabilidades pertencem aos hooks e componentes
- * que utilizarem este serviço.
+ * POST /pricing
+ * GET /pricing/:id
+ * POST /pricing/:id/chat
+ * GET /pricing/:id/pdf
  */
 export const pricingService = {
-  // ========================================
+  // ==========================================================
   // CRIAR PRECIFICAÇÃO
-  // ========================================
+  // ==========================================================
 
   /**
-   * POST /pricing
-   *
    * Cria uma nova precificação.
    *
-   * @param data Dados necessários para criar a precificação.
-   * @returns Resultado da precificação criada.
+   * Endpoint:
+   * POST /pricing
    */
   createPricing: async (
     data: CreatePricingData,
   ): Promise<PricingResult> => {
-    try {
-      const response = await api.post<PricingResult>(
-        '/pricing',
-        data,
-      )
+    const response = await api.post<PricingResult>(
+      '/pricing',
+      data,
+    )
 
-      return response.data
-    } catch (error) {
-      // O serviço não trata a apresentação do erro.
-      // Apenas repassa para quem chamou o método.
-      throw error
-    }
+    return response.data
   },
 
-  // ========================================
+  // ==========================================================
   // BUSCAR PRECIFICAÇÃO
-  // ========================================
+  // ==========================================================
 
   /**
+   * Busca uma precificação pelo ID.
+   *
+   * Endpoint:
    * GET /pricing/:id
-   *
-   * Busca uma precificação existente pelo ID.
-   *
-   * @param id Identificador da precificação.
-   * @returns Dados da precificação encontrada.
    */
   getPricing: async (
     id: string,
   ): Promise<PricingResult> => {
-    try {
-      const response = await api.get<PricingResult>(
-        `/pricing/${id}`,
-      )
+    const response = await api.get<PricingResult>(
+      `/pricing/${id}`,
+    )
 
-      return response.data
-    } catch (error) {
-      // Repassa o erro para o consumidor do serviço.
-      throw error
-    }
+    return response.data
   },
 
-  // ========================================
+  // ==========================================================
   // ENVIAR MENSAGEM PARA O CHAT
-  // ========================================
+  // ==========================================================
 
   /**
+   * Envia uma mensagem para a conversa
+   * associada a uma precificação.
+   *
+   * Endpoint:
    * POST /pricing/:id/chat
-   *
-   * Envia uma mensagem para o chat associado
-   * a uma precificação.
-   *
-   * @param id Identificador da precificação.
-   * @param message Mensagem enviada pelo usuário.
-   * @returns Resposta retornada pelo chat da API.
    */
   sendChatMessage: async (
     id: string,
     message: string,
   ): Promise<PricingChatResponse> => {
-    try {
-      const response =
-        await api.post<PricingChatResponse>(
-          `/pricing/${id}/chat`,
-          {
-            message,
-          },
-        )
+    const response =
+      await api.post<PricingChatResponse>(
+        `/pricing/${id}/chat`,
+        {
+          message,
+        },
+      )
 
-      return response.data
-    } catch (error) {
-      // Repassa o erro para o consumidor do serviço.
-      throw error
-    }
+    return response.data
   },
 
-  // ========================================
+  // ==========================================================
   // EXPORTAR PDF
-  // ========================================
+  // ==========================================================
 
   /**
-   * GET /pricing/:id/pdf
-   *
    * Solicita o PDF da precificação.
    *
-   * O responseType "blob" é necessário porque
-   * o endpoint retorna um arquivo PDF em vez de
-   * um objeto JSON.
+   * Endpoint:
+   * GET /pricing/:id/pdf
    *
-   * @param id Identificador da precificação.
-   * @returns Arquivo PDF como Blob.
+   * O retorno é um Blob porque o servidor
+   * retorna um arquivo PDF.
    */
   exportPDF: async (
     id: string,
   ): Promise<Blob> => {
-    try {
-      const response = await api.get<Blob>(
-        `/pricing/${id}/pdf`,
-        {
-          responseType: 'blob',
-        },
-      )
+    const response = await api.get<Blob>(
+      `/pricing/${id}/pdf`,
+      {
+        responseType: 'blob',
+      },
+    )
 
-      return response.data
-    } catch (error) {
-      // Repassa o erro para o consumidor do serviço.
-      throw error
-    }
+    return response.data
   },
 }
 
-// ========================================
+// ============================================================
 // EXPORT DEFAULT
-// ========================================
+// ============================================================
 
 export default pricingService
