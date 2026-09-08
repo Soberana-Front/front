@@ -8,43 +8,38 @@ import {
   type PricingSummaryData,
 } from '../components/dashboard/PricingSumary/PricingSumary'
 
+import { usePricingChat } from './usePricingChat'
+
 // ========================================
 // TIPOS DO WIZARD
 // ========================================
 
 /**
- * Representa uma mensagem enviada durante
- * a conversa de precificação.
- */
-export interface PricingWizardMessage {
-  id: number
-  sender: 'user' | 'ia'
-  message: string
-  timestamp: string
-}
-
-/**
- * O resultado da precificação utiliza o tipo
- * que já existe no projeto.
+ * Tipo utilizado para representar o resultado
+ * da precificação.
  *
- * Dessa forma não criamos um segundo tipo
- * com os mesmos campos.
+ * Reutilizamos o tipo já existente no projeto
+ * para evitar duplicação de interfaces.
  */
 export type PricingResult = PricingSummaryData
 
 // ========================================
-// CONSTANTES DE NAVEGAÇÃO
+// CONSTANTES
 // ========================================
 
 /**
- * O wizard possui quatro etapas.
+ * Primeira etapa do wizard.
+ */
+const FIRST_STEP = 0
+
+/**
+ * Última etapa do wizard.
  *
  * 0 - Clínica
  * 1 - Procedimento
  * 2 - Conversa
  * 3 - Resultado
  */
-const FIRST_STEP = 0
 const LAST_STEP = 3
 
 // ========================================
@@ -52,11 +47,11 @@ const LAST_STEP = 3
 // ========================================
 
 /**
- * Hook responsável por centralizar o estado
- * e a lógica principal do wizard de precificação.
+ * Hook responsável pelo estado geral do
+ * wizard de precificação.
  *
- * A ideia é evitar que o PricingWizard precise
- * controlar vários useState diretamente.
+ * A lógica específica do chat é delegada
+ * ao usePricingChat.
  */
 export function usePricingWizard() {
   // ========================================
@@ -81,45 +76,37 @@ export function usePricingWizard() {
     useState<Procedure | null>(null)
 
   // ========================================
-  // MENSAGENS DA CONVERSA
-  // ========================================
-
-  /**
-   * A primeira mensagem é criada pelo próprio
-   * hook para que o histórico já esteja disponível
-   * desde o início da etapa de conversa.
-   */
-  const [chatMessages, setChatMessages] = useState<
-    PricingWizardMessage[]
-  >([
-    {
-      id: 1,
-      sender: 'ia',
-      message:
-        'Olá! Vamos precificar seu procedimento. Me conte mais sobre os custos envolvidos...',
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
-    },
-  ])
-
-  // ========================================
   // RESULTADO DA PRECIFICAÇÃO
   // ========================================
 
-  /**
-   * O resultado começa como null porque
-   * o cálculo ainda não foi executado.
-   */
   const [pricingResult, setPricingResult] =
     useState<PricingResult | null>(null)
 
   // ========================================
-  // ESTADO DE CARREGAMENTO
+  // CARREGAMENTO
   // ========================================
 
   const [isLoading, setIsLoading] = useState(false)
+
+  // ========================================
+  // CHAT
+  // ========================================
+
+  /**
+   * A lógica da conversa fica no hook
+   * usePricingChat.
+   *
+   * O wizard apenas expõe esses dados para
+   * os componentes que precisam deles.
+   */
+  const {
+    messages: chatMessages,
+    isTyping,
+    isCompleted: isChatCompleted,
+    sendMessage,
+    finishConversation,
+    resetChat,
+  } = usePricingChat()
 
   // ========================================
   // NAVEGAÇÃO
@@ -128,8 +115,7 @@ export function usePricingWizard() {
   /**
    * Avança uma etapa.
    *
-   * Math.min impede que currentStep ultrapasse
-   * a última etapa disponível.
+   * Nunca ultrapassa a última etapa.
    */
   const nextStep = useCallback(() => {
     setCurrentStep((step) =>
@@ -140,8 +126,7 @@ export function usePricingWizard() {
   /**
    * Volta uma etapa.
    *
-   * Math.max impede que currentStep fique
-   * abaixo da primeira etapa.
+   * Nunca ultrapassa a primeira etapa.
    */
   const prevStep = useCallback(() => {
     setCurrentStep((step) =>
@@ -150,9 +135,7 @@ export function usePricingWizard() {
   }, [])
 
   /**
-   * Vai diretamente para uma etapa específica.
-   *
-   * Valores fora do intervalo 0-3 são ignorados.
+   * Navega diretamente para uma etapa válida.
    */
   const goToStep = useCallback((step: number) => {
     if (step < FIRST_STEP || step > LAST_STEP) {
@@ -167,7 +150,7 @@ export function usePricingWizard() {
   // ========================================
 
   /**
-   * Define a clínica atualmente selecionada.
+   * Armazena a clínica selecionada.
    */
   const selectClinic = useCallback((clinic: Clinic) => {
     setSelectedClinic(clinic)
@@ -178,7 +161,7 @@ export function usePricingWizard() {
   // ========================================
 
   /**
-   * Define o procedimento atualmente selecionado.
+   * Armazena o procedimento selecionado.
    */
   const selectProcedure = useCallback(
     (procedure: Procedure) => {
@@ -188,75 +171,27 @@ export function usePricingWizard() {
   )
 
   // ========================================
-  // CHAT
-  // ========================================
-
-  /**
-   * Adiciona uma nova mensagem ao histórico
-   * da conversa.
-   */
-  const addChatMessage = useCallback(
-    (message: PricingWizardMessage) => {
-      setChatMessages((messages) => [
-        ...messages,
-        message,
-      ])
-    },
-    [],
-  )
-
-  /**
-   * Remove todas as mensagens e inicia novamente
-   * a conversa com a mensagem inicial da IA.
-   */
-  const resetChat = useCallback(() => {
-    setChatMessages([
-      {
-        id: 1,
-        sender: 'ia',
-        message:
-          'Olá! Vamos precificar seu procedimento. Me conte mais sobre os custos envolvidos...',
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
-      },
-    ])
-  }, [])
-
-  // ========================================
   // VALIDAÇÃO
   // ========================================
 
   /**
    * Valida a etapa atualmente selecionada.
-   *
-   * Etapa 0:
-   * precisa ter uma clínica.
-   *
-   * Etapa 1:
-   * precisa ter um procedimento.
-   *
-   * Etapa 2:
-   * precisa ter uma interação do usuário
-   * na conversa.
-   *
-   * Etapa 3:
-   * precisa ter um resultado calculado.
    */
   const validateCurrentStep = useCallback(() => {
     switch (currentStep) {
+      // Etapa da clínica.
       case 0:
         return selectedClinic !== null
 
+      // Etapa do procedimento.
       case 1:
         return selectedProcedure !== null
 
+      // Etapa da conversa.
       case 2:
-        return chatMessages.some(
-          (message) => message.sender === 'user',
-        )
+        return isChatCompleted
 
+      // Etapa do resultado.
       case 3:
         return pricingResult !== null
 
@@ -267,7 +202,7 @@ export function usePricingWizard() {
     currentStep,
     selectedClinic,
     selectedProcedure,
-    chatMessages,
+    isChatCompleted,
     pricingResult,
   ])
 
@@ -276,11 +211,10 @@ export function usePricingWizard() {
   // ========================================
 
   /**
-   * Executa o cálculo mockado da precificação.
+   * Simula o cálculo da precificação.
    *
-   * O backend real poderá substituir essa lógica
-   * futuramente sem precisar alterar o componente
-   * PricingWizard.
+   * O mock será posteriormente substituído
+   * pela integração com o backend.
    */
   const calculatePricing = useCallback(() => {
     setIsLoading(true)
@@ -292,65 +226,63 @@ export function usePricingWizard() {
   }, [])
 
   // ========================================
-  // RESET COMPLETO
+  // RESET
   // ========================================
 
   /**
-   * Reinicia todo o wizard.
+   * Reinicia completamente o wizard.
    */
   const resetWizard = useCallback(() => {
     setCurrentStep(FIRST_STEP)
     setSelectedClinic(null)
     setSelectedProcedure(null)
-
-    setChatMessages([
-      {
-        id: 1,
-        sender: 'ia',
-        message:
-          'Olá! Vamos precificar seu procedimento. Me conte mais sobre os custos envolvidos...',
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
-      },
-    ])
-
     setPricingResult(null)
     setIsLoading(false)
-  }, [])
+
+    // Também reinicia a conversa.
+    resetChat()
+  }, [resetChat])
 
   // ========================================
   // RETORNO
   // ========================================
 
   return {
-    // Estado
+    // Estado do wizard.
     currentStep,
     selectedClinic,
     selectedProcedure,
+
+    // Estado do chat.
     chatMessages,
+    isTyping,
+    isChatCompleted,
+
+    // Resultado.
     pricingResult,
+
+    // Carregamento.
     isLoading,
 
-    // Navegação
+    // Navegação.
     nextStep,
     prevStep,
     goToStep,
 
-    // Seleções
+    // Seleções.
     selectClinic,
     selectProcedure,
 
-    // Chat
-    addChatMessage,
+    // Chat.
+    sendMessage,
+    finishConversation,
     resetChat,
 
-    // Validação e cálculo
+    // Validação e cálculo.
     validateCurrentStep,
     calculatePricing,
 
-    // Reset
+    // Reset completo.
     resetWizard,
   }
 }

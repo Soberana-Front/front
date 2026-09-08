@@ -53,11 +53,8 @@ export default function PricingWizard() {
   // ========================================
 
   /**
-   * Toda a lógica de estado agora vem
-   * do hook usePricingWizard.
-   *
-   * Isso remove a necessidade de manter
-   * vários useState dentro deste componente.
+   * Toda a lógica do wizard e do chat é
+   * fornecida pelos hooks.
    */
   const {
     currentStep,
@@ -67,12 +64,18 @@ export default function PricingWizard() {
     pricingResult,
     isLoading,
 
+    // Estados específicos do chat.
+    isTyping,
+    isChatCompleted,
+
     goToStep,
 
     selectClinic,
     selectProcedure,
 
-    addChatMessage,
+    // Funções específicas do chat.
+    sendMessage,
+    finishConversation,
 
     calculatePricing,
   } = usePricingWizard()
@@ -141,23 +144,17 @@ export default function PricingWizard() {
   // ETAPA 3 — CONVERSA
   // ========================================
 
-  const handleConversationComplete = () => {
-    /**
-     * O ChatConversation já controla a conclusão
-     * visual da conversa.
-     *
-     * Aqui apenas mantemos o callback disponível
-     * para o fluxo do wizard.
-     */
-  }
-
+  /**
+   * Avança da conversa para o resultado.
+   *
+   * O cálculo mockado é iniciado antes de mudar
+   * para a etapa final.
+   */
   const handleChatNext = () => {
-    /**
-     * O próprio ChatConversation só chama
-     * onNext quando a conversa está concluída.
-     *
-     * Portanto podemos avançar diretamente.
-     */
+    if (!isChatCompleted || isTyping) {
+      return
+    }
+
     calculatePricing()
 
     goToStep(3)
@@ -178,7 +175,10 @@ export default function PricingWizard() {
 
   return (
     <section className="pricing-wizard">
-      {/* Cabeçalho da página */}
+      {/* ====================================
+          CABEÇALHO
+          ==================================== */}
+
       <header className="pricing-wizard-header">
         <div>
           <p className="pricing-wizard-eyebrow">
@@ -196,7 +196,10 @@ export default function PricingWizard() {
         </div>
       </header>
 
-      {/* Indicador das quatro etapas */}
+      {/* ====================================
+          INDICADOR DAS ETAPAS
+          ==================================== */}
+
       <div className="pricing-wizard-steps">
         <FormSteps
           steps={WIZARD_STEPS}
@@ -205,7 +208,10 @@ export default function PricingWizard() {
         />
       </div>
 
-      {/* Conteúdo da etapa atual */}
+      {/* ====================================
+          CONTEÚDO
+          ==================================== */}
+
       <div className="pricing-wizard-content">
 
         {/* ====================================
@@ -235,17 +241,19 @@ export default function PricingWizard() {
         )}
 
         {/* ====================================
-            ETAPA 3 — CONVERSA COM A IA
+            ETAPA 3 — CONVERSA
             ==================================== */}
 
         {currentStep === 2 && (
           <ChatConversation
             messages={chatMessages}
-            onAddMessage={addChatMessage}
-            onNext={handleChatNext}
-            onConversationComplete={
-              handleConversationComplete
+            onSendMessage={sendMessage}
+            isTyping={isTyping}
+            isCompleted={isChatCompleted}
+            onFinishConversation={
+              finishConversation
             }
+            onNext={handleChatNext}
           />
         )}
 
@@ -261,17 +269,20 @@ export default function PricingWizard() {
         )}
       </div>
 
-      {/* Indicador de carregamento do cálculo.
-          Mantido fora das etapas para não alterar
-          o layout existente. */}
+      {/* ====================================
+          CARREGAMENTO
+          ==================================== */}
+
       {isLoading && (
         <p className="pricing-wizard-loading">
           Calculando precificação...
         </p>
       )}
 
-      {/* Botão voltar.
-          Não aparece na primeira etapa. */}
+      {/* ====================================
+          VOLTAR
+          ==================================== */}
+
       {currentStep > 0 && (
         <div className="pricing-wizard-navigation">
           <button
