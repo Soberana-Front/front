@@ -1,5 +1,9 @@
 import { useCallback, useState } from 'react'
 
+import type {
+  AdicionarItemData,
+} from '../components/dashboard/AdicionarItem/AdicionarItem'
+
 // ========================================
 // TIPOS
 // ========================================
@@ -47,6 +51,44 @@ const createInitialMessage = (): PricingChatMessage => ({
   }),
 })
 
+/**
+ * Formata o valor do item para apresentação
+ * dentro da conversa.
+ */
+const formatCurrency = (value: number): string =>
+  value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  })
+
+/**
+ * Converte a categoria interna do item para
+ * um texto amigável para o usuário.
+ */
+const getCategoryLabel = (
+  category: AdicionarItemData['category'],
+): string => {
+  switch (category) {
+    case 'material':
+      return 'Material'
+
+    case 'comissao':
+      return 'Comissão'
+
+    case 'imposto':
+      return 'Imposto'
+
+    case 'gasto_adicional':
+      return 'Gasto adicional'
+
+    case 'outro':
+      return 'Outro'
+
+    default:
+      return 'Outro'
+  }
+}
+
 // ========================================
 // HOOK PRINCIPAL
 // ========================================
@@ -59,6 +101,7 @@ const createInitialMessage = (): PricingChatMessage => ({
  * - Armazenar mensagens;
  * - Informar quando a IA está digitando;
  * - Enviar mensagens;
+ * - Adicionar itens de custo;
  * - Simular respostas da IA;
  * - Finalizar a conversa;
  * - Reiniciar o chat.
@@ -180,6 +223,59 @@ export function usePricingChat() {
   )
 
   // ========================================
+  // ADICIONAR ITEM
+  // ========================================
+
+  /**
+   * Adiciona manualmente um item de custo
+   * à conversa.
+   *
+   * O componente AdicionarItem é responsável
+   * apenas pelo formulário.
+   *
+   * Aqui o item é transformado em uma mensagem
+   * para que apareça junto das demais mensagens
+   * do chat.
+   */
+  const addItem = useCallback(
+    (item: AdicionarItemData) => {
+      // Não permite adicionar item enquanto
+      // a IA estiver processando uma resposta.
+      if (isTyping) {
+        return
+      }
+
+      // Não permite alterar uma conversa finalizada.
+      if (isCompleted) {
+        return
+      }
+
+      const categoryLabel = getCategoryLabel(
+        item.category,
+      )
+
+      const itemMessage: PricingChatMessage = {
+        id: Date.now(),
+        sender: 'user',
+        message:
+          `Item adicionado: ${item.name} — ` +
+          `${formatCurrency(item.value)} ` +
+          `(${categoryLabel})`,
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+      }
+
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        itemMessage,
+      ])
+    },
+    [isTyping, isCompleted],
+  )
+
+  // ========================================
   // FINALIZAR CONVERSA
   // ========================================
 
@@ -223,7 +319,14 @@ export function usePricingChat() {
     messages,
     isTyping,
     isCompleted,
+
+    // Mensagens normais.
     sendMessage,
+
+    // Adição manual de itens.
+    addItem,
+
+    // Controle da conversa.
     finishConversation,
     resetChat,
   }

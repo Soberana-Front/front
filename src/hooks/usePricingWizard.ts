@@ -1,14 +1,21 @@
 import { useCallback, useState } from 'react'
 
-import type { Clinic } from '../components/dashboard/ClinicSelector/ClinicSelector'
-import type { Procedure } from '../services/procedureService'
+import type {
+  Clinic,
+} from '../components/dashboard/ClinicSelector/ClinicSelector'
+
+import type {
+  Procedure,
+} from '../services/procedureService'
 
 import {
   MOCK_PRICING_DATA,
   type PricingSummaryData,
 } from '../components/dashboard/PricingSumary/PricingSumary'
 
-import { usePricingChat } from './usePricingChat'
+import {
+  usePricingChat,
+} from './usePricingChat'
 
 // ========================================
 // TIPOS DO WIZARD
@@ -104,6 +111,7 @@ export function usePricingWizard() {
     isTyping,
     isCompleted: isChatCompleted,
     sendMessage,
+    addItem,
     finishConversation,
     resetChat,
   } = usePricingChat()
@@ -152,9 +160,12 @@ export function usePricingWizard() {
   /**
    * Armazena a clínica selecionada.
    */
-  const selectClinic = useCallback((clinic: Clinic) => {
-    setSelectedClinic(clinic)
-  }, [])
+  const selectClinic = useCallback(
+    (clinic: Clinic) => {
+      setSelectedClinic(clinic)
+    },
+    [],
+  )
 
   // ========================================
   // PROCEDIMENTO
@@ -275,6 +286,7 @@ export function usePricingWizard() {
 
     // Chat.
     sendMessage,
+    addItem,
     finishConversation,
     resetChat,
 

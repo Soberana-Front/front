@@ -75,6 +75,7 @@ export default function PricingWizard() {
 
     // Funções específicas do chat.
     sendMessage,
+    addItem,
     finishConversation,
 
     calculatePricing,
@@ -248,6 +249,7 @@ export default function PricingWizard() {
           <ChatConversation
             messages={chatMessages}
             onSendMessage={sendMessage}
+            onAddItem={addItem}
             isTyping={isTyping}
             isCompleted={isChatCompleted}
             onFinishConversation={

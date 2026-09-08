@@ -2,8 +2,15 @@ import { useEffect, useRef } from 'react'
 
 import { ChatMessage } from '../ChatMessage/ChatMessage'
 import { ChatInput } from '../ChatInput/ChatInput'
+import AdicionarItem from '../AdicionarItem/AdicionarItem'
 
-import type { PricingChatMessage } from '../../../hooks/usePricingChat'
+import type {
+  PricingChatMessage,
+} from '../../../hooks/usePricingChat'
+
+import type {
+  AdicionarItemData,
+} from '../AdicionarItem/AdicionarItem'
 
 // ========================================
 // PROPS
@@ -12,7 +19,7 @@ import type { PricingChatMessage } from '../../../hooks/usePricingChat'
 /**
  * Props recebidas pelo componente de conversa.
  *
- * O componente não controla mais a lógica da IA.
+ * O componente não controla a lógica da IA.
  * Essa responsabilidade pertence ao usePricingChat.
  */
 interface ChatConversationProps {
@@ -25,6 +32,12 @@ interface ChatConversationProps {
    * Função responsável pelo envio de mensagens.
    */
   onSendMessage: (message: string) => void
+
+  /**
+   * Função responsável pela inclusão de um
+   * novo item de custo na conversa.
+   */
+  onAddItem: (item: AdicionarItemData) => void
 
   /**
    * Indica que a IA está processando uma resposta.
@@ -54,12 +67,13 @@ interface ChatConversationProps {
 /**
  * Exibe a interface da conversa de precificação.
  *
- * A lógica de mensagens e simulação da IA fica
- * centralizada no hook usePricingChat.
+ * A lógica de mensagens, IA e adição de itens
+ * fica centralizada nos hooks.
  */
 export default function ChatConversation({
   messages,
   onSendMessage,
+  onAddItem,
   isTyping,
   isCompleted,
   onFinishConversation,
@@ -80,6 +94,11 @@ export default function ChatConversation({
   // SCROLL AUTOMÁTICO
   // ========================================
 
+  /**
+   * Sempre que uma mensagem nova for adicionada
+   * ou a IA começar a digitar, leva a conversa
+   * automaticamente para o final.
+   */
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
       behavior: 'smooth',
@@ -135,7 +154,10 @@ export default function ChatConversation({
 
       <div className="chat-conversation__card">
         <div className="chat-conversation__messages">
-          {/* Renderiza todas as mensagens recebidas do hook */}
+          {/* ====================================
+              MENSAGENS
+              ==================================== */}
+
           {messages.map((message) => (
             <ChatMessage
               key={message.id}
@@ -172,6 +194,17 @@ export default function ChatConversation({
             disabled={isTyping || isCompleted}
           />
         </div>
+
+        {/* ====================================
+            ADICIONAR ITEM
+            ==================================== */}
+
+        <div className="chat-conversation__add-item">
+          <AdicionarItem
+            onAddItem={onAddItem}
+            disabled={isTyping || isCompleted}
+          />
+        </div>
       </div>
 
       {/* ====================================
@@ -179,7 +212,10 @@ export default function ChatConversation({
           ==================================== */}
 
       <div className="chat-conversation__footer">
-        {/* Finaliza a conversa manualmente */}
+        {/* ====================================
+            FINALIZAR CONVERSA
+            ==================================== */}
+
         {!isCompleted && (
           <button
             type="button"
@@ -194,7 +230,10 @@ export default function ChatConversation({
           </button>
         )}
 
-        {/* Avança para o resultado */}
+        {/* ====================================
+            PRÓXIMO
+            ==================================== */}
+
         <button
           type="button"
           className="chat-conversation__next-button"
