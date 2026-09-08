@@ -2837,3 +2837,587 @@
     padding: 0 0.75rem 0.75rem;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   ADICIONAR ITEM
+   Estilos do componente responsável por adicionar
+   custos/materiais durante a conversa de precificação.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   CONTAINER PRINCIPAL
+   ------------------------------------------------------------ */
+
+.adicionar-item {
+  width: 100%;
+}
+
+
+/* ------------------------------------------------------------
+   BOTÃO "ADICIONAR"
+   ------------------------------------------------------------ */
+
+.adicionar-item__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 40px;
+  padding: 8px 16px;
+
+  border: 1px solid #d9dee7;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #344054;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* ------------------------------------------------------------
+   HOVER DO BOTÃO
+   ------------------------------------------------------------ */
+
+.adicionar-item__button:hover {
+  background: #f8fafc;
+  border-color: #bfc6d4;
+}
+
+
+/* ------------------------------------------------------------
+   FOCO DO BOTÃO
+   ------------------------------------------------------------ */
+
+.adicionar-item__button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+
+/* ------------------------------------------------------------
+   BOTÃO DESABILITADO
+   ------------------------------------------------------------ */
+
+.adicionar-item__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* ============================================================
+   OVERLAY DO MODAL
+   ============================================================ */
+
+.adicionar-item__overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(15, 23, 42, 0.45);
+}
+
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+
+.adicionar-item__modal {
+  width: 100%;
+  max-width: 460px;
+
+  padding: 24px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 20px 40px rgba(15, 23, 42, 0.16);
+
+  animation: adicionar-item-modal-enter 0.2s ease-out;
+}
+
+
+/* ------------------------------------------------------------
+   ANIMAÇÃO DE ENTRADA DO MODAL
+   ------------------------------------------------------------ */
+
+@keyframes adicionar-item-modal-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* ============================================================
+   CABEÇALHO DO MODAL
+   ============================================================ */
+
+.adicionar-item__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 24px;
+}
+
+
+/* ------------------------------------------------------------
+   TÍTULO DO MODAL
+   ------------------------------------------------------------ */
+
+.adicionar-item__title {
+  margin: 0;
+
+  color: #101828;
+
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+
+/* ------------------------------------------------------------
+   DESCRIÇÃO DO MODAL
+   ------------------------------------------------------------ */
+
+.adicionar-item__description {
+  margin: 6px 0 0;
+
+  color: #667085;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* ------------------------------------------------------------
+   BOTÃO DE FECHAR
+   ------------------------------------------------------------ */
+
+.adicionar-item__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #667085;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+
+/* ------------------------------------------------------------
+   HOVER DO BOTÃO DE FECHAR
+   ------------------------------------------------------------ */
+
+.adicionar-item__close:hover {
+  background: #f2f4f7;
+  color: #101828;
+}
+
+
+/* ------------------------------------------------------------
+   FOCO DO BOTÃO DE FECHAR
+   ------------------------------------------------------------ */
+
+.adicionar-item__close:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+
+/* ============================================================
+   FORMULÁRIO
+   ============================================================ */
+
+.adicionar-item__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+
+/* ============================================================
+   GRUPO DE CAMPO
+   ============================================================ */
+
+.adicionar-item__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+
+/* ------------------------------------------------------------
+   LABEL
+   ------------------------------------------------------------ */
+
+.adicionar-item__label {
+  color: #344054;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+/* ------------------------------------------------------------
+   INPUT
+   ------------------------------------------------------------ */
+
+.adicionar-item__input {
+  width: 100%;
+  min-height: 42px;
+
+  box-sizing: border-box;
+
+  padding: 9px 12px;
+
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #101828;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* ------------------------------------------------------------
+   PLACEHOLDER DO INPUT
+   ------------------------------------------------------------ */
+
+.adicionar-item__input::placeholder {
+  color: #98a2b3;
+}
+
+
+/* ------------------------------------------------------------
+   INPUT EM FOCO
+   ------------------------------------------------------------ */
+
+.adicionar-item__input:focus {
+  border-color: #2563eb;
+
+  outline: none;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+
+/* ------------------------------------------------------------
+   INPUT COM ERRO
+   ------------------------------------------------------------ */
+
+.adicionar-item__input--error {
+  border-color: #d92d20;
+}
+
+
+/* ------------------------------------------------------------
+   MENSAGEM DE ERRO
+   ------------------------------------------------------------ */
+
+.adicionar-item__error {
+  margin: 0;
+
+  color: #d92d20;
+
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   ÁREA DE AÇÕES DO FORMULÁRIO
+   ============================================================ */
+
+.adicionar-item__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 6px;
+}
+
+
+/* ------------------------------------------------------------
+   BOTÃO CANCELAR
+   ------------------------------------------------------------ */
+
+.adicionar-item__cancel {
+  min-height: 40px;
+
+  padding: 8px 16px;
+
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #344054;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+/* ------------------------------------------------------------
+   HOVER DO CANCELAR
+   ------------------------------------------------------------ */
+
+.adicionar-item__cancel:hover {
+  background: #f9fafb;
+  border-color: #bfc4cc;
+}
+
+
+/* ------------------------------------------------------------
+   BOTÃO CONFIRMAR
+   ------------------------------------------------------------ */
+
+.adicionar-item__submit {
+  min-height: 40px;
+
+  padding: 8px 18px;
+
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+
+  background: #2563eb;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+/* ------------------------------------------------------------
+   HOVER DO BOTÃO CONFIRMAR
+   ------------------------------------------------------------ */
+
+.adicionar-item__submit:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+
+/* ------------------------------------------------------------
+   FOCO DO BOTÃO CONFIRMAR
+   ------------------------------------------------------------ */
+
+.adicionar-item__submit:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+
+/* ------------------------------------------------------------
+   BOTÃO CONFIRMAR DESABILITADO
+   ------------------------------------------------------------ */
+
+.adicionar-item__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* ============================================================
+   LISTA DE ITENS ADICIONADOS
+   ============================================================ */
+
+.adicionar-item__list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-top: 16px;
+}
+
+
+/* ------------------------------------------------------------
+   ITEM DA LISTA
+   ------------------------------------------------------------ */
+
+.adicionar-item__list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding: 10px 12px;
+
+  border: 1px solid #eaecf0;
+  border-radius: 8px;
+
+  background: #ffffff;
+}
+
+
+/* ------------------------------------------------------------
+   INFORMAÇÕES DO ITEM
+   ------------------------------------------------------------ */
+
+.adicionar-item__item-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+
+/* ------------------------------------------------------------
+   NOME DO ITEM
+   ------------------------------------------------------------ */
+
+.adicionar-item__item-name {
+  overflow: hidden;
+
+  color: #344054;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ------------------------------------------------------------
+   VALOR DO ITEM
+   ------------------------------------------------------------ */
+
+.adicionar-item__item-value {
+  color: #667085;
+
+  font-size: 12px;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+
+@media (max-width: 600px) {
+  /* Modal ocupa melhor o espaço em telas pequenas */
+  .adicionar-item__overlay {
+    padding: 12px;
+  }
+
+  /* Reduz o espaçamento interno do modal */
+  .adicionar-item__modal {
+    padding: 20px;
+  }
+
+  /* Botões ocupam a largura disponível */
+  .adicionar-item__actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .adicionar-item__cancel,
+  .adicionar-item__submit {
+    width: 100%;
+  }
+}
+
+
+/* ============================================================
+   ACESSIBILIDADE
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Remove animações para usuários que preferem
+     reduzir movimento na interface */
+  .adicionar-item__modal {
+    animation: none;
+  }
+
+  .adicionar-item__button,
+  .adicionar-item__close,
+  .adicionar-item__cancel,
+  .adicionar-item__submit,
+  .adicionar-item__input {
+    transition: none;
+  }
+}
