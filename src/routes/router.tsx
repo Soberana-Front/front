@@ -1,32 +1,59 @@
 // Importa função para criar roteador
 import { createBrowserRouter } from "react-router";
+
 // Importa provedor de autenticação
 import { AuthProvider } from "../contexts/AuthContext";
+
 // Importa componentes de proteção de rotas
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { PublicRoute } from "../components/PublicRoute";
+
 import { ClinicsPage } from "../pages/ClinicsPage/ClinicsPage";
+
 // Importa layout base
 import { Layout } from "../components/layout/Layout";
+
 // Importa páginas de autenticação
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+
 // Importa página principal do dashboard
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 
-import { ProceduresPage } from "../pages/ProceduresPage/ProceduresPage";  //issue #52
+import { ProceduresPage } from "../pages/ProceduresPage/ProceduresPage"; // issue #52
+
+// Importa página de Nova Precificação
+import NewPricingPage from "../pages/NewPricingPage/NewPricingPage";
 
 // Placeholders para páginas ainda não implementadas
-//const Clinicas = () => <div className="p-4">Clínicas (em breve)</div>; não mais necessaria
-/*Mesma mudança estrutural que fizemos pra /clinicas: o Procedimentos hoje está dentro do grupo <Layout>, mas a ProceduresPage usa DashboardLayout (que já tem sua própria sidebar) — então precisa mover pra fora, junto de dashboard e clinicas.
-Remover esta linha (placeholder): 
-const Procedimentos = () => <div className="p-4">Procedimentos (em breve)</div>;*/
-const Comparacoes = () => <div className="p-4">Comparações (em breve)</div>;
-const Historico = () => <div className="p-4">Histórico (em breve)</div>;
-const Perfil = () => <div className="p-4">Perfil (em breve)</div>;
-const Configuracoes = () => <div className="p-4">Configurações (em breve)</div>;
+// const Clinicas = () => <div className="p-4">Clínicas (em breve)</div>; não mais necessária
+
+/*
+Mesma mudança estrutural que fizemos pra /clinicas: o Procedimentos hoje está dentro do grupo <Layout>,
+mas a ProceduresPage usa DashboardLayout (que já tem sua própria sidebar) — então precisa mover pra fora,
+junto de dashboard e clinicas.
+
+Remover esta linha (placeholder):
+const Procedimentos = () => <div className="p-4">Procedimentos (em breve)</div>;
+*/
+
+const Comparacoes = () => (
+  <div className="p-4">Comparações (em breve)</div>
+);
+
+const Historico = () => (
+  <div className="p-4">Histórico (em breve)</div>
+);
+
+const Perfil = () => (
+  <div className="p-4">Perfil (em breve)</div>
+);
+
+const Configuracoes = () => (
+  <div className="p-4">Configurações (em breve)</div>
+);
 
 // Wrapper para injetar AuthProvider nas rotas
 const AuthWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -49,6 +76,7 @@ export const router = createBrowserRouter([
       { path: "reset-password/:token", element: <ResetPassword /> },
     ],
   },
+
   {
     // Grupo de rotas protegidas (exigem autenticação)
     element: (
@@ -58,25 +86,34 @@ export const router = createBrowserRouter([
     ),
     children: [
       // Dashboard possui seu próprio DashboardLayout
-    { index: true, element: <DashboardPage /> },
-    { path: "dashboard", element: <DashboardPage /> },
-    { path: "clinicas", element: <ClinicsPage /> },   
-    { path: "procedimentos", element: <ProceduresPage /> },
-    // ← movida pra cá, fora do <Layout>
-    // Demais páginas continuam utilizando o Layout compartilhado
-   {
-     element: <Layout />,
-     children: [
-    //{ path: "clinicas", element: <Clinicas /> },
-   // { path: "procedimentos", element: <Procedimentos /> }, "procedimentos" removido daqui
-    { path: "comparacoes", element: <Comparacoes /> },
-    { path: "historico", element: <Historico /> },
-    { path: "perfil", element: <Perfil /> },
-    { path: "configuracoes", element: <Configuracoes /> },
-     ],
-     },
+      { index: true, element: <DashboardPage /> },
+      { path: "dashboard", element: <DashboardPage /> },
+
+      // Clínicas possui seu próprio DashboardLayout
+      { path: "clinicas", element: <ClinicsPage /> },
+
+      // Procedimentos possui seu próprio DashboardLayout
+      { path: "procedimentos", element: <ProceduresPage /> },
+
+      // Nova Precificação — Issue #69
+      { path: "precificacao/nova", element: <NewPricingPage /> },
+
+      // Demais páginas continuam utilizando o Layout compartilhado
+      {
+        element: <Layout />,
+        children: [
+          // { path: "clinicas", element: <Clinicas /> },
+          // { path: "procedimentos", element: <Procedimentos /> },
+
+          { path: "comparacoes", element: <Comparacoes /> },
+          { path: "historico", element: <Historico /> },
+          { path: "perfil", element: <Perfil /> },
+          { path: "configuracoes", element: <Configuracoes /> },
+        ],
+      },
     ],
   },
+
   {
     // Rota 404 - página não encontrada
     path: "*",
