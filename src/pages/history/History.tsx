@@ -8,7 +8,7 @@ import { Select } from '@/components/ui/Select'
 import { Button } from '@/components/ui/Button'
 import { Pagination } from '@/components/ui/Pagination'
 import { EmptyState } from '@/components/ui/EmptyState'
-import { PriceDisplay } from '@/components/dashboard/PriceDisplay/PriceDisplay'
+import { HistoryCard, type HistoryCardItem } from '@/components/ui/HistoryCard'
 // Ícones
 import { Clock, Filter, X } from 'lucide-react'
 // Reaproveita o tipo PricingResult (já usado em PricingDetail/pricingService),
@@ -63,10 +63,11 @@ const MOCK_HISTORY: HistoryItem[] = [
 const PAGE_SIZE = 6
 
 // Formato "2026-08-22" -> "22/08/2026" pra exibir no card
+/* isso foi para ui/HistoryCard
 const formatDateBR = (isoDate: string) => {
   const [year, month, day] = isoDate.split('-')
   return `${day}/${month}/${year}`
-}
+}*/
 
 // Formato do estado dos filtros (usado tanto no "rascunho" quanto no "aplicado")
 interface HistoryFiltersState {
@@ -194,7 +195,7 @@ export const History = () => {
 
   // Botão "Ver detalhes" do card — a página de destino (Issue #87) ainda
   // não existe, então por ora só loga, igual o RecentHistory já faz hoje.
-  const handleViewDetails = (item: HistoryItem) => {
+  const handleViewDetails = (item: HistoryCardItem) => {
     console.log(`Redirecionando para detalhes da precificação #${item.id}`)
   }
 
@@ -272,22 +273,7 @@ export const History = () => {
         ) : (
           <div className="history-list-grid">
             {pageItems.map((item) => (
-              <div key={item.id} className="history-card">
-                <div className="history-card-top">
-                  <span className="history-card-date">{formatDateBR(item.createdAt)}</span>
-                  <PriceDisplay value={item.finalPrice} variant="highlight" size="md" />
-                </div>
-                <p className="history-card-procedure">{item.procedureName}</p>
-                <p className="history-card-clinic">{item.clinicName}</p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="history-card-button"
-                  onClick={() => handleViewDetails(item)}
-                >
-                  Ver detalhes
-                </Button>
-              </div>
+              <HistoryCard key={item.id} item={item} onViewDetails={handleViewDetails} />
             ))}
           </div>
         )}
