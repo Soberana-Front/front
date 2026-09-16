@@ -27,6 +27,9 @@ import { ProceduresPage } from "../pages/ProceduresPage/ProceduresPage";
 // importa página de histórico
 import { History } from "../pages/history/History"; 
 
+//importa página de detalhes do histórico (Issue #87)
+import { HistoryDetail } from "../pages/history/HistoryDetail";
+
 // Importa página de Nova Precificação
 import NewPricingPage from "../pages/NewPricingPage/NewPricingPage";
 
@@ -92,6 +95,9 @@ export const router = createBrowserRouter([
 
       // Histórico — Issue #84
       { path: "historico", element: <History /> },
+
+      // Histórico — Issue #87
+      { path: "historico/:id", element: <HistoryDetail /> }, 
 
       // Nova Precificação — Issue #69
       {

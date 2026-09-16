@@ -17,6 +17,9 @@ import { Clock } from 'lucide-react'
 // já que cada item do histórico É uma precificação já concluída.
 import type { PricingResult } from '@/types/pricing'
 
+import { useNavigate } from 'react-router'
+
+
 // ============================================================
 // TIPO LOCAL: HistoryItem
 // ============================================================
@@ -83,6 +86,7 @@ const PAGE_SIZE = 6
  *    importar aqui no lugar.
  */
 export const History = () => {
+  const navigate = useNavigate()
   // "Banco de dados" local — viria do useHistory/service na Issue #88
   const [allItems, setAllItems] = useState<HistoryItem[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -176,7 +180,7 @@ export const History = () => {
   // Botão "Ver detalhes" do card — a página de destino (Issue #87) ainda
   // não existe, então por ora só loga, igual o RecentHistory já faz hoje.
   const handleViewDetails = (item: HistoryCardItem) => {
-    console.log(`Redirecionando para detalhes da precificação #${item.id}`)
+    navigate(`/historico/${item.id}`)
   }
 
   return (

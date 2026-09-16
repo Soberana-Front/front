@@ -3722,3 +3722,53 @@
 .history-card-button {
   @apply mt-2 w-full;
 }
+
+/* ===========================
+   Classes customizadas para a página de Detalhe do Histórico (Issue #87)
+   =========================== */
+
+/* Botão "Voltar para o histórico" */
+.history-detail-back-button {
+  @apply flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 transition-colors mb-2;
+}
+
+/* Card branco que envolve cada seção (Informações / Conversa / Resultado) */
+.history-detail-card {
+  @apply w-full bg-white border border-slate-200 rounded-2xl p-5 shadow-sm;
+}
+
+/* Título de cada seção dentro do card */
+.history-detail-section-title {
+  @apply text-sm font-bold text-slate-700 mb-4;
+}
+
+/* Grid com Clínica / Procedimento / Data */
+.history-detail-info-grid {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
+}
+
+/* Cada item do grid de informações (rótulo em cima, valor embaixo) */
+.history-detail-info-item {
+  @apply flex flex-col gap-1 text-sm;
+}
+.history-detail-info-item span {
+  @apply text-xs text-slate-400 uppercase tracking-wide;
+}
+.history-detail-info-item strong {
+  @apply text-slate-800 font-semibold;
+}
+
+/* Lista da timeline de mensagens (espaçamento entre as mensagens) */
+.history-detail-timeline {
+  @apply flex flex-col gap-4;
+}
+
+/* Mensagem exibida quando não há conversa registrada */
+.history-detail-empty-conversation {
+  @apply text-sm text-slate-400;
+}
+
+/* Linha com margem (%) + preço final, lado a lado */
+.history-detail-result-row {
+  @apply flex flex-wrap items-center justify-between gap-4;
+}
