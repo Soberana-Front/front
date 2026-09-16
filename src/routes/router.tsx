@@ -24,6 +24,9 @@ import DashboardPage from "../pages/DashboardPage/DashboardPage";
 
 import { ProceduresPage } from "../pages/ProceduresPage/ProceduresPage";
 
+// importa página de histórico
+import { History } from "../pages/history/History"; 
+
 // Importa página de Nova Precificação
 import NewPricingPage from "../pages/NewPricingPage/NewPricingPage";
 
@@ -34,9 +37,10 @@ const Comparacoes = () => (
   <div className="p-4">Comparações (em breve)</div>
 );
 
-const Historico = () => (
+/* virou uma página própria, então não precisa mais desse componente genérico
+const Historico = () => (       
   <div className="p-4">Histórico (em breve)</div>
-);
+);*/
 
 const Perfil = () => (
   <div className="p-4">Perfil (em breve)</div>
@@ -86,6 +90,9 @@ export const router = createBrowserRouter([
       // Procedimentos
       { path: "procedimentos", element: <ProceduresPage /> },
 
+      // Histórico — Issue #84
+      { path: "historico", element: <History /> },
+
       // Nova Precificação — Issue #69
       {
         path: "precificacao/nova",
@@ -105,10 +112,6 @@ export const router = createBrowserRouter([
           {
             path: "comparacoes",
             element: <Comparacoes />,
-          },
-          {
-            path: "historico",
-            element: <Historico />,
           },
           {
             path: "perfil",
