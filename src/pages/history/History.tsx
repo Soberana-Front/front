@@ -3,14 +3,16 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 // Importa o layout do dashboard (reaproveitado, como pede a Issue #84)
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout/DashboardLayout'
 // Importa componentes de UI já existentes no projeto (reaproveitados)
-import { Input } from '@/components/ui/Input'
-import { Select } from '@/components/ui/Select'
-import { Button } from '@/components/ui/Button'
+import {
+  HistoryFilters,
+  EMPTY_HISTORY_FILTERS as EMPTY_FILTERS,
+  type HistoryFiltersState,
+} from '@/components/ui/HistoryFilters'
 import { Pagination } from '@/components/ui/Pagination'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { HistoryCard, type HistoryCardItem } from '@/components/ui/HistoryCard'
 // Ícones
-import { Clock, Filter, X } from 'lucide-react'
+import { Clock } from 'lucide-react'
 // Reaproveita o tipo PricingResult (já usado em PricingDetail/pricingService),
 // já que cada item do histórico É uma precificação já concluída.
 import type { PricingResult } from '@/types/pricing'
@@ -61,28 +63,6 @@ const MOCK_HISTORY: HistoryItem[] = [
 
 // Quantos cards por página
 const PAGE_SIZE = 6
-
-// Formato "2026-08-22" -> "22/08/2026" pra exibir no card
-/* isso foi para ui/HistoryCard
-const formatDateBR = (isoDate: string) => {
-  const [year, month, day] = isoDate.split('-')
-  return `${day}/${month}/${year}`
-}*/
-
-// Formato do estado dos filtros (usado tanto no "rascunho" quanto no "aplicado")
-interface HistoryFiltersState {
-  dateFrom: string   // yyyy-mm-dd (formato nativo do <input type="date">)
-  dateTo: string
-  clinicId: string   // '' = todas
-  procedureId: string // '' = todos
-}
-
-const EMPTY_FILTERS: HistoryFiltersState = {
-  dateFrom: '',
-  dateTo: '',
-  clinicId: '',
-  procedureId: '',
-}
 
 /**
  * Página de Histórico (Issue #84).
@@ -211,52 +191,14 @@ export const History = () => {
         </div>
 
         {/* ===== HistoryFilters (embutido — vira componente próprio na Issue #86) ===== */}
-        <div className="history-filters-card">
-          <div className="history-filters-title">
-            <Filter className="h-4 w-4" />
-            <span>Filtros</span>
-          </div>
-
-          <div className="history-filters-grid">
-            <Input
-              type="date"
-              label="De"
-              value={draftFilters.dateFrom}
-              onChange={(e) => handleDraftChange('dateFrom', e.target.value)}
-            />
-            <Input
-              type="date"
-              label="Até"
-              value={draftFilters.dateTo}
-              onChange={(e) => handleDraftChange('dateTo', e.target.value)}
-            />
-            <Select
-              label="Clínica"
-              placeholder="Todas as clínicas"
-              value={draftFilters.clinicId}
-              onChange={(e) => handleDraftChange('clinicId', e.target.value)}
-              options={clinicOptions}
-            />
-            <Select
-              label="Procedimento"
-              placeholder="Todos os procedimentos"
-              value={draftFilters.procedureId}
-              onChange={(e) => handleDraftChange('procedureId', e.target.value)}
-              options={procedureOptions}
-            />
-          </div>
-
-          <div className="history-filters-actions">
-            <Button variant="secondary" onClick={handleClearFilters}>
-              <X className="h-4 w-4" />
-              Limpar
-            </Button>
-            <Button onClick={handleApplyFilters}>
-              <Filter className="h-4 w-4" />
-              Filtrar
-            </Button>
-          </div>
-        </div>
+        <HistoryFilters
+          filters={draftFilters}
+          onChange={handleDraftChange}
+          onApply={handleApplyFilters}
+          onClear={handleClearFilters}
+          clinicOptions={clinicOptions}
+          procedureOptions={procedureOptions}
+        />
 
         {/* Mensagem de erro (ex: falha ao carregar o histórico) */}
         {error && <p className="clinics-page-error">{error}</p>}
