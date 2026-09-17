@@ -2280,11 +2280,6 @@ Os endpoints de precificação, mensagens e eventos SSE também já estão previ
                                                    ---------------------
 
 -----------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
-------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
-++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
------------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
-------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
-++++++++++++----------------------++++++++++++++++++++++++++-------------------------------
------------++++++++++++++++++++++++++-----------------++++++++++++++++++++-----------
-------------++++++++++++++++++++++++--------------------+++++++++++++++++++++++-----------
-++++++++++++----------------------++++++++++++++++++++++++++------------------------
+
+################### milestone historico ###########################
+Uma observação honesta, não é bloqueio: como HistoryDetail.tsx também chama useHistory() pra ter acesso ao getHistoryDetail, ela acaba disparando por baixo o mesmo fetch mockado da lista (os 300ms), mesmo sem precisar da lista ali. Como é tudo mock, não tem custo real — mas é uma simplificação consciente que vale registrar caso algum dia isso vire uma chamada de API de verdade (aí faria sentido separar getHistoryDetail pra fora do hook, num service próprio).

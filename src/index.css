@@ -3653,3 +3653,122 @@
 .comparison-page-results {
   @apply flex flex-col gap-6;
 }
+
+/* ===========================
+   Classes customizadas para a página de Histórico (Issue #84 a #88)
+   =========================== */
+
+/* Cabeçalho: mesmo padrão de Clínicas/Procedimentos (título à esquerda) */
+.history-page-header {
+  @apply flex items-center justify-between gap-4;
+}
+
+/* Card que envolve a barra de filtros */
+.history-filters-card {
+  @apply w-full bg-white border border-slate-200 rounded-2xl p-5 shadow-sm;
+}
+
+/* Título "Filtros" com ícone */
+.history-filters-title {
+  @apply flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 mb-4;
+}
+
+/* Grid responsivo com os 4 campos de filtro */
+.history-filters-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+/* Linha dos botões "Limpar" / "Filtrar" */
+.history-filters-actions {
+  @apply flex items-center justify-end gap-3 mt-4;
+}
+
+/* Texto simples exibido enquanto o histórico "carrega" */
+.history-loading-text {
+  @apply text-sm text-slate-400 py-8 text-center;
+}
+
+/* Grid responsivo dos cards de histórico */
+.history-list-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+/* Cada card individual */
+.history-card {
+  @apply bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-2;
+}
+
+/* Linha superior do card: data + preço */
+.history-card-top {
+  @apply flex items-center justify-between mb-1;
+}
+
+/* Data da precificação */
+.history-card-date {
+  @apply text-xs text-slate-400;
+}
+
+/* Nome do procedimento (destaque) */
+.history-card-procedure {
+  @apply font-semibold text-slate-800 text-sm;
+}
+
+/* Nome da clínica */
+.history-card-clinic {
+  @apply text-xs text-slate-500;
+}
+
+/* Botão "Ver detalhes" — ocupa a largura toda, alinhado ao fim do card */
+.history-card-button {
+  @apply mt-2 w-full;
+}
+
+/* ===========================
+   Classes customizadas para a página de Detalhe do Histórico (Issue #87)
+   =========================== */
+
+/* Botão "Voltar para o histórico" */
+.history-detail-back-button {
+  @apply flex items-center gap-2 text-sm text-slate-500 hover:text-indigo-600 transition-colors mb-2;
+}
+
+/* Card branco que envolve cada seção (Informações / Conversa / Resultado) */
+.history-detail-card {
+  @apply w-full bg-white border border-slate-200 rounded-2xl p-5 shadow-sm;
+}
+
+/* Título de cada seção dentro do card */
+.history-detail-section-title {
+  @apply text-sm font-bold text-slate-700 mb-4;
+}
+
+/* Grid com Clínica / Procedimento / Data */
+.history-detail-info-grid {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
+}
+
+/* Cada item do grid de informações (rótulo em cima, valor embaixo) */
+.history-detail-info-item {
+  @apply flex flex-col gap-1 text-sm;
+}
+.history-detail-info-item span {
+  @apply text-xs text-slate-400 uppercase tracking-wide;
+}
+.history-detail-info-item strong {
+  @apply text-slate-800 font-semibold;
+}
+
+/* Lista da timeline de mensagens (espaçamento entre as mensagens) */
+.history-detail-timeline {
+  @apply flex flex-col gap-4;
+}
+
+/* Mensagem exibida quando não há conversa registrada */
+.history-detail-empty-conversation {
+  @apply text-sm text-slate-400;
+}
+
+/* Linha com margem (%) + preço final, lado a lado */
+.history-detail-result-row {
+  @apply flex flex-wrap items-center justify-between gap-4;
+}
