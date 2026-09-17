@@ -25,7 +25,7 @@ import { ClinicsPage } from "../pages/ClinicsPage/ClinicsPage";
 import { ProceduresPage } from "../pages/ProceduresPage/ProceduresPage";
 
 // importa página de histórico
-import { History } from "../pages/history/History"; 
+import { History } from "../pages/history/History";
 
 //importa página de detalhes do histórico (Issue #87)
 import { HistoryDetail } from "../pages/history/HistoryDetail";
@@ -39,13 +39,8 @@ import PricingDetail from "../pages/PricingDetail/PricingDetail";
 // Importa página de comparação
 import ComparisonPage from "../pages/ComparisonPage/ComparisonPage";
 
-<<<<<<< HEAD
-// Placeholders restantes
-const Historico = () => (
-=======
 /* virou uma página própria, então não precisa mais desse componente genérico
-const Historico = () => (       
->>>>>>> 3f497bb7f4b5c073ee70b371442653a8b6009a9e
+const Historico = () => (
   <div className="p-4">Histórico (em breve)</div>
 );*/
 
@@ -97,22 +92,14 @@ export const router = createBrowserRouter([
       // Procedimentos
       { path: "procedimentos", element: <ProceduresPage /> },
 
-<<<<<<< HEAD
-      // Nova Precificação
-      { path: "precificacao/nova", element: <NewPricingPage /> },
-=======
       // Histórico — Issue #84
       { path: "historico", element: <History /> },
 
       // Histórico — Issue #87
-      { path: "historico/:id", element: <HistoryDetail /> }, 
+      { path: "historico/:id", element: <HistoryDetail /> },
 
       // Nova Precificação — Issue #69
-      {
-        path: "precificacao/nova",
-        element: <NewPricingPage />,
-      },
->>>>>>> 3f497bb7f4b5c073ee70b371442653a8b6009a9e
+      { path: "precificacao/nova", element: <NewPricingPage /> },
 
       // Detalhamento da Precificação
       { path: "precificacao/:id", element: <PricingDetail /> },
@@ -124,24 +111,8 @@ export const router = createBrowserRouter([
       {
         element: <Layout />,
         children: [
-<<<<<<< HEAD
-          { path: "historico", element: <Historico /> },
           { path: "perfil", element: <Perfil /> },
           { path: "configuracoes", element: <Configuracoes /> },
-=======
-          {
-            path: "comparacoes",
-            element: <Comparacoes />,
-          },
-          {
-            path: "perfil",
-            element: <Perfil />,
-          },
-          {
-            path: "configuracoes",
-            element: <Configuracoes />,
-          },
->>>>>>> 3f497bb7f4b5c073ee70b371442653a8b6009a9e
         ],
       },
     ],
