@@ -8,8 +8,6 @@ import { AuthProvider } from "../contexts/AuthContext";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { PublicRoute } from "../components/PublicRoute";
 
-import { ClinicsPage } from "../pages/ClinicsPage/ClinicsPage";
-
 // Importa layout base
 import { Layout } from "../components/layout/Layout";
 
@@ -22,10 +20,12 @@ import ResetPassword from "../pages/ResetPassword";
 // Importa página principal do dashboard
 import DashboardPage from "../pages/DashboardPage/DashboardPage";
 
+// Importa páginas de clínicas e procedimentos
+import { ClinicsPage } from "../pages/ClinicsPage/ClinicsPage";
 import { ProceduresPage } from "../pages/ProceduresPage/ProceduresPage";
 
 // importa página de histórico
-import { History } from "../pages/history/History"; 
+import { History } from "../pages/history/History";
 
 //importa página de detalhes do histórico (Issue #87)
 import { HistoryDetail } from "../pages/history/HistoryDetail";
@@ -36,12 +36,11 @@ import NewPricingPage from "../pages/NewPricingPage/NewPricingPage";
 // Importa página de detalhes da precificação
 import PricingDetail from "../pages/PricingDetail/PricingDetail";
 
-const Comparacoes = () => (
-  <div className="p-4">Comparações (em breve)</div>
-);
+// Importa página de comparação
+import ComparisonPage from "../pages/ComparisonPage/ComparisonPage";
 
 /* virou uma página própria, então não precisa mais desse componente genérico
-const Historico = () => (       
+const Historico = () => (
   <div className="p-4">Histórico (em breve)</div>
 );*/
 
@@ -97,36 +96,23 @@ export const router = createBrowserRouter([
       { path: "historico", element: <History /> },
 
       // Histórico — Issue #87
-      { path: "historico/:id", element: <HistoryDetail /> }, 
+      { path: "historico/:id", element: <HistoryDetail /> },
 
       // Nova Precificação — Issue #69
-      {
-        path: "precificacao/nova",
-        element: <NewPricingPage />,
-      },
+      { path: "precificacao/nova", element: <NewPricingPage /> },
 
-      // Detalhamento da Precificação — Issue #74
-      {
-        path: "precificacao/:id",
-        element: <PricingDetail />,
-      },
+      // Detalhamento da Precificação
+      { path: "precificacao/:id", element: <PricingDetail /> },
 
-      // Demais páginas utilizando Layout compartilhado
+      // 👇 Comparações FORA do Layout (a página já tem DashboardLayout)
+      { path: "comparacoes", element: <ComparisonPage /> },
+
+      // Demais páginas usando o Layout compartilhado
       {
         element: <Layout />,
         children: [
-          {
-            path: "comparacoes",
-            element: <Comparacoes />,
-          },
-          {
-            path: "perfil",
-            element: <Perfil />,
-          },
-          {
-            path: "configuracoes",
-            element: <Configuracoes />,
-          },
+          { path: "perfil", element: <Perfil /> },
+          { path: "configuracoes", element: <Configuracoes /> },
         ],
       },
     ],

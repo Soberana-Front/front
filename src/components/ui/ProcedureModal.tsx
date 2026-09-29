@@ -51,11 +51,11 @@ export const ProcedureModal = ({
   return (
     <Modal open={open} onOpenChange={onOpenChange} size="lg">
       {/* Título dinâmico: "Novo Procedimento" ou "Editar Procedimento" */}
-      <ModalHeader>
+      <ModalHeader className="px-6 pt-6">
         {isEditMode ? 'Editar Procedimento' : 'Novo Procedimento'}
       </ModalHeader>
 
-      <ModalBody>
+      <ModalBody className="px-6">
         {/* A key força o formulário a remontar ao trocar de procedimento
             ou ao alternar entre criar/editar, garantindo defaultValues corretos */}
         <ProcedureForm
@@ -66,7 +66,7 @@ export const ProcedureModal = ({
         />
       </ModalBody>
 
-      <ModalFooter>
+      <ModalFooter className="px-6 pb-6">
         <Button
           type="button"
           variant="outline"

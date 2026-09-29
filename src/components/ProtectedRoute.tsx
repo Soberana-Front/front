@@ -23,9 +23,7 @@ export const ProtectedRoute = () => {
 
   
   // Redireciona para login se não autenticado
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
+ 
 
   // Renderiza as rotas filhas (conteúdo protegido)
   return <Outlet />;

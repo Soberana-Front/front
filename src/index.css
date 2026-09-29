@@ -1287,7 +1287,7 @@
 
 /* Card do modal (conteúdo) */
 .modal-content {
-  @apply relative bg-white rounded-lg shadow-xl w-full transition-all duration-300 transform;
+  @apply relative bg-white rounded-lg shadow-xl w-full max-h-[calc(100vh-2rem)] overflow-y-auto transition-all duration-300 transform;
 }
 
 /* Modal: estado de entrada (escala normal) */
