@@ -39,14 +39,18 @@ import PricingDetail from "../pages/PricingDetail/PricingDetail";
 // Importa página de comparação
 import ComparisonPage from "../pages/ComparisonPage/ComparisonPage";
 
+// Importa página de perfil
+import { ProfilePage } from "../pages/ProfilePage/ProfilePage";
+
 /* virou uma página própria, então não precisa mais desse componente genérico
 const Historico = () => (
   <div className="p-4">Histórico (em breve)</div>
 );*/
 
+/* apagado no passo issue 89
 const Perfil = () => (
   <div className="p-4">Perfil (em breve)</div>
-);
+);*/
 
 const Configuracoes = () => (
   <div className="p-4">Configurações (em breve)</div>
@@ -107,11 +111,14 @@ export const router = createBrowserRouter([
       // 👇 Comparações FORA do Layout (a página já tem DashboardLayout)
       { path: "comparacoes", element: <ComparisonPage /> },
 
+      // pagina de perfil issue 89
+      { path: "perfil", element: <ProfilePage /> },
+
       // Demais páginas usando o Layout compartilhado
       {
         element: <Layout />,
         children: [
-          { path: "perfil", element: <Perfil /> },
+          /*{ path: "perfil", element: <Perfil /> }, issue 89*/
           { path: "configuracoes", element: <Configuracoes /> },
         ],
       },
