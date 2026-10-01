@@ -3896,3 +3896,23 @@
 .profile-password-link {
   @apply inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:underline;
 }
+
+/* ===========================
+   Classes customizadas para a página Alterar Senha (Issue #92)
+   =========================== */
+
+/* Card branco com o formulário (mesmo visual do profile-card),
+   mais estreito porque só tem uma coluna de campos */
+.change-password-card {
+  @apply w-full max-w-lg bg-white border border-slate-200 rounded-2xl p-6 shadow-sm;
+}
+
+/* Formulário (espaçamento vertical entre os campos) */
+.change-password-form {
+  @apply space-y-4;
+}
+
+/* Linha dos botões, alinhados à direita e separados dos campos */
+.change-password-actions {
+  @apply flex justify-end gap-2 pt-2;
+}

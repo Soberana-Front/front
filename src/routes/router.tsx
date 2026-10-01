@@ -42,6 +42,9 @@ import ComparisonPage from "../pages/ComparisonPage/ComparisonPage";
 // Importa página de perfil
 import { ProfilePage } from "../pages/ProfilePage/ProfilePage";
 
+// Importa página de Alterar Senha (Issue #92)
+import { ChangePasswordPage } from "../pages/ChangePasswordPage/ChangePasswordPage";
+
 /* virou uma página própria, então não precisa mais desse componente genérico
 const Historico = () => (
   <div className="p-4">Histórico (em breve)</div>
@@ -113,6 +116,9 @@ export const router = createBrowserRouter([
 
       // pagina de perfil issue 89
       { path: "perfil", element: <ProfilePage /> },
+
+      // pagina de alterar senha issue 92
+      { path: "perfil/alterar-senha", element: <ChangePasswordPage /> },
 
       // Demais páginas usando o Layout compartilhado
       {
