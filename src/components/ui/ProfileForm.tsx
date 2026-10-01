@@ -1,35 +1,67 @@
 // Importa hooks do react-hook-form e resolver do Zod
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-// Importa componente de UI já existente
+// Importa componentes de UI já existentes
 import { Input } from './Input'
-// Importa schema e tipo do formulário
-import { profileSchema, type ProfileFormData } from '../../validations/profileSchema'
+import { Select } from './Select'
+// Importa schema, tipo do formulário e lista de especialidades
+import {
+  profileSchema,
+  SPECIALTIES,
+  type ProfileFormData,
+} from '../../validations/profileSchema'
+
+// ===========================
+// TIPOS
+// ===========================
 
 // Props do ProfileForm
 export interface ProfileFormProps {
   formId?: string                               // id do <form>, usado pelo botão "Salvar" que fica fora dele
   defaultValues: ProfileFormData                // dados atuais do perfil
-  isEditing: boolean                            // false = campos travados (só leitura)
-  onSubmit: (data: ProfileFormData) => void     // chamado com os dados já validados
+  isEditing: boolean                            // false = modo visualização (campos travados)
+  onSubmit: (data: ProfileFormData) => void     // chamado só com dados já validados
 }
 
+// ===========================
+// OPÇÕES DO SELECT
+// ===========================
+
+// Opções de Especialidade geradas a partir da lista (mesmo padrão do ClinicForm).
+// A primeira opção, de valor vazio, permite deixar o campo sem especialidade.
+// Não usei a prop `placeholder` do Select porque ela cria uma opção
+// DESABILITADA: depois de escolher uma especialidade, o usuário não
+// conseguiria mais voltar para "nenhuma" — e o campo é opcional.
+const specialtyOptions = [
+  { value: '', label: 'Não informada' },
+  ...SPECIALTIES.map((specialty) => ({ value: specialty, label: specialty })),
+]
+
+// ===========================
+// COMPONENTE
+// ===========================
+
 /**
- * Formulário com os dados pessoais do usuário.
+ * Formulário de dados pessoais (Issue #91).
  *
- * Segue o mesmo padrão do ClinicForm: não tem botões próprios.
- * Os botões "Editar Dados", "Cancelar" e "Salvar" ficam na ProfilePage,
- * e o "Salvar" dispara este formulário de fora usando `form={formId}`.
+ * Campos: Nome (obrigatório), E-mail (obrigatório),
+ *         Telefone (com máscara, opcional), Especialidade (select, opcional).
  *
- * Quando isEditing é false, todos os campos ficam desabilitados — é assim
- * que o botão "Editar Dados" "habilita a edição": ele só troca esse booleano.
+ * Modo visualização x edição:
+ * o formulário não guarda esse estado; ele recebe `isEditing` da página.
+ * - isEditing = false -> todos os campos desabilitados (visualização);
+ * - isEditing = true  -> campos liberados para edição.
+ *
+ * Botões: seguindo o padrão do ClinicForm, o formulário não tem botões
+ * próprios. "Editar Dados", "Cancelar" e "Salvar" ficam na ProfilePage,
+ * e o "Salvar" envia este formulário de fora usando `form={formId}`.
  *
  * Sobre o `defaultValue` repetido em cada Input:
- * o Input.tsx guarda o valor num estado interno (internalValue) que só é
- * inicializado a partir de `defaultValue` ou `value`. O `register` do
+ * o Input.tsx guarda o texto num estado interno (internalValue) que só é
+ * inicializado por `defaultValue` ou `value`. O `register` do
  * react-hook-form não passa nenhum dos dois, então sem esse defaultValue
- * explícito o estado interno do Input começaria vazio e poderia apagar o
- * texto do campo na próxima renderização (ex: ao trocar isEditing).
+ * explícito os campos de texto abririam vazios. O Select não tem esse
+ * problema (não guarda estado interno), por isso não precisa.
  */
 export const ProfileForm = ({
   formId = 'profile-form',
@@ -46,12 +78,15 @@ export const ProfileForm = ({
     defaultValues,
   })
 
-  // Campos travados fora do modo edição
+  // Campos travados no modo visualização
   const isDisabled = !isEditing
 
   return (
-    <form id={formId} onSubmit={handleSubmit(onSubmit)} className="profile-form">
-      {/* Nome */}
+    // noValidate desliga a validação nativa do navegador (ex: o balão do
+    // type="email"), para que apareçam só as mensagens do Zod, em português
+    // e no mesmo estilo dos outros campos.
+    <form id={formId} onSubmit={handleSubmit(onSubmit)} className="profile-form" noValidate>
+      {/* Nome — texto, obrigatório */}
       <Input
         label="Nome"
         placeholder="Seu nome completo"
@@ -62,7 +97,7 @@ export const ProfileForm = ({
         {...register('name')}
       />
 
-      {/* Email */}
+      {/* E-mail — tipo email, obrigatório */}
       <Input
         label="E-mail"
         type="email"
@@ -76,6 +111,7 @@ export const ProfileForm = ({
 
       {/* Telefone e Especialidade lado a lado */}
       <div className="profile-form-row">
+        {/* Telefone — com máscara (00) 00000-0000, opcional */}
         <Input
           label="Telefone"
           mask="phone"
@@ -83,16 +119,17 @@ export const ProfileForm = ({
           defaultValue={defaultValues.phone}
           disabled={isDisabled}
           error={errors.phone?.message}
-          required
+          optional
           {...register('phone')}
         />
-        <Input
+
+        {/* Especialidade — select, opcional */}
+        <Select
           label="Especialidade"
-          placeholder="Ex: Ortodontia"
-          defaultValue={defaultValues.specialty}
+          options={specialtyOptions}
           disabled={isDisabled}
           error={errors.specialty?.message}
-          required
+          optional
           {...register('specialty')}
         />
       </div>
