@@ -3773,10 +3773,8 @@
   @apply flex flex-wrap items-center justify-between gap-4;
 }
 
-/*  issue #89
-
-===========================
-   Classes customizadas para o AvatarUpload
+/* ===========================
+   Classes customizadas para o AvatarUpload (Issue #90)
    =========================== */
 
 /* Coluna com a foto, o texto de apoio e o erro */
@@ -3784,14 +3782,15 @@
   @apply flex flex-col items-center gap-2 shrink-0;
 }
 
-/* Círculo clicável (botão) que envolve a foto ou as iniciais */
+/* Círculo clicável (botão) que envolve a foto ou as iniciais.
+   overflow-hidden garante que o overlay respeite o formato redondo. */
 .avatar-upload-button {
-  @apply relative flex h-28 w-28 items-center justify-center rounded-full bg-indigo-100 ring-4 ring-white shadow-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-indigo-500 disabled:cursor-not-allowed disabled:opacity-60;
+  @apply relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-indigo-100 ring-4 ring-white shadow-sm cursor-pointer focus-visible:outline-none focus-visible:ring-indigo-500 disabled:cursor-wait;
 }
 
 /* Foto do usuário ocupando o círculo inteiro */
 .avatar-upload-image {
-  @apply h-full w-full rounded-full object-cover;
+  @apply h-full w-full object-cover;
 }
 
 /* Iniciais exibidas quando não há foto */
@@ -3799,23 +3798,39 @@
   @apply text-3xl font-bold text-indigo-600;
 }
 
-/* Selo com ícone de câmera no canto inferior direito */
-.avatar-upload-badge {
-  @apply absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-white ring-2 ring-white;
+/* Overlay escuro com a câmera — começa invisível */
+.avatar-upload-overlay {
+  @apply absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/50 text-white opacity-0 transition-opacity duration-200;
+}
+
+/* Mostra o overlay no hover do mouse e no foco pelo teclado (Tab) */
+.avatar-upload-button:hover .avatar-upload-overlay,
+.avatar-upload-button:focus-visible .avatar-upload-overlay {
+  @apply opacity-100;
+}
+
+/* Durante o upload o overlay fica sempre visível (com o spinner) */
+.avatar-upload-overlay-visible {
+  @apply opacity-100;
+}
+
+/* Texto "Alterar" abaixo do ícone da câmera */
+.avatar-upload-overlay-text {
+  @apply text-xs font-medium;
 }
 
 /* Texto de apoio abaixo da foto */
 .avatar-upload-hint {
-  @apply text-xs text-slate-400 text-center;
+  @apply text-xs text-slate-400 text-center max-w-[12rem];
 }
 
 /* Erro de validação do arquivo */
 .avatar-upload-error {
-  @apply text-xs text-red-600 text-center max-w-[10rem];
+  @apply text-xs text-red-600 text-center max-w-[12rem];
 }
 
 /* ===========================
-   Classes customizadas para o ProfileForm
+   Classes customizadas para o ProfileForm #89
    =========================== */
 
 /* Container do formulário (espaçamento vertical entre campos) */

@@ -124,7 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
 // Indica se o usuário está autenticado
-const isAuthenticated = !!user && !!token;
+//const isAuthenticated = !!user && !!token;
 
 /*
  * ========================================
@@ -139,9 +139,9 @@ const isAuthenticated = !!user && !!token;
  * Usar somente para testes locais.
  */
 
-// const isAuthenticated = import.meta.env.DEV
-//   ? true
-//   : !!user && !!token;
+ const isAuthenticated = import.meta.env.DEV
+   ? true
+   : !!user && !!token;
 
 
 
