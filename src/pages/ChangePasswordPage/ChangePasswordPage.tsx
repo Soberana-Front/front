@@ -1,4 +1,9 @@
-// Importa navegação, hooks do react-hook-form, resolver do Zod e ícones
+/*O import passa a vir do useProfile.
+O hook é chamado com { fetchOnMount: false }.
+O "salvando..." do botão virou um estado da própria página. 
+issue 94*/
+// Importa hook do React, navegação, hooks do react-hook-form, resolver do Zod e ícones
+import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,7 +18,8 @@ import {
   NEW_PASSWORD_MIN_LENGTH,
   type ChangePasswordFormData,
 } from '../../validations/changePasswordSchema'
-import { useChangePassword, WRONG_CURRENT_PASSWORD_MESSAGE } from '../../hooks/useChangePassword'
+// Issue #94: a alteração de senha agora vem do useProfile (o useChangePassword foi removido)
+import { useProfile, WRONG_CURRENT_PASSWORD_MESSAGE } from '../../hooks/useProfile'
 import { useToast } from '../../contexts/ToastContext'
 
 // Para onde voltar ao cancelar ou depois de salvar
@@ -30,7 +36,7 @@ const PROFILE_PATH = '/perfil'
  *
  * Validação: feita pelo changePasswordSchema (Zod). A igualdade entre
  * "Nova senha" e "Confirmar" é conferida antes de chamar o mock;
- * se a senha atual está certa, quem responde é o mock (useChangePassword).
+ * se a senha atual está certa, quem responde é o mock (useProfile.changePassword).
  *
  * O formulário fica na própria página (sem componente separado) porque só
  * é usado aqui. Se aparecer outro lugar que precise dele, dá para extrair
@@ -39,7 +45,12 @@ const PROFILE_PATH = '/perfil'
 export const ChangePasswordPage = () => {
   const navigate = useNavigate()
   const { showToast } = useToast()
-  const { changePassword, isSubmitting } = useChangePassword()
+  // fetchOnMount: false -> esta página só precisa do changePassword;
+  // não há motivo para buscar o perfil inteiro ao abrir a tela
+  const { changePassword } = useProfile({ fetchOnMount: false })
+  // "Salvando..." do botão fica na página, como na ProfilePage
+  // (o isLoading do hook é só para a busca do perfil)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
     register,
@@ -57,6 +68,7 @@ export const ChangePasswordPage = () => {
 
   // Botão "Salvar": só é chamado se o Zod aprovou todos os campos
   const onSubmit = async (data: ChangePasswordFormData) => {
+    setIsSubmitting(true)
     try {
       // Envia só senha atual e nova (a confirmação não vai para o servidor)
       await changePassword({
@@ -77,6 +89,9 @@ export const ChangePasswordPage = () => {
       }
       // Qualquer outro erro: aviso geral
       showToast('Não foi possível alterar a senha. Tente novamente.', 'error')
+    } finally {
+      // Sempre desliga o "salvando...", deu certo ou não
+      setIsSubmitting(false)
     }
   }
 

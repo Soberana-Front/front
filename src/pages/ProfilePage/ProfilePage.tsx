@@ -34,7 +34,7 @@ const CHANGE_PASSWORD_PATH = '/perfil/alterar-senha'
  * - modo edição:  campos liberados, aparecem "Cancelar" e "Salvar".
  */
 export const ProfilePage = () => {
-  const { profile, isLoading, error, updateProfile, updateAvatar } = useProfile()
+  const { user: profile, isLoading, error, updateProfile, updateAvatar } = useProfile() //issue 94
   const { showToast } = useToast()
 
   // Controla se o formulário está em modo edição
