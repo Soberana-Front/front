@@ -18,6 +18,7 @@ export interface UserSettings {
   profitMargin: number   // margem de lucro padrão (%)
   taxRate: number        // alíquota de impostos (%)
   cardFee: number        // taxa da maquininha/cartão (%)
+  averageServiceTime: number  // tempo médio de atendimento (minutos) — Issue #93
 }
 
 // Payload enviado no PUT /settings.

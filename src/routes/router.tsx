@@ -45,6 +45,9 @@ import { ProfilePage } from "../pages/ProfilePage/ProfilePage";
 // Importa página de Alterar Senha (Issue #92)
 import { ChangePasswordPage } from "../pages/ChangePasswordPage/ChangePasswordPage";
 
+// Importa página de configurações (Issue #93)
+import { SettingsPage } from "../pages/SettingsPage/SettingsPage";
+
 /* virou uma página própria, então não precisa mais desse componente genérico
 const Historico = () => (
   <div className="p-4">Histórico (em breve)</div>
@@ -55,9 +58,10 @@ const Perfil = () => (
   <div className="p-4">Perfil (em breve)</div>
 );*/
 
+/* apagado no passo issue 93
 const Configuracoes = () => (
   <div className="p-4">Configurações (em breve)</div>
-);
+);*/
 
 // Wrapper para injetar AuthProvider nas rotas
 const AuthWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -120,12 +124,15 @@ export const router = createBrowserRouter([
       // pagina de alterar senha issue 92
       { path: "perfil/alterar-senha", element: <ChangePasswordPage /> },
 
+      // pagina de configurações issue 93
+      { path: "configuracoes", element: <SettingsPage /> },
+
       // Demais páginas usando o Layout compartilhado
       {
         element: <Layout />,
         children: [
           /*{ path: "perfil", element: <Perfil /> }, issue 89*/
-          { path: "configuracoes", element: <Configuracoes /> },
+         /* { path: "configuracoes", element: <Configuracoes /> }, issue 93*/
         ],
       },
     ],

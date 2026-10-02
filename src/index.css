@@ -3916,3 +3916,41 @@
 .change-password-actions {
   @apply flex justify-end gap-2 pt-2;
 }
+
+/* ===========================
+   Classes customizadas para a página de Configurações (Issue #93)
+   =========================== */
+
+/* Card branco com o formulário (mesmo visual do profile-card) */
+.settings-card {
+  @apply w-full max-w-4xl bg-white border border-slate-200 rounded-2xl p-6 shadow-sm;
+}
+
+/* Formulário: espaço entre as seções */
+.settings-form {
+  @apply space-y-6;
+}
+
+/* Cada seção (Moeda / Padrões de precificação) separada por uma linha,
+   menos a primeira */
+.settings-section {
+  @apply space-y-4;
+}
+.settings-section + .settings-section {
+  @apply pt-6 border-t border-slate-100;
+}
+
+/* Título de cada seção (mesmo estilo do "Dados pessoais" do Perfil) */
+.settings-section-title {
+  @apply text-sm font-bold text-slate-700;
+}
+
+/* Campos em 2 colunas a partir do sm; 1 coluna no celular */
+.settings-form-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+}
+
+/* Linha do botão Salvar, alinhado à direita */
+.settings-actions {
+  @apply flex justify-end pt-2;
+}
