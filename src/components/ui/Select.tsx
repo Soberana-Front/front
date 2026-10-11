@@ -41,7 +41,8 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     },
     ref
   ) => {
-    const selectId = id || `select-${Math.random().toString(36).substring(2, 9)}`
+    const generatedId = React.useId()
+    const selectId = id || `select-${generatedId}`
 
     // Tamanho do select
     const sizeClass = {

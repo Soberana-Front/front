@@ -87,7 +87,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const inputId = id || `input-${Math.random().toString(36).substring(2, 9)}`
+    const generatedId = React.useId()
+    const inputId = id || `input-${generatedId}`
     const [showPassword, setShowPassword] = React.useState(false)
     const [internalValue, setInternalValue] = React.useState<string>(
       (defaultValue as string) || (value as string) || ''
