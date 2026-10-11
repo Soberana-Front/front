@@ -163,6 +163,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             </div>
           )}
           {/* Campo de entrada com máscara e validação visual */}
+          
           <input
             ref={ref}
             id={inputId}
@@ -175,10 +176,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               error && 'input-error',
               className
             )}
-            value={internalValue}
+            value={value !== undefined ? internalValue : undefined}
+            defaultValue={value === undefined ? defaultValue : undefined}
             onChange={handleChange}
             {...props}
           />
+
           {/* Ícone direito (toggle ou customizado) */}
           {defaultRightIcon || rightIcon}
         </div>
