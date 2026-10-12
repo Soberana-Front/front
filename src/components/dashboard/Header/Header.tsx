@@ -98,21 +98,28 @@ export default function DashboardHeader() {
                 </p>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setIsDropdownOpen(false)}
-                className="dashboard-header-dropdown-item"
-              >
-                Perfil
-              </button>
+              
+<button
+  type="button"
+  onClick={() => {
+    setIsDropdownOpen(false);
+    navigate('/perfil');
+  }}
+  className="dashboard-header-dropdown-item"
+>
+  Perfil
+</button>
 
-              <button
-                type="button"
-                onClick={() => setIsDropdownOpen(false)}
-                className="dashboard-header-dropdown-item"
-              >
-                Configurações
-              </button>
+<button
+  type="button"
+  onClick={() => {
+    setIsDropdownOpen(false);
+    navigate('/configuracoes');
+  }}
+  className="dashboard-header-dropdown-item"
+>
+  Configurações
+</button>
 
               <button
                 type="button"
