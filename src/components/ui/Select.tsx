@@ -80,9 +80,9 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             )}
             {...props}
           >
-            {/* Placeholder como opção desabilitada */}
+            {/* Placeholder selecionável para permitir limpar o campo */}
             {placeholder && (
-              <option value="" disabled>
+              <option value="">
                 {placeholder}
               </option>
             )}
