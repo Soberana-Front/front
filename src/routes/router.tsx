@@ -1,8 +1,8 @@
 // Importa função para criar roteador
 import { createBrowserRouter } from "react-router";
 
-// Importa provedor de autenticação
-import { AuthProvider } from "../contexts/AuthContext";
+
+
 
 // Importa componentes de proteção de rotas
 import { ProtectedRoute } from "../components/ProtectedRoute";
@@ -63,19 +63,16 @@ const Configuracoes = () => (
   <div className="p-4">Configurações (em breve)</div>
 );*/
 
-// Wrapper para injetar AuthProvider nas rotas
-const AuthWrapper = ({ children }: { children: React.ReactNode }) => (
-  <AuthProvider>{children}</AuthProvider>
-);
+
 
 // Cria o roteador com as rotas da aplicação
 export const router = createBrowserRouter([
   {
     // Grupo de rotas públicas
     element: (
-      <AuthWrapper>
+      
         <PublicRoute />
-      </AuthWrapper>
+      
     ),
     children: [
       { path: "login", element: <Login /> },
@@ -88,9 +85,9 @@ export const router = createBrowserRouter([
   {
     // Grupo de rotas protegidas
     element: (
-      <AuthWrapper>
+      
         <ProtectedRoute />
-      </AuthWrapper>
+      
     ),
     children: [
       // Dashboard
